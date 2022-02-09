@@ -36,7 +36,7 @@ public class Match {
 		this.similarity = similarity;
 		this.confidence = confidence;
 		this.matcherName = matcherName;
-		this.propagatorName = "N/A";
+		this.propagatorName = "";
 	}
 
 	/**
@@ -80,6 +80,9 @@ public class Match {
 	 * @return The reason of the match.
 	 */
 	public String getReason() {
-		return matcherName + " " + propagatorName;
+		if (propagatorName.equals(""))
+			return matcherName;
+
+		return matcherName + propagatorName;
 	}
 }
