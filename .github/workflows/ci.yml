@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: install-format-checker
+      run: sudo apt-get install -y clang-format-6.0
+
     - name: check-format
       run: ./scripts/check_code_style.sh
 
