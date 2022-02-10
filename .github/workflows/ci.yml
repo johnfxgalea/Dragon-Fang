@@ -9,6 +9,14 @@ on:
     - cron: '0 0 * * FRI'
 
 jobs:
+  FORMAT_CHECK:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: check-format
+      run: ./scripts/check_code_style.sh
+
   CI:
     runs-on: ${{ matrix.os }}
     strategy:

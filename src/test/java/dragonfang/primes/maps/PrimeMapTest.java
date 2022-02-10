@@ -19,40 +19,39 @@ import ghidra.util.task.TaskMonitor;
 
 public class PrimeMapTest extends AbstractDragonFangTest {
 
-	private long calculateActualProd() {
+    private long calculateActualProd() {
 
-		long val = 1;
+        long val = 1;
 
-		val *= Prime.array[PcodeOp.COPY];
-		val *= Prime.array[PcodeOp.LOAD];
-		val *= Prime.array[PcodeOp.STORE];
-		val *= Prime.array[PcodeOp.CALLIND];
-		val *= Prime.array[PcodeOp.INT_EQUAL];
-		val *= Prime.array[PcodeOp.INT_SLESS];
-		val *= Prime.array[PcodeOp.INT_ADD];
-		val *= Prime.array[PcodeOp.INT_SUB];
-		val *= Prime.array[PcodeOp.INT_CARRY];
-		val *= Prime.array[PcodeOp.INT_SCARRY];
-		val *= Prime.array[PcodeOp.INT_AND];
-		val *= Prime.array[PcodeOp.POPCOUNT];
+        val *= Prime.array[PcodeOp.COPY];
+        val *= Prime.array[PcodeOp.LOAD];
+        val *= Prime.array[PcodeOp.STORE];
+        val *= Prime.array[PcodeOp.CALLIND];
+        val *= Prime.array[PcodeOp.INT_EQUAL];
+        val *= Prime.array[PcodeOp.INT_SLESS];
+        val *= Prime.array[PcodeOp.INT_ADD];
+        val *= Prime.array[PcodeOp.INT_SUB];
+        val *= Prime.array[PcodeOp.INT_CARRY];
+        val *= Prime.array[PcodeOp.INT_SCARRY];
+        val *= Prime.array[PcodeOp.INT_AND];
+        val *= Prime.array[PcodeOp.POPCOUNT];
 
-		return val;
-	}
+        return val;
+    }
 
-	@Test
-	public void testPrimeMap() throws CancelledException {
+    @Test
+    public void testPrimeMap() throws CancelledException {
 
-		
-		
-		Function simpleFunction = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
-		InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
+        InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
+        InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
 
-		PrimeMap primeMap = new PrimeProductMap(primeProduct, countMap);
-		Long val = primeMap.getPrimeProduct(simpleFunction, monitor);
-		assertEquals("Prime Product should be correct", calculateActualProd(), val.longValue());
-	}
+        PrimeMap primeMap = new PrimeProductMap(primeProduct, countMap);
+        Long val          = primeMap.getPrimeProduct(simpleFunction, monitor);
+        assertEquals(
+            "Prime Product should be correct", calculateActualProd(), val.longValue());
+    }
 }

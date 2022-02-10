@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,19 +28,19 @@ import ghidra.util.task.TaskMonitor;
 
 public class EdgeCountFeatureTest extends AbstractDragonFangTest {
 
-	@Test
-	public void testEdgeCountFeature() throws CancelledException {
+    @Test
+    public void testEdgeCountFeature() throws CancelledException {
 
-		Function simpleFunction = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
+        ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
 
-		EdgeCountFeature feature = new EdgeCountFeature(cfgMap);
-		double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
-		// Function only includes calls in terms of instructions that change control
-		// flow.
-		assertEquals("Edge count should be 0.", 0, featureVal, 0.1);
-	}
+        EdgeCountFeature feature = new EdgeCountFeature(cfgMap);
+        double featureVal        = feature.calculateFeatureValue(simpleFunction, monitor);
+        // Function only includes calls in terms of instructions that change control
+        // flow.
+        assertEquals("Edge count should be 0.", 0, featureVal, 0.1);
+    }
 }

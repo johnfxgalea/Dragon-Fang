@@ -14,20 +14,21 @@ import ghidra.util.task.TaskMonitor;
 
 public class ControlFlowGraphMapTest extends AbstractDragonFangTest {
 
-	@Test
-	public void testControlFlowGraphMap() throws CancelledException {
+    @Test
+    public void testControlFlowGraphMap() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		ControlFlowGraphMap map = new LazyControlFlowGraphMap();
+        ControlFlowGraphMap map = new LazyControlFlowGraphMap();
 
-		Function simpleFunction = getSimpleFunction(builder);
-		ExtendedDirectGraph cfg = map.getControlFlowGraph(simpleFunction, monitor);
+        Function simpleFunction = getSimpleFunction(builder);
+        ExtendedDirectGraph cfg = map.getControlFlowGraph(simpleFunction, monitor);
 
-		ExtDirectGraphType type = cfg.getType();
-		assertEquals("Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
+        ExtDirectGraphType type = cfg.getType();
+        assertEquals(
+            "Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
 
-		assertEquals("Number of edges should be zero", 0, cfg.numEdges());
-		assertEquals("Number of vertices should be 1", 1, cfg.numVertices());
-	}
+        assertEquals("Number of edges should be zero", 0, cfg.numEdges());
+        assertEquals("Number of vertices should be 1", 1, cfg.numVertices());
+    }
 }

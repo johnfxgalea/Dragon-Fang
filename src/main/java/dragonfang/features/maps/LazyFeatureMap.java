@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,23 +25,24 @@ import ghidra.util.task.TaskMonitor;
 
 public class LazyFeatureMap implements FeatureMap {
 
-	private FeatureExtractor featureExtractor;
-	private Map<Function, FeatureVector> featureMap;
+    private FeatureExtractor featureExtractor;
+    private Map<Function, FeatureVector> featureMap;
 
-	public LazyFeatureMap(FeatureExtractor featureExtractor) {
+    public LazyFeatureMap(FeatureExtractor featureExtractor) {
 
-		this.featureExtractor = featureExtractor;
-		this.featureMap = new HashMap<Function, FeatureVector>();
-	}
+        this.featureExtractor = featureExtractor;
+        this.featureMap       = new HashMap<Function, FeatureVector>();
+    }
 
-	@Override
-	public FeatureVector getFeature(Function function, TaskMonitor monitor) throws CancelledException {
+    @Override
+    public FeatureVector getFeature(Function function, TaskMonitor monitor)
+        throws CancelledException {
 
-		if (!featureMap.containsKey(function)) {
-			FeatureVector featureVector = featureExtractor.extract(function, monitor);
-			featureMap.put(function, featureVector);
-		}
+        if (!featureMap.containsKey(function)) {
+            FeatureVector featureVector = featureExtractor.extract(function, monitor);
+            featureMap.put(function, featureVector);
+        }
 
-		return featureMap.get(function);
-	}
+        return featureMap.get(function);
+    }
 }

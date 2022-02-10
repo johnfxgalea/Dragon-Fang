@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,49 +33,51 @@ import ghidra.util.task.TaskMonitor;
 
 public class GraphBuilderTest extends AbstractDragonFangTest {
 
-	@Test
-	public void testCallGraphBuilder() throws CancelledException {
+    @Test
+    public void testCallGraphBuilder() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		CallGraphBuilder callGraphBuilder = new CallGraphBuilder(program);
-		ExtendedDirectGraph callGraph = callGraphBuilder.buildGraph(monitor);
+        CallGraphBuilder callGraphBuilder = new CallGraphBuilder(program);
+        ExtendedDirectGraph callGraph     = callGraphBuilder.buildGraph(monitor);
 
-		ExtDirectGraphType type = callGraph.getType();
-		assertEquals("Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH, type);
+        ExtDirectGraphType type = callGraph.getType();
+        assertEquals(
+            "Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH, type);
 
-		assertEquals("Number of edges should be zero", 0, callGraph.numEdges());
-		assertEquals("Number of vertices should be 1", 1, callGraph.numVertices());
+        assertEquals("Number of edges should be zero", 0, callGraph.numEdges());
+        assertEquals("Number of vertices should be 1", 1, callGraph.numVertices());
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Vertex vertex = callGraph.getVertexArray()[0];
-		Vertex obtainedVertex = callGraph.getVertex(simpleFunction);
-		assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
-	}
+        Function simpleFunction = getSimpleFunction(builder);
+        Vertex vertex           = callGraph.getVertexArray()[0];
+        Vertex obtainedVertex   = callGraph.getVertex(simpleFunction);
+        assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
+    }
 
-	@Test
-	public void testCFGBuilder() throws CancelledException {
+    @Test
+    public void testCFGBuilder() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		Function simpleFunction = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
 
-		ControlFlowGraphBuilder cfgBuilder = new ControlFlowGraphBuilder(simpleFunction);
-		ExtendedDirectGraph cfg = cfgBuilder.buildGraph(monitor);
+        ControlFlowGraphBuilder cfgBuilder = new ControlFlowGraphBuilder(simpleFunction);
+        ExtendedDirectGraph cfg            = cfgBuilder.buildGraph(monitor);
 
-		ExtDirectGraphType type = cfg.getType();
-		assertEquals("Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
+        ExtDirectGraphType type = cfg.getType();
+        assertEquals(
+            "Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
 
-		assertEquals("Number of edges should be zero", 0, cfg.numEdges());
-		assertEquals("Number of vertices should be 1", 1, cfg.numVertices());
+        assertEquals("Number of edges should be zero", 0, cfg.numEdges());
+        assertEquals("Number of vertices should be 1", 1, cfg.numVertices());
 
-		BasicBlockModel basicBlockModel = new BasicBlockModel(program);
-		CodeBlockIterator codeBlockIterator = basicBlockModel.getCodeBlocksContaining(simpleFunction.getBody(),
-				monitor);
-		CodeBlock codeBlock = codeBlockIterator.next();
+        BasicBlockModel basicBlockModel = new BasicBlockModel(program);
+        CodeBlockIterator codeBlockIterator =
+            basicBlockModel.getCodeBlocksContaining(simpleFunction.getBody(), monitor);
+        CodeBlock codeBlock = codeBlockIterator.next();
 
-		Vertex vertex = cfg.getVertexArray()[0];
-		Vertex obtainedVertex = cfg.getVertex(codeBlock);
-		assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
-	}
+        Vertex vertex         = cfg.getVertexArray()[0];
+        Vertex obtainedVertex = cfg.getVertex(codeBlock);
+        assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
+    }
 }

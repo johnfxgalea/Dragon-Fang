@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,38 +21,43 @@ import dragonfang.tags.DragonFangMatchTag.DragonFangMatchTagType;
 
 public class TagTest {
 
-	@Test
-	public void testBestMatchTagAssigment() {
-		ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-		DragonFangMatchTag tag = assigner.assignTag(1);
-		assertEquals(tag.getDragonFangMatchTagType(), DragonFangMatchTagType.BEST_TAG_TYPE);
-	}
+    @Test
+    public void testBestMatchTagAssigment() {
+        ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
+        DragonFangMatchTag tag             = assigner.assignTag(1);
+        assertEquals(tag.getDragonFangMatchTagType(),
+                     DragonFangMatchTagType.BEST_TAG_TYPE);
+    }
 
-	@Test
-	public void testPartialMatchTagAssigment() {
-		ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-		DragonFangMatchTag tag = assigner.assignTag(0.9);
-		assertEquals(tag.getDragonFangMatchTagType(), DragonFangMatchTagType.PARTIAL_TAG_TYPE);
-	}
+    @Test
+    public void testPartialMatchTagAssigment() {
+        ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
+        DragonFangMatchTag tag             = assigner.assignTag(0.9);
+        assertEquals(tag.getDragonFangMatchTagType(),
+                     DragonFangMatchTagType.PARTIAL_TAG_TYPE);
+    }
 
-	@Test
-	public void testPartialMatchTagAssigment2() {
-		ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-		DragonFangMatchTag tag = assigner.assignTag(0.5);
-		assertSame(tag.getDragonFangMatchTagType(), DragonFangMatchTagType.PARTIAL_TAG_TYPE);
-	}
+    @Test
+    public void testPartialMatchTagAssigment2() {
+        ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
+        DragonFangMatchTag tag             = assigner.assignTag(0.5);
+        assertSame(tag.getDragonFangMatchTagType(),
+                   DragonFangMatchTagType.PARTIAL_TAG_TYPE);
+    }
 
-	@Test
-	public void testUnreliableMatchTagAssigment() {
-		ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-		DragonFangMatchTag tag = assigner.assignTag(0.4);
-		assertSame(tag.getDragonFangMatchTagType(), DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
-	}
+    @Test
+    public void testUnreliableMatchTagAssigment() {
+        ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
+        DragonFangMatchTag tag             = assigner.assignTag(0.4);
+        assertSame(tag.getDragonFangMatchTagType(),
+                   DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
+    }
 
-	@Test
-	public void testUnreliableMatchTagAssigment2() {
-		ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-		DragonFangMatchTag tag = assigner.assignTag(0);
-		assertSame(tag.getDragonFangMatchTagType(), DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
-	}
+    @Test
+    public void testUnreliableMatchTagAssigment2() {
+        ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
+        DragonFangMatchTag tag             = assigner.assignTag(0);
+        assertSame(tag.getDragonFangMatchTagType(),
+                   DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
+    }
 }

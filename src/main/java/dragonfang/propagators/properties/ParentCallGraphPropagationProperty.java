@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,29 +24,31 @@ import ghidra.util.graph.Vertex;
 
 public class ParentCallGraphPropagationProperty extends AbstractPropagationProperty {
 
-	ExtendedDirectGraphWrapper callGraphWarapper;
+    ExtendedDirectGraphWrapper callGraphWarapper;
 
-	public ParentCallGraphPropagationProperty(ExtendedDirectGraphWrapper callGraphWarapper) {
-		this.callGraphWarapper = callGraphWarapper;
-	}
+    public ParentCallGraphPropagationProperty(
+        ExtendedDirectGraphWrapper callGraphWarapper) {
+        this.callGraphWarapper = callGraphWarapper;
+    }
 
-	@Override
-	public Set<Function> getPropagatedFuncs(Function function, Set<Function> allCandidateSet) {
+    @Override
+    public Set<Function> getPropagatedFuncs(Function function,
+                                            Set<Function> allCandidateSet) {
 
-		Set<Function> propFuncSet = new HashSet<Function>();
+        Set<Function> propFuncSet = new HashSet<Function>();
 
-		CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
+        CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
-		Vertex matchedVertex = callGraph.getVertex(function);
-		Set<Vertex> vertexSet = callGraph.getParents(matchedVertex);
+        Vertex matchedVertex  = callGraph.getVertex(function);
+        Set<Vertex> vertexSet = callGraph.getParents(matchedVertex);
 
-		for (Vertex vertex : vertexSet)
-			propFuncSet.add((Function) vertex.referent());
-		return processCandidateFunctions(propFuncSet, allCandidateSet);
-	}
-	
-	@Override
-	public String getName() {
-		return "Parent Call Graph Propagation Property";
-	}
+        for (Vertex vertex : vertexSet)
+            propFuncSet.add((Function) vertex.referent());
+        return processCandidateFunctions(propFuncSet, allCandidateSet);
+    }
+
+    @Override
+    public String getName() {
+        return "Parent Call Graph Propagation Property";
+    }
 }

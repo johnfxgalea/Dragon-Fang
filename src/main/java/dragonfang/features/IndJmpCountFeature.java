@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,19 +23,19 @@ import ghidra.util.task.TaskMonitor;
 
 public class IndJmpCountFeature implements Feature {
 
-	private InstrCountMap instrCountMap;
+    private InstrCountMap instrCountMap;
 
-	public IndJmpCountFeature(InstrCountMap instrCountMap) {
-		this.instrCountMap = instrCountMap;
-	}
+    public IndJmpCountFeature(InstrCountMap instrCountMap) {
+        this.instrCountMap = instrCountMap;
+    }
 
-	@Override
-	public double calculateFeatureValue(Function function, TaskMonitor monitor) throws CancelledException {
+    @Override
+    public double calculateFeatureValue(Function function, TaskMonitor monitor)
+        throws CancelledException {
 
-		InstrCounts instrCounts = instrCountMap.getInstructionCounts(function, monitor);
-		double numCalls = instrCounts.getCount(PcodeOp.BRANCHIND);
+        InstrCounts instrCounts = instrCountMap.getInstructionCounts(function, monitor);
+        double numCalls         = instrCounts.getCount(PcodeOp.BRANCHIND);
 
-		return numCalls;
-
-	}
+        return numCalls;
+    }
 }
