@@ -19,65 +19,75 @@ import ghidra.util.task.TaskMonitor;
 
 public class PropagationPropertyTest extends AbstractDragonFangTest {
 
-	@Test
-	public void testChildCallGraphPropagationProperty() throws CancelledException {
+    @Test
+    public void testChildCallGraphPropagationProperty() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		GraphBuilder graphBuilder = new CallGraphBuilder(program);
-		ExtendedDirectGraphWrapper callGraphWarapper = new ExtendedDirectGraphWrapper(graphBuilder);
-		callGraphWarapper.init(monitor);
-		ChildCallGraphPropagationProperty childProperty = new ChildCallGraphPropagationProperty(callGraphWarapper);
+        GraphBuilder graphBuilder = new CallGraphBuilder(program);
+        ExtendedDirectGraphWrapper callGraphWarapper =
+            new ExtendedDirectGraphWrapper(graphBuilder);
+        callGraphWarapper.init(monitor);
+        ChildCallGraphPropagationProperty childProperty =
+            new ChildCallGraphPropagationProperty(callGraphWarapper);
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Set<Function> candidateSet = new HashSet<Function>();
-		candidateSet.add(simpleFunction);
+        Function simpleFunction    = getSimpleFunction(builder);
+        Set<Function> candidateSet = new HashSet<Function>();
+        candidateSet.add(simpleFunction);
 
-		Set<Function> resultSet = childProperty.getPropagatedFuncs(simpleFunction, candidateSet);
-		assertTrue("Result set should be empty.", resultSet.isEmpty());
-	}
+        Set<Function> resultSet =
+            childProperty.getPropagatedFuncs(simpleFunction, candidateSet);
+        assertTrue("Result set should be empty.", resultSet.isEmpty());
+    }
 
-	@Test
-	public void testParentCallGraphPropagationProperty() throws CancelledException {
+    @Test
+    public void testParentCallGraphPropagationProperty() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		GraphBuilder graphBuilder = new CallGraphBuilder(program);
-		ExtendedDirectGraphWrapper callGraphWarapper = new ExtendedDirectGraphWrapper(graphBuilder);
-		callGraphWarapper.init(monitor);
-		ParentCallGraphPropagationProperty parentProperty = new ParentCallGraphPropagationProperty(callGraphWarapper);
+        GraphBuilder graphBuilder = new CallGraphBuilder(program);
+        ExtendedDirectGraphWrapper callGraphWarapper =
+            new ExtendedDirectGraphWrapper(graphBuilder);
+        callGraphWarapper.init(monitor);
+        ParentCallGraphPropagationProperty parentProperty =
+            new ParentCallGraphPropagationProperty(callGraphWarapper);
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Set<Function> candidateSet = new HashSet<Function>();
-		candidateSet.add(simpleFunction);
+        Function simpleFunction    = getSimpleFunction(builder);
+        Set<Function> candidateSet = new HashSet<Function>();
+        candidateSet.add(simpleFunction);
 
-		Set<Function> resultSet = parentProperty.getPropagatedFuncs(simpleFunction, candidateSet);
-		assertTrue("Result set should be empty.", resultSet.isEmpty());
-	}
+        Set<Function> resultSet =
+            parentProperty.getPropagatedFuncs(simpleFunction, candidateSet);
+        assertTrue("Result set should be empty.", resultSet.isEmpty());
+    }
 
-	@Test
-	public void testBeforeAddressPropagationProperty() {
+    @Test
+    public void testBeforeAddressPropagationProperty() {
 
-		BeforeAddressPropagationProperty beforeAdressProp = new BeforeAddressPropagationProperty();
+        BeforeAddressPropagationProperty beforeAdressProp =
+            new BeforeAddressPropagationProperty();
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Set<Function> candidateSet = new HashSet<Function>();
-		candidateSet.add(simpleFunction);
+        Function simpleFunction    = getSimpleFunction(builder);
+        Set<Function> candidateSet = new HashSet<Function>();
+        candidateSet.add(simpleFunction);
 
-		Set<Function> resultSet = beforeAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
-		assertTrue("Result set should be empty.", resultSet.isEmpty());
-	}
+        Set<Function> resultSet =
+            beforeAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
+        assertTrue("Result set should be empty.", resultSet.isEmpty());
+    }
 
-	@Test
-	public void testAfterAddressPropagationProperty() {
+    @Test
+    public void testAfterAddressPropagationProperty() {
 
-		AfterAddressPropagationProperty afterAdressProp = new AfterAddressPropagationProperty();
+        AfterAddressPropagationProperty afterAdressProp =
+            new AfterAddressPropagationProperty();
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Set<Function> candidateSet = new HashSet<Function>();
-		candidateSet.add(simpleFunction);
+        Function simpleFunction    = getSimpleFunction(builder);
+        Set<Function> candidateSet = new HashSet<Function>();
+        candidateSet.add(simpleFunction);
 
-		Set<Function> resultSet = afterAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
-		assertTrue("Result set should be empty.", resultSet.isEmpty());
-	}
+        Set<Function> resultSet =
+            afterAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
+        assertTrue("Result set should be empty.", resultSet.isEmpty());
+    }
 }

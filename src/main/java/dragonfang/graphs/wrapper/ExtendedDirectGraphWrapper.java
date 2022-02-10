@@ -7,22 +7,22 @@ import ghidra.util.task.TaskMonitor;
 
 public class ExtendedDirectGraphWrapper {
 
-	private GraphBuilder builder;
-	private ExtendedDirectGraph graph;
+    private GraphBuilder builder;
+    private ExtendedDirectGraph graph;
 
-	public ExtendedDirectGraphWrapper(GraphBuilder builder) {
-		this.builder = builder;
-	}
+    public ExtendedDirectGraphWrapper(GraphBuilder builder) {
+        this.builder = builder;
+    }
 
-	public void init(TaskMonitor monitor) throws CancelledException {
+    public void init(TaskMonitor monitor) throws CancelledException {
 
-		graph = builder.buildGraph(monitor);
-	}
+        graph = builder.buildGraph(monitor);
+    }
 
-	public ExtendedDirectGraph getGraph() {
-		if (graph == null)
-			throw new RuntimeException("Graph not initialised!");
+    public ExtendedDirectGraph getGraph() {
+        if (graph == null)
+            throw new RuntimeException("Graph not initialised!");
 
-		return graph;
-	}
+        return graph;
+    }
 }

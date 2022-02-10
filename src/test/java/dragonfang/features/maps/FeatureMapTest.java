@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,26 +36,25 @@ import ghidra.util.task.TaskMonitor;
 
 public class FeatureMapTest extends AbstractDragonFangTest {
 
-	@Test
-	public void testBBFeatureExtractor() throws CancelledException {
+    @Test
+    public void testBBFeatureExtractor() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		Function simpleFunction = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
 
-		List<Feature> featureList = new ArrayList<Feature>();
+        List<Feature> featureList = new ArrayList<Feature>();
 
-		ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
-		BBCountFeature feature = new BBCountFeature(cfgMap);
-		featureList.add(feature);
+        ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
+        BBCountFeature feature     = new BBCountFeature(cfgMap);
+        featureList.add(feature);
 
-		FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
-	
-		FeatureMap map = new LazyFeatureMap(extractor);
-		FeatureVector featureVector = map.getFeature(simpleFunction, monitor);
+        FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
 
-		assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());
-		assertEquals("BB count should be 1.", 1, featureVector.getFeature(0), 0.1);
-	}
+        FeatureMap map              = new LazyFeatureMap(extractor);
+        FeatureVector featureVector = map.getFeature(simpleFunction, monitor);
 
+        assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());
+        assertEquals("BB count should be 1.", 1, featureVector.getFeature(0), 0.1);
+    }
 }

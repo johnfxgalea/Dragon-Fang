@@ -1,0 +1,28 @@
+# Template taken from https://ngeor.com/2019/01/27/clang-format-git-filter.html
+
+BasedOnStyle: LLVM
+
+AccessModifierOffset: -4
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BinPackArguments: false
+BinPackParameters: false
+BreakAfterJavaFieldAnnotations: true
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Attach
+ColumnLimit: 90
+ContinuationIndentWidth: 4
+IndentCaseLabels: true
+IndentWidth: 4
+SortIncludes: false
+SpaceAfterCStyleCast: true
+TabWidth: 4
+UseTab: Never

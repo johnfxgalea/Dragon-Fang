@@ -39,124 +39,137 @@ import ghidra.util.task.TaskMonitor;
 
 public class MatcherTest extends AbstractDragonFangTest {
 
-	protected ProgramBuilder secBuilder;
-	protected Program secProgram;
+    protected ProgramBuilder secBuilder;
+    protected Program secProgram;
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
 
-		secBuilder = getProgramBuilderCopy();
-		secProgram = secBuilder.getProgram();
-	}
+        secBuilder = getProgramBuilderCopy();
+        secProgram = secBuilder.getProgram();
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		secBuilder.dispose();
-	}
+    @After
+    public void tearDown() throws Exception {
+        secBuilder.dispose();
+    }
 
-	private void checkCorrectMatch(Set<Match> matches, Function srcFunc, Function dstFunc) {
+    private void
+    checkCorrectMatch(Set<Match> matches, Function srcFunc, Function dstFunc) {
 
-		assertEquals("Matches should be there!", matches.size(), 1);
+        assertEquals("Matches should be there!", matches.size(), 1);
 
-		Match match = matches.iterator().next();
-		assertSame("Matched source function should be correct.", srcFunc, match.getSourceFunction());
-		assertSame("Matched source function should be correct.", dstFunc, match.getDestinationFunction());
-	}
+        Match match = matches.iterator().next();
+        assertSame("Matched source function should be correct.",
+                   srcFunc,
+                   match.getSourceFunction());
+        assertSame("Matched source function should be correct.",
+                   dstFunc,
+                   match.getDestinationFunction());
+    }
 
-	@Test
-	public void testPrimeProductMatcher() throws CancelledException {
+    @Test
+    public void testPrimeProductMatcher() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
+        InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
 
-		InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
-		PrimeProductMap primeMap = new PrimeProductMap(primeProduct, countMap);
+        InstrCountMap countMap   = new LazyInstrCountMap(new PCodeInstrCounter());
+        PrimeProductMap primeMap = new PrimeProductMap(primeProduct, countMap);
 
-		InstrCountMap countMap2 = new LazyInstrCountMap(new PCodeInstrCounter());
-		PrimeProductMap primeMap2 = new PrimeProductMap(primeProduct, countMap2);
+        InstrCountMap countMap2   = new LazyInstrCountMap(new PCodeInstrCounter());
+        PrimeProductMap primeMap2 = new PrimeProductMap(primeProduct, countMap2);
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Function simpleFunction2 = getSimpleFunction(secBuilder);
-		assertNotSame(simpleFunction, simpleFunction2);
+        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction2 = getSimpleFunction(secBuilder);
+        assertNotSame(simpleFunction, simpleFunction2);
 
-		Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
-		unmatchedSrcFuncSet.add(simpleFunction);
-		Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
-		unmatchedDstFuncSet.add(simpleFunction2);
+        Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
+        unmatchedSrcFuncSet.add(simpleFunction);
+        Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
+        unmatchedDstFuncSet.add(simpleFunction2);
 
-		PrimeProductMatcher primeProductMatcher = new PrimeProductMatcher(primeMap, primeMap2);
-		Set<Match> matches = primeProductMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+        PrimeProductMatcher primeProductMatcher =
+            new PrimeProductMatcher(primeMap, primeMap2);
+        Set<Match> matches = primeProductMatcher.doMatch(
+            unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
 
-		checkCorrectMatch(matches, simpleFunction, simpleFunction2);
-	}
+        checkCorrectMatch(matches, simpleFunction, simpleFunction2);
+    }
 
-	@Test
-	public void testUniqueFeatureMatcher() throws CancelledException {
+    @Test
+    public void testUniqueFeatureMatcher() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Function simpleFunction2 = getSimpleFunction(secBuilder);
-		assertNotSame(simpleFunction, simpleFunction2);
+        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction2 = getSimpleFunction(secBuilder);
+        assertNotSame(simpleFunction, simpleFunction2);
 
-		ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
-		List<Feature> srcFeatureList = new ArrayList<Feature>();
-		srcFeatureList.add(new BBCountFeature(srcCFGMap));
-		FeatureExtractor srcFeatureExtractor = new FeatureListVectorExtractor(srcFeatureList);
-		FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
+        ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
+        List<Feature> srcFeatureList  = new ArrayList<Feature>();
+        srcFeatureList.add(new BBCountFeature(srcCFGMap));
+        FeatureExtractor srcFeatureExtractor =
+            new FeatureListVectorExtractor(srcFeatureList);
+        FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
 
-		ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
-		List<Feature> dstFeatureList = new ArrayList<Feature>();
-		dstFeatureList.add(new BBCountFeature(dstCFGMap));
-		FeatureExtractor dstFeatureExtractor = new FeatureListVectorExtractor(dstFeatureList);
-		FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
+        ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
+        List<Feature> dstFeatureList  = new ArrayList<Feature>();
+        dstFeatureList.add(new BBCountFeature(dstCFGMap));
+        FeatureExtractor dstFeatureExtractor =
+            new FeatureListVectorExtractor(dstFeatureList);
+        FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
 
-		Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
-		unmatchedSrcFuncSet.add(simpleFunction);
-		Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
-		unmatchedDstFuncSet.add(simpleFunction2);
+        Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
+        unmatchedSrcFuncSet.add(simpleFunction);
+        Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
+        unmatchedDstFuncSet.add(simpleFunction2);
 
-		UniqueFeatureMatcher uniqueMatcher = new UniqueFeatureMatcher(srcFeatureMap, dstFeatureMap);
-		Set<Match> matches = uniqueMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+        UniqueFeatureMatcher uniqueMatcher =
+            new UniqueFeatureMatcher(srcFeatureMap, dstFeatureMap);
+        Set<Match> matches =
+            uniqueMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
 
-		checkCorrectMatch(matches, simpleFunction, simpleFunction2);
-	}
+        checkCorrectMatch(matches, simpleFunction, simpleFunction2);
+    }
 
-	@Test
-	public void testSimilarityFeatureMatcher() throws CancelledException {
+    @Test
+    public void testSimilarityFeatureMatcher() throws CancelledException {
 
-		TaskMonitor monitor = new ConsoleTaskMonitor();
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
-		Function simpleFunction = getSimpleFunction(builder);
-		Function simpleFunction2 = getSimpleFunction(secBuilder);
-		assertNotSame(simpleFunction, simpleFunction2);
+        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction2 = getSimpleFunction(secBuilder);
+        assertNotSame(simpleFunction, simpleFunction2);
 
-		ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
-		List<Feature> srcFeatureList = new ArrayList<Feature>();
-		srcFeatureList.add(new BBCountFeature(srcCFGMap));
-		FeatureExtractor srcFeatureExtractor = new FeatureListVectorExtractor(srcFeatureList);
-		FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
+        ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
+        List<Feature> srcFeatureList  = new ArrayList<Feature>();
+        srcFeatureList.add(new BBCountFeature(srcCFGMap));
+        FeatureExtractor srcFeatureExtractor =
+            new FeatureListVectorExtractor(srcFeatureList);
+        FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
 
-		ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
-		List<Feature> dstFeatureList = new ArrayList<Feature>();
-		dstFeatureList.add(new BBCountFeature(dstCFGMap));
-		FeatureExtractor dstFeatureExtractor = new FeatureListVectorExtractor(dstFeatureList);
-		FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
+        ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
+        List<Feature> dstFeatureList  = new ArrayList<Feature>();
+        dstFeatureList.add(new BBCountFeature(dstCFGMap));
+        FeatureExtractor dstFeatureExtractor =
+            new FeatureListVectorExtractor(dstFeatureList);
+        FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
 
-		Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
-		unmatchedSrcFuncSet.add(simpleFunction);
-		Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
-		unmatchedDstFuncSet.add(simpleFunction2);
+        Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
+        unmatchedSrcFuncSet.add(simpleFunction);
+        Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
+        unmatchedDstFuncSet.add(simpleFunction2);
 
-		FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
+        FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
 
-		SimilarityFeatureMatcher similarityMatcher = new SimilarityFeatureMatcher(srcFeatureMap, dstFeatureMap,
-				similarityMetric);
-		Set<Match> matches = similarityMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+        SimilarityFeatureMatcher similarityMatcher =
+            new SimilarityFeatureMatcher(srcFeatureMap, dstFeatureMap, similarityMetric);
+        Set<Match> matches =
+            similarityMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
 
-		checkCorrectMatch(matches, simpleFunction, simpleFunction2);
-	}
-
+        checkCorrectMatch(matches, simpleFunction, simpleFunction2);
+    }
 }

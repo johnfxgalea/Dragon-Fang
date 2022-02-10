@@ -10,27 +10,27 @@ import ghidra.program.model.listing.Listing;
 
 public class AfterAddressPropagationProperty extends AbstractPropagationProperty {
 
-	@Override
-	public Set<Function> getPropagatedFuncs(Function function, Set<Function> allCandidateSet) {
+    @Override
+    public Set<Function> getPropagatedFuncs(Function function,
+                                            Set<Function> allCandidateSet) {
 
-		Set<Function> propFuncSet = new HashSet<Function>();
+        Set<Function> propFuncSet = new HashSet<Function>();
 
-		Listing listing = function.getProgram().getListing();
-		CodeUnit codeUnit = listing.getCodeUnitAfter(function.getBody().getMaxAddress());
-	
-		Address address = codeUnit.getAddress();
-		Function afterFunc = listing.getFunctionContaining(address);
-		
-		if (afterFunc == null)
-			return propFuncSet;
-		
-		propFuncSet.add(afterFunc);
-		return processCandidateFunctions(propFuncSet, allCandidateSet);
-	}
+        Listing listing   = function.getProgram().getListing();
+        CodeUnit codeUnit = listing.getCodeUnitAfter(function.getBody().getMaxAddress());
 
-	@Override
-	public String getName() {
-		return "After Address Propagation Property";
-	}
+        Address address    = codeUnit.getAddress();
+        Function afterFunc = listing.getFunctionContaining(address);
 
+        if (afterFunc == null)
+            return propFuncSet;
+
+        propFuncSet.add(afterFunc);
+        return processCandidateFunctions(propFuncSet, allCandidateSet);
+    }
+
+    @Override
+    public String getName() {
+        return "After Address Propagation Property";
+    }
 }
