@@ -66,8 +66,10 @@ public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
 
                     double similarity = similarityMetric.calculateSimilarity(
                         srcFeatureVector, dstFeatureVector);
-                    if (similarity > bestSimilarity)
+                    if (similarity > bestSimilarity) {
                         bestDstFuncList = dstFuncList;
+                        bestSimilarity  = similarity;
+                    }
                 }
 
                 if (bestDstFuncList != null && bestDstFuncList.size() == 1) {

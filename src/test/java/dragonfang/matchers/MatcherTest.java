@@ -3,6 +3,7 @@ package dragonfang.matchers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -67,6 +68,9 @@ public class MatcherTest extends AbstractDragonFangTest {
         assertSame("Matched source function should be correct.",
                    dstFunc,
                    match.getDestinationFunction());
+
+        assertTrue("Must have high confidence", match.getConfidenceScore() > 0);
+        assertTrue("Must have high similarity", match.getSimilarityScore() > 0);
     }
 
     @Test
