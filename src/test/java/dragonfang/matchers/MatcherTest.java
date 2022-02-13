@@ -169,8 +169,10 @@ public class MatcherTest extends AbstractDragonFangTest {
 
         FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
 
-        SimilarityFeatureMatcher similarityMatcher =
-            new SimilarityFeatureMatcher(srcFeatureMap, dstFeatureMap, similarityMetric);
+        double similarityThreshold = 0.6;
+
+        SimilarityFeatureMatcher similarityMatcher = new SimilarityFeatureMatcher(
+            srcFeatureMap, dstFeatureMap, similarityMetric, similarityThreshold);
         Set<Match> matches =
             similarityMatcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
 
