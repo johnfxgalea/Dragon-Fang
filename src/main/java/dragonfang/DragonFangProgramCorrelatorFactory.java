@@ -70,6 +70,8 @@ public class DragonFangProgramCorrelatorFactory
     public static final String PROPAGATION_STEP_OPT      = "Do Propagation Step";
     public static final boolean PROPAGATION_STEP_DEFAULT = true;
 
+    static final double similarityThreshold = 0.6;
+
     @Override
     public int getPriority() {
         return 80;
@@ -154,8 +156,8 @@ public class DragonFangProgramCorrelatorFactory
             new PrimeProductMatcher(srcPrimeProductMap, dstPrimeProductMap);
         matchers.add(primeProductMatcher);
 
-        SimilarityFeatureMatcher similarityFeatureMatcher =
-            new SimilarityFeatureMatcher(srcFeatureMap, dstFeatureMap, similarityMetric);
+        SimilarityFeatureMatcher similarityFeatureMatcher = new SimilarityFeatureMatcher(
+            srcFeatureMap, dstFeatureMap, similarityMetric, similarityThreshold);
         matchers.add(similarityFeatureMatcher);
 
         return matchers;

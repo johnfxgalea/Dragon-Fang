@@ -30,13 +30,16 @@ import ghidra.util.task.TaskMonitor;
 public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
 
     private FeatureSimilarityMetric similarityMetric;
+    private double thresholdLimit;
 
     public SimilarityFeatureMatcher(FeatureMap srcFeatureMap,
                                     FeatureMap dstFeatureMap,
-                                    FeatureSimilarityMetric similarityMetric) {
+                                    FeatureSimilarityMetric similarityMetric,
+                                    double thresholdLimit) {
         super(srcFeatureMap, dstFeatureMap);
 
         this.similarityMetric = similarityMetric;
+        this.thresholdLimit   = thresholdLimit;
     }
 
     @Override
@@ -73,13 +76,15 @@ public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
                 }
 
                 if (bestDstFuncList != null && bestDstFuncList.size() == 1) {
-                    double confidence = 1.0;
-                    Match match       = new Match(srcFuncList.get(0),
-                                            bestDstFuncList.get(0),
-                                            bestSimilarity,
-                                            confidence,
-                                            "Similarity Feature Matcher");
-                    matches.add(match);
+                    if (thresholdLimit <= bestSimilarity) {
+                        double confidence = 1.0;
+                        Match match       = new Match(srcFuncList.get(0),
+                                                bestDstFuncList.get(0),
+                                                bestSimilarity,
+                                                confidence,
+                                                "Similarity Feature Matcher");
+                        matches.add(match);
+                    }
                 }
             }
         }
