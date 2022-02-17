@@ -12,28 +12,31 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
+import dragonfang.entities.Entity;
+import dragonfang.features.BasicBlockFeature;
+import dragonfang.features.Feature;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class EdgeCountFeature implements Feature {
+public class BBCountFeature extends BasicBlockFeature {
 
     private ControlFlowGraphMap cfgMap;
 
-    public EdgeCountFeature(ControlFlowGraphMap cfgMap) {
+    public BBCountFeature(ControlFlowGraphMap cfgMap) {
 
         this.cfgMap = cfgMap;
     }
 
     @Override
-    public double calculateFeatureValue(Function function, TaskMonitor monitor)
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException {
 
         ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
-        return cfg.numEdges();
+        return cfg.numVertices();
     }
 }

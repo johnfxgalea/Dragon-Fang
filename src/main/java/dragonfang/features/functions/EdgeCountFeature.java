@@ -12,30 +12,29 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
-import dragonfang.counter.maps.InstrCountMap;
-import dragonfang.counters.InstrCounts;
+import dragonfang.features.Feature;
+import dragonfang.graphs.ControlFlowGraph;
+import dragonfang.graphs.maps.ControlFlowGraphMap;
 import ghidra.program.model.listing.Function;
-import ghidra.program.model.pcode.PcodeOp;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class IndJmpCountFeature implements Feature {
+public class EdgeCountFeature implements Feature {
 
-    private InstrCountMap instrCountMap;
+    private ControlFlowGraphMap cfgMap;
 
-    public IndJmpCountFeature(InstrCountMap instrCountMap) {
-        this.instrCountMap = instrCountMap;
+    public EdgeCountFeature(ControlFlowGraphMap cfgMap) {
+
+        this.cfgMap = cfgMap;
     }
 
     @Override
     public double calculateFeatureValue(Function function, TaskMonitor monitor)
         throws CancelledException {
 
-        InstrCounts instrCounts = instrCountMap.getInstructionCounts(function, monitor);
-        double numCalls         = instrCounts.getCount(PcodeOp.BRANCHIND);
-
-        return numCalls;
+        ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
+        return cfg.numEdges();
     }
 }

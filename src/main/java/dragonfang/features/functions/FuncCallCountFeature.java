@@ -12,10 +12,11 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
+import dragonfang.features.Feature;
 import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;

@@ -14,7 +14,7 @@
 
 package dragonfang.features;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -23,6 +23,6 @@ public interface Feature {
     /**
      * Calculates the feature value for the function passed as parameter.
      */
-    public abstract double calculateFeatureValue(Function function, TaskMonitor monitor)
+    public abstract double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException;
 }

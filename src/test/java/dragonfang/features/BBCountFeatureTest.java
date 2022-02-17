@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.features.functions.BBCountFeature;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import dragonfang.graphs.maps.LazyControlFlowGraphMap;
 import ghidra.program.model.listing.Function;

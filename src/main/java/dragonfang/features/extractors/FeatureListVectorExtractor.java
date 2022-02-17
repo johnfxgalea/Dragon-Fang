@@ -15,6 +15,8 @@
 package dragonfang.features.extractors;
 
 import java.util.List;
+
+import dragonfang.entities.Entity;
 import dragonfang.features.Feature;
 import dragonfang.features.vectors.ArrayFeatureVector;
 import dragonfang.features.vectors.FeatureVector;
@@ -34,7 +36,7 @@ public class FeatureListVectorExtractor implements FeatureExtractor {
         this.featureList = featureList;
     }
 
-    public FeatureVector extract(Function function, TaskMonitor monitor)
+    public FeatureVector extract(Entity entity, TaskMonitor monitor)
         throws CancelledException {
 
         // Iterate through the feature list, calculating each feature value and storing

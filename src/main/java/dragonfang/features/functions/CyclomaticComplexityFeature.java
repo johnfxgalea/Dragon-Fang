@@ -12,8 +12,9 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
+import dragonfang.features.Feature;
 import ghidra.program.model.listing.Function;
 import ghidra.program.util.CyclomaticComplexity;
 import ghidra.util.exception.CancelledException;

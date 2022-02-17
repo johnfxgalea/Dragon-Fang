@@ -17,32 +17,32 @@ package dragonfang.features.maps;
 import java.util.HashMap;
 import java.util.Map;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.extractors.FeatureExtractor;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public class LazyFeatureMap implements FeatureMap {
 
     private FeatureExtractor featureExtractor;
-    private Map<Function, FeatureVector> featureMap;
+    private Map<Entity, FeatureVector> featureMap;
 
     public LazyFeatureMap(FeatureExtractor featureExtractor) {
 
         this.featureExtractor = featureExtractor;
-        this.featureMap       = new HashMap<Function, FeatureVector>();
+        this.featureMap       = new HashMap<Entity, FeatureVector>();
     }
 
     @Override
-    public FeatureVector getFeature(Function function, TaskMonitor monitor)
+    public FeatureVector getFeature(Entity entity, TaskMonitor monitor)
         throws CancelledException {
 
-        if (!featureMap.containsKey(function)) {
-            FeatureVector featureVector = featureExtractor.extract(function, monitor);
-            featureMap.put(function, featureVector);
+        if (!featureMap.containsKey(entity)) {
+            FeatureVector featureVector = featureExtractor.extract(entity, monitor);
+            featureMap.put(entity, featureVector);
         }
 
-        return featureMap.get(function);
+        return featureMap.get(entity);
     }
 }

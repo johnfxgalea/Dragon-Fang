@@ -23,6 +23,7 @@ import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.InstrCounter;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.features.functions.IndJmpCountFeature;
 import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;

@@ -22,10 +22,10 @@ import java.util.List;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
-import dragonfang.features.BBCountFeature;
 import dragonfang.features.Feature;
 import dragonfang.features.extractors.FeatureExtractor;
 import dragonfang.features.extractors.FeatureListVectorExtractor;
+import dragonfang.features.functions.BBCountFeature;
 import dragonfang.features.vectors.FeatureVector;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import dragonfang.graphs.maps.LazyControlFlowGraphMap;
