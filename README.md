@@ -19,5 +19,5 @@ cd dragon-fang
 
 Finally, install the extension through Ghidra (via File --> Install Extensions..)
 
-<p align="center"><img src="images/install.png" width="400">
+<p align="center"><img src="images/install.png" width="750">
 
