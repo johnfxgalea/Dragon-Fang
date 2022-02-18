@@ -31,7 +31,6 @@ public class PCodeInstrCounter implements InstrCounter {
 		Listing listing = program.getListing();
 
 		InstructionIterator instrIterator = listing.getInstructions(entity.getAddresses(), true);
-
 		while (instrIterator.hasNext()) {
 			Instruction instruction = instrIterator.next();
 			PcodeOp[] ops = instruction.getPcode();

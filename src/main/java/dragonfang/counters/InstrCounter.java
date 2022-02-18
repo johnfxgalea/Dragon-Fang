@@ -16,4 +16,13 @@ package dragonfang.counters;
 
 import dragonfang.entities.Entity;
 
-public interface InstrCounter { public InstrCounts count(Entity entity); }
+public interface InstrCounter { 
+	
+	
+	/**
+	 * Counts the instruction within the passed entity.
+	 * 
+	 * @param entity The entity to consider for counting instructions.
+	 * @return The instruction counts.
+	 */
+	public InstrCounts count(Entity entity); }
