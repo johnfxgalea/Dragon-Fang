@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.maps.FeatureMap;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -32,30 +32,30 @@ public class UniqueFeatureMatcher extends AbstractFeatureMatcher {
     }
 
     @Override
-    public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet,
+    public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
+                              Set<Entity> unmatchedDstEntitySet,
                               TaskMonitor monitor) throws CancelledException {
 
         Set<Match> matches = new HashSet<Match>();
 
-        HashMap<FeatureVector, List<Function>> srcMatchMap =
-            deriveMatchMap(unmatchedSrcFuncSet, srcFeatureMap, monitor);
-        HashMap<FeatureVector, List<Function>> dstMatchMap =
-            deriveMatchMap(unmatchedDstFuncSet, dstFeatureMap, monitor);
+        HashMap<FeatureVector, List<Entity>> srcMatchMap =
+            deriveMatchMap(unmatchedSrcEntitySet, srcFeatureMap, monitor);
+        HashMap<FeatureVector, List<Entity>> dstMatchMap =
+            deriveMatchMap(unmatchedDstEntitySet, dstFeatureMap, monitor);
 
-        for (Function unmatchedSrcFunction : unmatchedSrcFuncSet) {
+        for (Entity unmatchedSrcEntity : unmatchedSrcEntitySet) {
             FeatureVector featureVector =
-                srcFeatureMap.getFeature(unmatchedSrcFunction, monitor);
-            List<Function> srcFuncList = srcMatchMap.get(featureVector);
+                srcFeatureMap.getFeature(unmatchedSrcEntity, monitor);
+            List<Entity> srcEntityList = srcMatchMap.get(featureVector);
 
-            if (srcFuncList.size() == 1) {
-                List<Function> dstFuncList = dstMatchMap.get(featureVector);
+            if (srcEntityList.size() == 1) {
+                List<Entity> dstEntityList = dstMatchMap.get(featureVector);
 
-                if (dstFuncList != null && dstFuncList.size() == 1) {
+                if (dstEntityList != null && dstEntityList.size() == 1) {
                     double similarity = 1.0;
                     double confidence = 1.0;
-                    Match match       = new Match(unmatchedSrcFunction,
-                                            dstFuncList.get(0),
+                    Match match       = new Match(unmatchedSrcEntity,
+                                            dstEntityList.get(0),
                                             similarity,
                                             confidence,
                                             "Unique Feature Matcher");

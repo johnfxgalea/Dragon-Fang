@@ -19,6 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.matchers.Match;
 import dragonfang.matchers.Matcher;
 import dragonfang.propagators.Propagator;
@@ -60,16 +63,17 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
     /*
      * Responsible for obtaining set of functions.
      */
-    private Set<Function>
-    getFunctionSet(Program program, AddressSetView asv, TaskMonitor monitor) {
+    private Set<Entity>
+    getFunctionEntitySet(Program program, AddressSetView asv, TaskMonitor monitor) {
 
-        Set<Function> functionSet = new HashSet<Function>();
+        Set<Entity> functionSet = new HashSet<Entity>();
 
         FunctionIterator funcIter =
             program.getFunctionManager().getFunctionsNoStubs(asv, true);
         while (!monitor.isCancelled() && funcIter.hasNext()) {
-            Function func = funcIter.next();
-            functionSet.add(func);
+            Function function = funcIter.next();
+            FunctionEntity functionEntity = new FunctionEntity(function);
+            functionSet.add(functionEntity);
         }
 
         return functionSet;
@@ -102,27 +106,27 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
 
     private void processNewMatches(Set<Match> foundMatches,
                                    VTMatchSet matchSet,
-                                   Set<Function> unmatchedSrcFuncSet,
-                                   Set<Function> unmatchedDstFuncSet,
+                                   Set<Entity> unmatchedSrcEntitySet,
+                                   Set<Entity> unmatchedDstEntitySet,
                                    Queue<Match> propagationQueue) {
 
         for (Match match : foundMatches) {
-            Function srcFunction = match.getSourceFunction();
-            Function dstFunction = match.getDestinationFunction();
+            FunctionEntity srcEntity = (FunctionEntity) match.getSourceEntity();
+            FunctionEntity dstEntity = (FunctionEntity) match.getDestinationEntity();
             double similarity    = match.getSimilarityScore();
             double confidence    = match.getConfidenceScore();
             String reason        = match.getReason();
 
-            unmatchedSrcFuncSet.remove(srcFunction);
-            unmatchedDstFuncSet.remove(dstFunction);
+            unmatchedSrcEntitySet.remove(srcEntity);
+            unmatchedDstEntitySet.remove(dstEntity);
 
             propagationQueue.add(match);
 
             VTMatchTag tag =
                 dragonFangData.getMatchTagAssigner().assignTag(similarity, reason);
             VTMatchInfo matchInfo = createMatchInfo(matchSet,
-                                                    srcFunction,
-                                                    dstFunction,
+                                                    srcEntity.getFunction(),
+                                                    dstEntity.getFunction(),
                                                     new VTScore(similarity),
                                                     new VTScore(confidence),
                                                     tag);
@@ -137,10 +141,10 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
         monitor.setIndeterminate(false);
 
         // Get initial set of unmatched instructions.
-        Set<Function> unmatchedSrcFuncSet =
-            getFunctionSet(getSourceProgram(), getSourceAddressSet(), monitor);
-        Set<Function> unmatchedDstFuncSet =
-            getFunctionSet(getDestinationProgram(), getDestinationAddressSet(), monitor);
+        Set<Entity> unmatchedSrcEntitySet =
+            getFunctionEntitySet(getSourceProgram(), getSourceAddressSet(), monitor);
+        Set<Entity> unmatchedDstEntitySet =
+            getFunctionEntitySet(getDestinationProgram(), getDestinationAddressSet(), monitor);
 
         boolean doPropagation = getOptions().getBoolean(
             DragonFangProgramCorrelatorFactory.PROPAGATION_STEP_OPT,
@@ -157,28 +161,28 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
             Queue<Match> propagationQueue = new LinkedList<Match>();
 
             Set<Match> initialMatches =
-                matcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+                matcher.doMatch(unmatchedSrcEntitySet, unmatchedDstEntitySet, monitor);
             processNewMatches(initialMatches,
                               matchSet,
-                              unmatchedSrcFuncSet,
-                              unmatchedDstFuncSet,
+                              unmatchedSrcEntitySet,
+                              unmatchedDstEntitySet,
                               propagationQueue);
 
             if (doPropagation) {
-                while (!propagationQueue.isEmpty() && !unmatchedSrcFuncSet.isEmpty()
-                       && !unmatchedDstFuncSet.isEmpty()) {
+                while (!propagationQueue.isEmpty() && !unmatchedSrcEntitySet.isEmpty()
+                       && !unmatchedDstEntitySet.isEmpty()) {
                     Match match = propagationQueue.remove();
 
                     for (Propagator propagator : propagators) {
                         Set<Match> newMatches = propagator.propagate(matcher,
                                                                      match,
-                                                                     unmatchedSrcFuncSet,
-                                                                     unmatchedDstFuncSet,
+                                                                     unmatchedSrcEntitySet,
+                                                                     unmatchedDstEntitySet,
                                                                      monitor);
                         processNewMatches(newMatches,
                                           matchSet,
-                                          unmatchedSrcFuncSet,
-                                          unmatchedDstFuncSet,
+                                          unmatchedSrcEntitySet,
+                                          unmatchedDstEntitySet,
                                           propagationQueue);
                     }
                 }

@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.primes.maps.PrimeProductMap;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -36,22 +36,22 @@ public abstract class AbstractPrimeProductMatcher implements Matcher {
         this.dstPrimeProductMap = dstPrimeProductMap;
     }
 
-    protected HashMap<Long, List<Function>> deriveMatchMap(Set<Function> unmatchedFuncSet,
+    protected HashMap<Long, List<Entity>> deriveMatchMap(Set<Entity> unmatchedEntitySet,
                                                            PrimeProductMap countMap,
                                                            TaskMonitor monitor)
         throws CancelledException {
 
-        HashMap<Long, List<Function>> matchMap = new HashMap<Long, List<Function>>();
+        HashMap<Long, List<Entity>> matchMap = new HashMap<Long, List<Entity>>();
 
-        for (Function unmatchedFunction : unmatchedFuncSet) {
-            Long primeProduct = countMap.getPrimeProduct(unmatchedFunction, monitor);
+        for (Entity unmatchedEntity : unmatchedEntitySet) {
+            Long primeProduct = countMap.getPrimeProduct(unmatchedEntity, monitor);
 
-            List<Function> funcSet = matchMap.get(primeProduct);
+            List<Entity> funcSet = matchMap.get(primeProduct);
             if (funcSet == null) {
-                funcSet = new ArrayList<Function>();
+                funcSet = new ArrayList<Entity>();
                 matchMap.put(primeProduct, funcSet);
             }
-            funcSet.add(unmatchedFunction);
+            funcSet.add(unmatchedEntity);
         }
 
         return matchMap;

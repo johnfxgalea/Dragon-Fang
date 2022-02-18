@@ -14,12 +14,12 @@
 
 package dragonfang.primes.maps;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public interface PrimeMap {
 
-    public Long getPrimeProduct(Function function, TaskMonitor monitor)
+    public Long getPrimeProduct(Entity entity, TaskMonitor monitor)
         throws CancelledException;
 }

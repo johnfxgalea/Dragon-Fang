@@ -15,28 +15,31 @@
 package dragonfang.features.functions;
 
 import dragonfang.entities.Entity;
-import dragonfang.features.BasicBlockFeature;
-import dragonfang.features.Feature;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.features.FunctionFeature;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class BBCountFeature extends BasicBlockFeature {
+public class BBCountFeature extends FunctionFeature {
 
-    private ControlFlowGraphMap cfgMap;
+	private ControlFlowGraphMap cfgMap;
 
-    public BBCountFeature(ControlFlowGraphMap cfgMap) {
+	public BBCountFeature(ControlFlowGraphMap cfgMap) {
 
-        this.cfgMap = cfgMap;
-    }
+		this.cfgMap = cfgMap;
+	}
 
-    @Override
-    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+	@Override
+	public double calculateFeatureValue(Entity entity, TaskMonitor monitor) throws CancelledException {
 
-        ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
-        return cfg.numVertices();
-    }
+		if (!isEntityValid(entity))
+			throw new IllegalArgumentException("Invalid entity.");
+
+		FunctionEntity functionEntity = (FunctionEntity) entity;
+
+		ControlFlowGraph cfg = cfgMap.getControlFlowGraph(functionEntity.getFunction(), monitor);
+		return cfg.numVertices();
+	}
 }

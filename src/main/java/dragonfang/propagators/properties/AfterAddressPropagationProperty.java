@@ -3,6 +3,7 @@ package dragonfang.propagators.properties;
 import java.util.HashSet;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.listing.CodeUnit;
 import ghidra.program.model.listing.Function;
@@ -11,22 +12,22 @@ import ghidra.program.model.listing.Listing;
 public class AfterAddressPropagationProperty extends AbstractPropagationProperty {
 
     @Override
-    public Set<Function> getPropagatedFuncs(Function function,
-                                            Set<Function> allCandidateSet) {
+    public Set<Entity> getPropagatedEntities(Entity entity,
+                                            Set<Entity> allCandidateSet) {
 
-        Set<Function> propFuncSet = new HashSet<Function>();
+        Set<Entity> propEntitySet = new HashSet<Entity>();
 
-        Listing listing   = function.getProgram().getListing();
-        CodeUnit codeUnit = listing.getCodeUnitAfter(function.getBody().getMaxAddress());
+        Listing listing   = entity.getProgram().getListing();
+        CodeUnit codeUnit = listing.getCodeUnitAfter(entity.getAddresses().getMaxAddress());
 
         Address address    = codeUnit.getAddress();
-        Function afterFunc = listing.getFunctionContaining(address);
+        Entity afterEntity = listing.getFunctionContaining(address);
 
-        if (afterFunc == null)
-            return propFuncSet;
+        if (afterEntity == null)
+            return propEntitySet;
 
-        propFuncSet.add(afterFunc);
-        return processCandidateFunctions(propFuncSet, allCandidateSet);
+        propEntitySet.add(afterEntity);
+        return processCandidates(propEntitySet, allCandidateSet);
     }
 
     @Override

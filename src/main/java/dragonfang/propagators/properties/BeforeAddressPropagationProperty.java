@@ -3,6 +3,7 @@ package dragonfang.propagators.properties;
 import java.util.HashSet;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.listing.CodeUnit;
 import ghidra.program.model.listing.Function;
@@ -10,27 +11,26 @@ import ghidra.program.model.listing.Listing;
 
 public class BeforeAddressPropagationProperty extends AbstractPropagationProperty {
 
-    @Override
-    public Set<Function> getPropagatedFuncs(Function function,
-                                            Set<Function> allCandidateSet) {
+	@Override
+	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet) {
 
-        Set<Function> propFuncSet = new HashSet<Function>();
+		Set<Entity> propFuncSet = new HashSet<Entity>();
 
-        Listing listing   = function.getProgram().getListing();
-        CodeUnit codeUnit = listing.getCodeUnitBefore(function.getBody().getMinAddress());
+		Listing listing = entity.getProgram().getListing();
+		CodeUnit codeUnit = listing.getCodeUnitBefore(entity.getAddresses().getMinAddress());
 
-        Address address     = codeUnit.getAddress();
-        Function beforeFunc = listing.getFunctionContaining(address);
+		Address address = codeUnit.getAddress();
+		Entity beforeEntity = listing.getFunctionContaining(address);
 
-        if (beforeFunc == null)
-            return propFuncSet;
+		if (beforeEntity == null)
+			return propFuncSet;
 
-        propFuncSet.add(beforeFunc);
-        return processCandidateFunctions(propFuncSet, allCandidateSet);
-    }
+		propFuncSet.add(beforeEntity);
+		return processCandidates(propFuncSet, allCandidateSet);
+	}
 
-    @Override
-    public String getName() {
-        return "Before Address Propagation Property";
-    }
+	@Override
+	public String getName() {
+		return "Before Address Propagation Property";
+	}
 }

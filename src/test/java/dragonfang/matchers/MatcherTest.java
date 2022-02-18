@@ -64,10 +64,10 @@ public class MatcherTest extends AbstractDragonFangTest {
         Match match = matches.iterator().next();
         assertSame("Matched source function should be correct.",
                    srcFunc,
-                   match.getSourceFunction());
+                   match.getSourceEntity());
         assertSame("Matched source function should be correct.",
                    dstFunc,
-                   match.getDestinationFunction());
+                   match.getDestinationEntity());
 
         assertTrue("Must have high confidence", match.getConfidenceScore() > 0);
         assertTrue("Must have high similarity", match.getSimilarityScore() > 0);

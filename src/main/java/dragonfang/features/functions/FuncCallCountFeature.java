@@ -16,13 +16,14 @@ package dragonfang.features.functions;
 
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
-import dragonfang.features.Feature;
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.features.FunctionFeature;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class FuncCallCountFeature implements Feature {
+public class FuncCallCountFeature extends FunctionFeature {
 
     private InstrCountMap instrCountMap;
 
@@ -31,10 +32,15 @@ public class FuncCallCountFeature implements Feature {
     }
 
     @Override
-    public double calculateFeatureValue(Function function, TaskMonitor monitor)
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException {
 
-        InstrCounts instrCounts = instrCountMap.getInstructionCounts(function, monitor);
+		if (!isEntityValid(entity))
+			throw new IllegalArgumentException("Invalid entity.");
+    	
+		FunctionEntity functionEntity = (FunctionEntity) entity;
+		
+        InstrCounts instrCounts = instrCountMap.getInstructionCounts(functionEntity.getFunction(), monitor);
         double numCalls         = instrCounts.getCount(PcodeOp.CALL)
                           + instrCounts.getCount(PcodeOp.CALLIND)
                           + instrCounts.getCount(PcodeOp.CALLOTHER);

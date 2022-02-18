@@ -46,7 +46,7 @@ public class FeatureListVectorExtractor implements FeatureExtractor {
         for (int i = 0; i < featureList.size(); i++) {
             Feature feature = featureList.get(i);
             // Get value and set.
-            double featureValue = feature.calculateFeatureValue(function, monitor);
+            double featureValue = feature.calculateFeatureValue(entity, monitor);
             featureVector.setFeature(featureValue, i);
         }
 

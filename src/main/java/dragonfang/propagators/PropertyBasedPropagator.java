@@ -16,6 +16,7 @@ package dragonfang.propagators;
 
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.matchers.Match;
 import dragonfang.matchers.Matcher;
 import dragonfang.propagators.properties.PropagationProperty;
@@ -36,20 +37,20 @@ public class PropertyBasedPropagator implements Propagator {
 
     public Set<Match> propagate(Matcher matcher,
                                 Match match,
-                                Set<Function> unmatchedSrcFuncSet,
-                                Set<Function> unmatchedDstFuncSet,
+                                Set<Entity> unmatchedSrcEntitySet,
+                                Set<Entity> unmatchedDstEntitySet,
                                 TaskMonitor monitor) throws CancelledException {
 
-        Function srcMatchedFunction = match.getSourceFunction();
-        Function dstMatchedFunction = match.getDestinationFunction();
+        Entity srcMatchedEntity = match.getSourceEntity();
+        Entity dstMatchedFunction = match.getDestinationEntity();
 
-        Set<Function> limitedUnmatchedSrcFuncSet =
-            srcProperty.getPropagatedFuncs(srcMatchedFunction, unmatchedSrcFuncSet);
-        Set<Function> limitedUnmatchedDstFuncSet =
-            dstProperty.getPropagatedFuncs(dstMatchedFunction, unmatchedDstFuncSet);
+        Set<Entity> limitedUnmatchedSrcEntitySet =
+            srcProperty.getPropagatedFuncs(srcMatchedEntity, unmatchedSrcEntitySet);
+        Set<Entity> limitedUnmatchedDstFuncSet =
+            dstProperty.getPropagatedFuncs(dstMatchedFunction, unmatchedDstEntitySet);
 
         Set<Match> matches = matcher.doMatch(
-            limitedUnmatchedSrcFuncSet, limitedUnmatchedDstFuncSet, monitor);
+            limitedUnmatchedSrcEntitySet, limitedUnmatchedDstFuncSet, monitor);
 
         for (Match propMatch : matches)
             propMatch.setPropagatorName(srcProperty.getName());

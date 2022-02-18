@@ -17,6 +17,7 @@ package dragonfang.propagators.properties;
 import java.util.HashSet;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.graphs.CallGraph;
 import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
 import ghidra.program.model.listing.Function;
@@ -32,20 +33,20 @@ public class ChildCallGraphPropagationProperty extends AbstractPropagationProper
     }
 
     @Override
-    public Set<Function> getPropagatedFuncs(Function function,
-                                            Set<Function> allCandidateSet) {
+    public Set<Entity> getPropagatedEntities(Entity entity,
+                                            Set<Entity> allCandidateSet) {
 
-        Set<Function> propFuncSet = new HashSet<Function>();
+        Set<Entity> propFuncSet = new HashSet<Entity>();
 
         CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
-        Vertex matchedVertex  = callGraph.getVertex(function);
+        Vertex matchedVertex  = callGraph.getVertex(entity);
         Set<Vertex> vertexSet = callGraph.getChildren(matchedVertex);
 
         for (Vertex vertex : vertexSet)
-            propFuncSet.add((Function) vertex.referent());
+            propFuncSet.add((Entity) vertex.referent());
 
-        return processCandidateFunctions(propFuncSet, allCandidateSet);
+        return processCandidates(propFuncSet, allCandidateSet);
     }
 
     @Override

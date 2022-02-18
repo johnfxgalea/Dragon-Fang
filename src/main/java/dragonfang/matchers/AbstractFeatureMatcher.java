@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.maps.FeatureMap;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -36,24 +36,24 @@ public abstract class AbstractFeatureMatcher implements Matcher {
         this.dstFeatureMap = dstFeatureMap;
     }
 
-    protected HashMap<FeatureVector, List<Function>>
-    deriveMatchMap(Set<Function> unmatchedFuncSet,
+    protected HashMap<FeatureVector, List<Entity>>
+    deriveMatchMap(Set<Entity> unmatchedFuncSet,
                    FeatureMap featureMap,
                    TaskMonitor monitor) throws CancelledException {
 
-        HashMap<FeatureVector, List<Function>> matchMap =
-            new HashMap<FeatureVector, List<Function>>();
+        HashMap<FeatureVector, List<Entity>> matchMap =
+            new HashMap<FeatureVector, List<Entity>>();
 
-        for (Function unmatchedFunction : unmatchedFuncSet) {
+        for (Entity unmatchedEntity : unmatchedFuncSet) {
             FeatureVector featureVector =
-                featureMap.getFeature(unmatchedFunction, monitor);
+                featureMap.getFeature(unmatchedEntity, monitor);
 
-            List<Function> funcSet = matchMap.get(featureVector);
-            if (funcSet == null) {
-                funcSet = new ArrayList<Function>();
-                matchMap.put(featureVector, funcSet);
+            List<Entity> entitySet = matchMap.get(featureVector);
+            if (entitySet == null) {
+                entitySet = new ArrayList<Entity>();
+                matchMap.put(featureVector, entitySet);
             }
-            funcSet.add(unmatchedFunction);
+            entitySet.add(unmatchedEntity);
         }
 
         return matchMap;

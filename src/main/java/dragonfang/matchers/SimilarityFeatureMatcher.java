@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.maps.FeatureMap;
 import dragonfang.features.metrics.FeatureSimilarityMetric;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -43,43 +43,43 @@ public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
     }
 
     @Override
-    public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet,
+    public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
+                              Set<Entity> unmatchedDstEntitySet,
                               TaskMonitor monitor) throws CancelledException {
 
         Set<Match> matches = new HashSet<Match>();
 
-        HashMap<FeatureVector, List<Function>> srcMatchMap =
-            deriveMatchMap(unmatchedSrcFuncSet, srcFeatureMap, monitor);
-        HashMap<FeatureVector, List<Function>> dstMatchMap =
-            deriveMatchMap(unmatchedDstFuncSet, dstFeatureMap, monitor);
+        HashMap<FeatureVector, List<Entity>> srcMatchMap =
+            deriveMatchMap(unmatchedSrcEntitySet, srcFeatureMap, monitor);
+        HashMap<FeatureVector, List<Entity>> dstMatchMap =
+            deriveMatchMap(unmatchedDstEntitySet, dstFeatureMap, monitor);
 
-        for (Map.Entry<FeatureVector, List<Function>> srcEntry : srcMatchMap.entrySet()) {
+        for (Map.Entry<FeatureVector, List<Entity>> srcEntry : srcMatchMap.entrySet()) {
             FeatureVector srcFeatureVector = srcEntry.getKey();
-            List<Function> srcFuncList     = srcEntry.getValue();
+            List<Entity> srcEntityList     = srcEntry.getValue();
 
-            if (srcFuncList.size() == 1) {
+            if (srcEntityList.size() == 1) {
                 double bestSimilarity          = 0;
-                List<Function> bestDstFuncList = srcEntry.getValue();
+                List<Entity> bestDstEntityList = srcEntry.getValue();
 
-                for (Map.Entry<FeatureVector, List<Function>> dstEntry :
+                for (Map.Entry<FeatureVector, List<Entity>> dstEntry :
                      dstMatchMap.entrySet()) {
                     FeatureVector dstFeatureVector = dstEntry.getKey();
-                    List<Function> dstFuncList     = dstEntry.getValue();
+                    List<Entity> dstEntityList     = dstEntry.getValue();
 
                     double similarity = similarityMetric.calculateSimilarity(
                         srcFeatureVector, dstFeatureVector);
                     if (similarity > bestSimilarity) {
-                        bestDstFuncList = dstFuncList;
+                        bestDstEntityList = dstEntityList;
                         bestSimilarity  = similarity;
                     }
                 }
 
-                if (bestDstFuncList != null && bestDstFuncList.size() == 1) {
+                if (bestDstEntityList != null && bestDstEntityList.size() == 1) {
                     if (thresholdLimit <= bestSimilarity) {
                         double confidence = 1.0;
-                        Match match       = new Match(srcFuncList.get(0),
-                                                bestDstFuncList.get(0),
+                        Match match       = new Match(srcEntityList.get(0),
+                                                bestDstEntityList.get(0),
                                                 bestSimilarity,
                                                 confidence,
                                                 "Similarity Feature Matcher");

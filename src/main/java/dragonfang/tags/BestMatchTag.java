@@ -14,7 +14,6 @@
 
 package dragonfang.tags;
 
-import dragonfang.tags.DragonFangMatchTag.DragonFangMatchTagType;
 import ghidra.feature.vt.api.main.VTMatchTag;
 
 /**

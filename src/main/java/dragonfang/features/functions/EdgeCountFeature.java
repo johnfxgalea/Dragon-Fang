@@ -14,27 +14,34 @@
 
 package dragonfang.features.functions;
 
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.features.Feature;
+import dragonfang.features.FunctionFeature;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class EdgeCountFeature implements Feature {
+public class EdgeCountFeature extends FunctionFeature {
 
-    private ControlFlowGraphMap cfgMap;
+	private ControlFlowGraphMap cfgMap;
 
-    public EdgeCountFeature(ControlFlowGraphMap cfgMap) {
+	public EdgeCountFeature(ControlFlowGraphMap cfgMap) {
 
-        this.cfgMap = cfgMap;
-    }
+		this.cfgMap = cfgMap;
+	}
 
-    @Override
-    public double calculateFeatureValue(Function function, TaskMonitor monitor)
-        throws CancelledException {
+	@Override
+	public double calculateFeatureValue(Entity entity, TaskMonitor monitor) throws CancelledException {
 
-        ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
-        return cfg.numEdges();
-    }
+		if (!isEntityValid(entity))
+			throw new IllegalArgumentException("Invalid entity.");
+
+		FunctionEntity functionEntity = (FunctionEntity) entity;
+
+		ControlFlowGraph cfg = cfgMap.getControlFlowGraph(functionEntity.getFunction(), monitor);
+		return cfg.numEdges();
+	}
 }

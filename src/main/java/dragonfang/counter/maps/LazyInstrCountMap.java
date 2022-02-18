@@ -19,29 +19,29 @@ import java.util.Map;
 
 import dragonfang.counters.InstrCounter;
 import dragonfang.counters.InstrCounts;
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public class LazyInstrCountMap implements InstrCountMap {
 
-    private Map<Function, InstrCounts> instrCountMap;
+    private Map<Entity, InstrCounts> instrCountMap;
     private InstrCounter counter;
 
     public LazyInstrCountMap(InstrCounter counter) {
-        instrCountMap = new HashMap<Function, InstrCounts>();
+        instrCountMap = new HashMap<Entity, InstrCounts>();
         this.counter  = counter;
     }
 
     @Override
-    public InstrCounts getInstructionCounts(Function function, TaskMonitor monitor)
+    public InstrCounts getInstructionCounts(Entity entity, TaskMonitor monitor)
         throws CancelledException {
 
-        if (!instrCountMap.containsKey(function)) {
-            InstrCounts counts = counter.count(function);
-            instrCountMap.put(function, counts);
+        if (!instrCountMap.containsKey(entity)) {
+            InstrCounts counts = counter.count(entity);
+            instrCountMap.put(entity, counts);
         }
 
-        return instrCountMap.get(function);
+        return instrCountMap.get(entity);
     }
 }
