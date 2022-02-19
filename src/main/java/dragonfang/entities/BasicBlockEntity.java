@@ -18,7 +18,7 @@ public class BasicBlockEntity extends Entity{
 
 	@Override
 	public Program getProgram() {
-		return program
+		return program;
 	}
 
 	@Override
