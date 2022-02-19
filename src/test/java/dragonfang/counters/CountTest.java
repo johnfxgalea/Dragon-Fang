@@ -19,10 +19,12 @@ import org.junit.Test;
 
 import ghidra.program.model.pcode.PcodeOp;
 
-public class CountTest {
+public class CountTest
+{
 
     @Test
-    public void testInit() {
+    public void testInit()
+    {
 
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
@@ -32,7 +34,8 @@ public class CountTest {
     }
 
     @Test
-    public void testIncrement() {
+    public void testIncrement()
+    {
 
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
@@ -46,7 +49,8 @@ public class CountTest {
     }
 
     @Test
-    public void testIncrement2() {
+    public void testIncrement2()
+    {
 
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
@@ -61,7 +65,8 @@ public class CountTest {
     }
 
     @Test
-    public void testDecrement() {
+    public void testDecrement()
+    {
 
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {

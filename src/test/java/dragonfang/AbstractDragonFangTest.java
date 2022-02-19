@@ -26,8 +26,8 @@ import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Program;
 import ghidra.test.AbstractGhidraHeadlessIntegrationTest;
 
-public abstract class AbstractDragonFangTest
-    extends AbstractGhidraHeadlessIntegrationTest {
+public abstract class AbstractDragonFangTest extends AbstractGhidraHeadlessIntegrationTest
+{
 
     protected static final String SIMPLE_FUNCTION_ADDRESS = "1006420";
 
@@ -35,36 +35,42 @@ public abstract class AbstractDragonFangTest
     protected Program program;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
 
         builder = initProgBuilder();
         program = builder.getProgram();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         builder.dispose();
     }
 
-    protected Address addr(ProgramBuilder progBuilder, String addressString) {
+    protected Address addr(ProgramBuilder progBuilder, String addressString)
+    {
         return progBuilder.addr(addressString);
     }
 
-    protected Function getSimpleFunction(ProgramBuilder progBuilder) {
-        Address funcAddress     = addr(progBuilder, SIMPLE_FUNCTION_ADDRESS);
-        Program prog            = progBuilder.getProgram();
+    protected Function getSimpleFunction(ProgramBuilder progBuilder)
+    {
+        Address funcAddress = addr(progBuilder, SIMPLE_FUNCTION_ADDRESS);
+        Program prog = progBuilder.getProgram();
         Function simpleFunction = prog.getFunctionManager().getFunctionAt(funcAddress);
         assertTrue(simpleFunction != null);
 
         return simpleFunction;
     }
 
-    protected ProgramBuilder getProgramBuilderCopy() throws Exception {
+    protected ProgramBuilder getProgramBuilderCopy() throws Exception
+    {
 
         return initProgBuilder();
     }
 
-    private ProgramBuilder initProgBuilder() throws Exception {
+    private ProgramBuilder initProgBuilder() throws Exception
+    {
 
         ProgramBuilder progBuilder =
             new ProgramBuilder("sample", ProgramBuilder._X86, null);
@@ -75,7 +81,8 @@ public abstract class AbstractDragonFangTest
         return progBuilder;
     }
 
-    private void buildSimpleFunction(ProgramBuilder progBuilder) throws Exception {
+    private void buildSimpleFunction(ProgramBuilder progBuilder) throws Exception
+    {
 
         // Instructions inside functions:
         // PUSH EBP
@@ -179,12 +186,12 @@ public abstract class AbstractDragonFangTest
         Function entry = progBuilder.createFunction("0x1006420");
 
         int transID = prog.startTransaction("Add simple func");
-        entry.setBody(new AddressSet(
-            program, addr(progBuilder, "0x1006420"), addr(progBuilder, "0x100646E")));
+        entry.setBody(new AddressSet(program, addr(progBuilder, "0x1006420"),
+                                     addr(progBuilder, "0x100646E")));
         prog.endTransaction(transID, true);
 
-        progBuilder.disassemble(new AddressSet(
-            program, addr(progBuilder, "0x1006420"), addr(progBuilder, "0x010065aa")));
+        progBuilder.disassemble(new AddressSet(program, addr(progBuilder, "0x1006420"),
+                                               addr(progBuilder, "0x010065aa")));
         progBuilder.createLabel("0x1006420", "simple");
     }
 }

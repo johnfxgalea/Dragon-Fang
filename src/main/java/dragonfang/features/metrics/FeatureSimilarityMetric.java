@@ -16,11 +16,13 @@ package dragonfang.features.metrics;
 
 import dragonfang.features.vectors.FeatureVector;
 
-public abstract class FeatureSimilarityMetric {
+public abstract class FeatureSimilarityMetric
+{
 
     private final String name;
 
-    public FeatureSimilarityMetric(String name) {
+    public FeatureSimilarityMetric(String name)
+    {
         this.name = name;
     }
 
@@ -39,12 +41,14 @@ public abstract class FeatureSimilarityMetric {
      *
      * @return The name.
      */
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name;
     }
 }

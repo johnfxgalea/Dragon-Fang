@@ -26,10 +26,12 @@ import dragonfang.counters.InstrCounts;
 import dragonfang.counters.PCodeInstrCounts;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class InstrPrimeProductCalculatorTest {
+public class InstrPrimeProductCalculatorTest
+{
 
     @Test
-    public void testPCodePrimeProductCalculator() {
+    public void testPCodePrimeProductCalculator()
+    {
 
         PCodePrimeProductCalculator calculator = new PCodePrimeProductCalculator();
 

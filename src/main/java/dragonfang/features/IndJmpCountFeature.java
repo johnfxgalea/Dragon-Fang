@@ -21,20 +21,23 @@ import ghidra.program.model.pcode.PcodeOp;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class IndJmpCountFeature implements Feature {
+public class IndJmpCountFeature implements Feature
+{
 
     private InstrCountMap instrCountMap;
 
-    public IndJmpCountFeature(InstrCountMap instrCountMap) {
+    public IndJmpCountFeature(InstrCountMap instrCountMap)
+    {
         this.instrCountMap = instrCountMap;
     }
 
     @Override
     public double calculateFeatureValue(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         InstrCounts instrCounts = instrCountMap.getInstructionCounts(function, monitor);
-        double numCalls         = instrCounts.getCount(PcodeOp.BRANCHIND);
+        double numCalls = instrCounts.getCount(PcodeOp.BRANCHIND);
 
         return numCalls;
     }

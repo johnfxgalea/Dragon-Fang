@@ -24,22 +24,25 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class PrimeProductMap implements PrimeMap {
+public class PrimeProductMap implements PrimeMap
+{
 
     private InstrPrimeProductCalculator primeProductCalculator;
     private Map<Function, Long> primeMap;
     private InstrCountMap countMap;
 
     public PrimeProductMap(InstrPrimeProductCalculator primeProduct,
-                           InstrCountMap countMap) {
+                           InstrCountMap countMap)
+    {
 
         this.primeProductCalculator = primeProduct;
-        this.countMap               = countMap;
-        this.primeMap               = new HashMap<Function, Long>();
+        this.countMap = countMap;
+        this.primeMap = new HashMap<Function, Long>();
     }
 
     public Long getPrimeProduct(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!primeMap.containsKey(function)) {
             InstrCounts instrCounts = countMap.getInstructionCounts(function, monitor);

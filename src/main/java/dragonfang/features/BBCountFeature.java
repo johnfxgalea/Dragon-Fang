@@ -20,18 +20,21 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class BBCountFeature implements Feature {
+public class BBCountFeature implements Feature
+{
 
     private ControlFlowGraphMap cfgMap;
 
-    public BBCountFeature(ControlFlowGraphMap cfgMap) {
+    public BBCountFeature(ControlFlowGraphMap cfgMap)
+    {
 
         this.cfgMap = cfgMap;
     }
 
     @Override
     public double calculateFeatureValue(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
         return cfg.numVertices();

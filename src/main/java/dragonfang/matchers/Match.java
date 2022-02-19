@@ -20,7 +20,8 @@ import ghidra.program.model.listing.Function;
  * Represents a one-to-one match result, mapping a source function and a
  * destination function.
  */
-public class Match {
+public class Match
+{
 
     private Function srcFunction;
     private Function dstFunction;
@@ -29,17 +30,15 @@ public class Match {
     private String matcherName;
     private String propagatorName;
 
-    public Match(Function srcFunction,
-                 Function dstFunction,
-                 double similarity,
-                 double confidence,
-                 String matcherName) {
+    public Match(Function srcFunction, Function dstFunction, double similarity,
+                 double confidence, String matcherName)
+    {
 
-        this.srcFunction    = srcFunction;
-        this.dstFunction    = dstFunction;
-        this.similarity     = similarity;
-        this.confidence     = confidence;
-        this.matcherName    = matcherName;
+        this.srcFunction = srcFunction;
+        this.dstFunction = dstFunction;
+        this.similarity = similarity;
+        this.confidence = confidence;
+        this.matcherName = matcherName;
         this.propagatorName = "";
     }
 
@@ -47,7 +46,8 @@ public class Match {
      *
      * @return The source function of the match.
      */
-    public Function getSourceFunction() {
+    public Function getSourceFunction()
+    {
         return srcFunction;
     }
 
@@ -55,7 +55,8 @@ public class Match {
      *
      * @return The destination function of the match.
      */
-    public Function getDestinationFunction() {
+    public Function getDestinationFunction()
+    {
         return dstFunction;
     }
 
@@ -63,7 +64,8 @@ public class Match {
      *
      * @return The similarity of the match.
      */
-    public double getSimilarityScore() {
+    public double getSimilarityScore()
+    {
         return similarity;
     }
 
@@ -71,11 +73,13 @@ public class Match {
      *
      * @return The confidence of the match.
      */
-    public double getConfidenceScore() {
+    public double getConfidenceScore()
+    {
         return confidence;
     }
 
-    public void setPropagatorName(String propagatorName) {
+    public void setPropagatorName(String propagatorName)
+    {
         this.propagatorName = propagatorName;
     }
 
@@ -83,7 +87,8 @@ public class Match {
      *
      * @return The reason of the match.
      */
-    public String getReason() {
+    public String getReason()
+    {
         if (propagatorName.equals(""))
             return matcherName;
 

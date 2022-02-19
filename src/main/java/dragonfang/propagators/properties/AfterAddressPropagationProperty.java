@@ -8,18 +8,20 @@ import ghidra.program.model.listing.CodeUnit;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Listing;
 
-public class AfterAddressPropagationProperty extends AbstractPropagationProperty {
+public class AfterAddressPropagationProperty extends AbstractPropagationProperty
+{
 
     @Override
     public Set<Function> getPropagatedFuncs(Function function,
-                                            Set<Function> allCandidateSet) {
+                                            Set<Function> allCandidateSet)
+    {
 
         Set<Function> propFuncSet = new HashSet<Function>();
 
-        Listing listing   = function.getProgram().getListing();
+        Listing listing = function.getProgram().getListing();
         CodeUnit codeUnit = listing.getCodeUnitAfter(function.getBody().getMaxAddress());
 
-        Address address    = codeUnit.getAddress();
+        Address address = codeUnit.getAddress();
         Function afterFunc = listing.getFunctionContaining(address);
 
         if (afterFunc == null)
@@ -30,7 +32,8 @@ public class AfterAddressPropagationProperty extends AbstractPropagationProperty
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "After Address Propagation Property";
     }
 }

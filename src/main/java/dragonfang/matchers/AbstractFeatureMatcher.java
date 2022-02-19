@@ -25,21 +25,23 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public abstract class AbstractFeatureMatcher implements Matcher {
+public abstract class AbstractFeatureMatcher implements Matcher
+{
 
     protected FeatureMap srcFeatureMap;
     protected FeatureMap dstFeatureMap;
 
-    public AbstractFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap) {
+    public AbstractFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap)
+    {
 
         this.srcFeatureMap = srcFeatureMap;
         this.dstFeatureMap = dstFeatureMap;
     }
 
     protected HashMap<FeatureVector, List<Function>>
-    deriveMatchMap(Set<Function> unmatchedFuncSet,
-                   FeatureMap featureMap,
-                   TaskMonitor monitor) throws CancelledException {
+    deriveMatchMap(Set<Function> unmatchedFuncSet, FeatureMap featureMap,
+                   TaskMonitor monitor) throws CancelledException
+    {
 
         HashMap<FeatureVector, List<Function>> matchMap =
             new HashMap<FeatureVector, List<Function>>();

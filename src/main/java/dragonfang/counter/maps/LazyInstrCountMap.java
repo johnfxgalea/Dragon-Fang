@@ -23,19 +23,22 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class LazyInstrCountMap implements InstrCountMap {
+public class LazyInstrCountMap implements InstrCountMap
+{
 
     private Map<Function, InstrCounts> instrCountMap;
     private InstrCounter counter;
 
-    public LazyInstrCountMap(InstrCounter counter) {
+    public LazyInstrCountMap(InstrCounter counter)
+    {
         instrCountMap = new HashMap<Function, InstrCounts>();
-        this.counter  = counter;
+        this.counter = counter;
     }
 
     @Override
     public InstrCounts getInstructionCounts(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!instrCountMap.containsKey(function)) {
             InstrCounts counts = counter.count(function);

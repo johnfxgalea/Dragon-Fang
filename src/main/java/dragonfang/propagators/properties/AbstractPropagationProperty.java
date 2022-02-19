@@ -22,10 +22,12 @@ import ghidra.program.model.listing.Function;
  *
  * Performs match propagation based on call graph properties.
  */
-public abstract class AbstractPropagationProperty implements PropagationProperty {
+public abstract class AbstractPropagationProperty implements PropagationProperty
+{
 
     protected Set<Function> processCandidateFunctions(Set<Function> propFuncSet,
-                                                      Set<Function> allCandidateSet) {
+                                                      Set<Function> allCandidateSet)
+    {
 
         propFuncSet.retainAll(allCandidateSet);
         return propFuncSet;

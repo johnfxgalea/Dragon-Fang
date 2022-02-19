@@ -19,17 +19,20 @@ import java.util.Arrays;
 /**
  * Array-based feature vector.
  */
-public class ArrayFeatureVector implements FeatureVector {
+public class ArrayFeatureVector implements FeatureVector
+{
 
     // We maintain the feature vector as an array.
     private double[] featureVector;
 
-    public ArrayFeatureVector(int size) {
+    public ArrayFeatureVector(int size)
+    {
         featureVector = new double[size];
     }
 
     @Override
-    public void setFeature(double feature, int index) {
+    public void setFeature(double feature, int index)
+    {
 
         // Ensure correct index.
         if (index < 0 || index >= featureVector.length)
@@ -41,7 +44,8 @@ public class ArrayFeatureVector implements FeatureVector {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
 
         if (!(obj instanceof ArrayFeatureVector))
             return false;
@@ -57,7 +61,8 @@ public class ArrayFeatureVector implements FeatureVector {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
 
         // Convert to string then get hashcode.
         // TODO: Maybe hashing can be a bit more efficient but it will do for now.
@@ -65,7 +70,8 @@ public class ArrayFeatureVector implements FeatureVector {
     }
 
     @Override
-    public double getFeature(int index) {
+    public double getFeature(int index)
+    {
 
         if (index < 0 || index >= featureVector.length)
             throw new IllegalArgumentException(
@@ -76,13 +82,15 @@ public class ArrayFeatureVector implements FeatureVector {
     }
 
     @Override
-    public int numFeatures() {
+    public int numFeatures()
+    {
 
         return featureVector.length;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return Arrays.toString(featureVector);
     }
 }

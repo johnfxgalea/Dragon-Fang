@@ -34,7 +34,8 @@ import ghidra.program.model.listing.FunctionIterator;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
+public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator
+{
     private final String name;
     private DragonFangData dragonFangData;
 
@@ -43,25 +44,22 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
                                        AddressSetView sourceAddressSet,
                                        Program destinationProgram,
                                        AddressSetView destinationAddressSet,
-                                       ToolOptions options,
-                                       String name,
-                                       DragonFangData dragonFangData) {
-        super(serviceProvider,
-              sourceProgram,
-              sourceAddressSet,
-              destinationProgram,
-              destinationAddressSet,
-              options);
+                                       ToolOptions options, String name,
+                                       DragonFangData dragonFangData)
+    {
+        super(serviceProvider, sourceProgram, sourceAddressSet, destinationProgram,
+              destinationAddressSet, options);
 
-        this.name           = name;
+        this.name = name;
         this.dragonFangData = dragonFangData;
     }
 
     /*
      * Responsible for obtaining set of functions.
      */
-    private Set<Function>
-    getFunctionSet(Program program, AddressSetView asv, TaskMonitor monitor) {
+    private Set<Function> getFunctionSet(Program program, AddressSetView asv,
+                                         TaskMonitor monitor)
+    {
 
         Set<Function> functionSet = new HashSet<Function>();
 
@@ -75,16 +73,14 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
         return functionSet;
     }
 
-    private VTMatchInfo createMatchInfo(VTMatchSet matchSet,
-                                        Function sourceFunction,
-                                        Function destinationFunction,
-                                        VTScore similarity,
-                                        VTScore confidence,
-                                        VTMatchTag tag) {
+    private VTMatchInfo createMatchInfo(VTMatchSet matchSet, Function sourceFunction,
+                                        Function destinationFunction, VTScore similarity,
+                                        VTScore confidence, VTMatchTag tag)
+    {
 
-        Address sourceAddress      = sourceFunction.getEntryPoint();
+        Address sourceAddress = sourceFunction.getEntryPoint();
         Address destinationAddress = destinationFunction.getEntryPoint();
-        int sourceLength           = (int) sourceFunction.getBody().getNumAddresses();
+        int sourceLength = (int) sourceFunction.getBody().getNumAddresses();
         int destinationLength = (int) destinationFunction.getBody().getNumAddresses();
 
         VTMatchInfo matchInfo = new VTMatchInfo(matchSet);
@@ -100,18 +96,18 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
         return matchInfo;
     }
 
-    private void processNewMatches(Set<Match> foundMatches,
-                                   VTMatchSet matchSet,
+    private void processNewMatches(Set<Match> foundMatches, VTMatchSet matchSet,
                                    Set<Function> unmatchedSrcFuncSet,
                                    Set<Function> unmatchedDstFuncSet,
-                                   Queue<Match> propagationQueue) {
+                                   Queue<Match> propagationQueue)
+    {
 
         for (Match match : foundMatches) {
             Function srcFunction = match.getSourceFunction();
             Function dstFunction = match.getDestinationFunction();
-            double similarity    = match.getSimilarityScore();
-            double confidence    = match.getConfidenceScore();
-            String reason        = match.getReason();
+            double similarity = match.getSimilarityScore();
+            double confidence = match.getConfidenceScore();
+            String reason = match.getReason();
 
             unmatchedSrcFuncSet.remove(srcFunction);
             unmatchedDstFuncSet.remove(dstFunction);
@@ -120,19 +116,17 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
 
             VTMatchTag tag =
                 dragonFangData.getMatchTagAssigner().assignTag(similarity, reason);
-            VTMatchInfo matchInfo = createMatchInfo(matchSet,
-                                                    srcFunction,
-                                                    dstFunction,
-                                                    new VTScore(similarity),
-                                                    new VTScore(confidence),
-                                                    tag);
+            VTMatchInfo matchInfo =
+                createMatchInfo(matchSet, srcFunction, dstFunction,
+                                new VTScore(similarity), new VTScore(confidence), tag);
             matchSet.addMatch(matchInfo);
         }
     }
 
     @Override
     protected void doCorrelate(VTMatchSet matchSet, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         monitor.setIndeterminate(false);
 
@@ -150,7 +144,7 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
         dragonFangData.getSourceCallGraphWrapper().init(monitor);
         dragonFangData.getDestinationCallGraphWrapper().init(monitor);
 
-        List<Matcher> matchers       = dragonFangData.getMatcherList();
+        List<Matcher> matchers = dragonFangData.getMatcherList();
         List<Propagator> propagators = dragonFangData.getPropagatorList();
 
         for (Matcher matcher : matchers) {
@@ -158,11 +152,8 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
 
             Set<Match> initialMatches =
                 matcher.doMatch(unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
-            processNewMatches(initialMatches,
-                              matchSet,
-                              unmatchedSrcFuncSet,
-                              unmatchedDstFuncSet,
-                              propagationQueue);
+            processNewMatches(initialMatches, matchSet, unmatchedSrcFuncSet,
+                              unmatchedDstFuncSet, propagationQueue);
 
             if (doPropagation) {
                 while (!propagationQueue.isEmpty() && !unmatchedSrcFuncSet.isEmpty()
@@ -170,16 +161,11 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
                     Match match = propagationQueue.remove();
 
                     for (Propagator propagator : propagators) {
-                        Set<Match> newMatches = propagator.propagate(matcher,
-                                                                     match,
-                                                                     unmatchedSrcFuncSet,
-                                                                     unmatchedDstFuncSet,
-                                                                     monitor);
-                        processNewMatches(newMatches,
-                                          matchSet,
-                                          unmatchedSrcFuncSet,
-                                          unmatchedDstFuncSet,
-                                          propagationQueue);
+                        Set<Match> newMatches =
+                            propagator.propagate(matcher, match, unmatchedSrcFuncSet,
+                                                 unmatchedDstFuncSet, monitor);
+                        processNewMatches(newMatches, matchSet, unmatchedSrcFuncSet,
+                                          unmatchedDstFuncSet, propagationQueue);
                     }
                 }
             }
@@ -187,7 +173,8 @@ public class DragonFangProgramCorrelator extends VTAbstractProgramCorrelator {
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
 
         return name;
     }

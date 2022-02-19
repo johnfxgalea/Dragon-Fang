@@ -61,25 +61,27 @@ import ghidra.program.model.address.AddressSetView;
 import ghidra.program.model.listing.Program;
 import ghidra.program.util.CyclomaticComplexity;
 
-public class DragonFangProgramCorrelatorFactory
-    extends VTAbstractProgramCorrelatorFactory {
+public class DragonFangProgramCorrelatorFactory extends VTAbstractProgramCorrelatorFactory
+{
 
     static final String NAME = "Dragon Fang";
     static final String DESC = "A function similarity analyser for the Ghidra dragon.";
 
-    public static final String PROPAGATION_STEP_OPT      = "Do Propagation Step";
+    public static final String PROPAGATION_STEP_OPT = "Do Propagation Step";
     public static final boolean PROPAGATION_STEP_DEFAULT = true;
 
     static final double similarityThreshold = 0.6;
 
     @Override
-    public int getPriority() {
+    public int getPriority()
+    {
         return 80;
     }
 
     private List<Propagator>
     createProgatorList(ExtendedDirectGraphWrapper srcCallGraphWrapper,
-                       ExtendedDirectGraphWrapper dstCallGraphWrapper) {
+                       ExtendedDirectGraphWrapper dstCallGraphWrapper)
+    {
 
         List<Propagator> propagators = new ArrayList<Propagator>();
 
@@ -116,7 +118,8 @@ public class DragonFangProgramCorrelatorFactory
 
     private List<Feature> createFeatureList(ControlFlowGraphMap cfgMap,
                                             InstrCountMap instrCountMap,
-                                            CyclomaticComplexity cyclimaticComplexity) {
+                                            CyclomaticComplexity cyclimaticComplexity)
+    {
 
         List<Feature> features = new ArrayList<Feature>();
 
@@ -144,7 +147,8 @@ public class DragonFangProgramCorrelatorFactory
                                              FeatureMap dstFeatureMap,
                                              PrimeProductMap srcPrimeProductMap,
                                              PrimeProductMap dstPrimeProductMap,
-                                             FeatureSimilarityMetric similarityMetric) {
+                                             FeatureSimilarityMetric similarityMetric)
+    {
 
         List<Matcher> matchers = new ArrayList<Matcher>();
 
@@ -164,26 +168,25 @@ public class DragonFangProgramCorrelatorFactory
     }
 
     @Override
-    protected VTProgramCorrelator doCreateCorrelator(ServiceProvider serviceProvider,
-                                                     Program sourceProgram,
-                                                     AddressSetView sourceAddressSet,
-                                                     Program destinationProgram,
-                                                     AddressSetView destinationAddressSet,
-                                                     VTOptions options) {
+    protected VTProgramCorrelator
+    doCreateCorrelator(ServiceProvider serviceProvider, Program sourceProgram,
+                       AddressSetView sourceAddressSet, Program destinationProgram,
+                       AddressSetView destinationAddressSet, VTOptions options)
+    {
 
         ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
         ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
 
-        InstrCounter srcInstrCounter   = new PCodeInstrCounter();
+        InstrCounter srcInstrCounter = new PCodeInstrCounter();
         InstrCountMap srcInstrCountMap = new LazyInstrCountMap(srcInstrCounter);
-        InstrCounter dstInstrCounter   = new PCodeInstrCounter();
+        InstrCounter dstInstrCounter = new PCodeInstrCounter();
         InstrCountMap dstInstrCountMap = new LazyInstrCountMap(dstInstrCounter);
 
         CyclomaticComplexity cyclimaticComplexity = new CyclomaticComplexity();
 
         FeatureExtractor srcFeatureExtractor = new FeatureListVectorExtractor(
             createFeatureList(srcCFGMap, srcInstrCountMap, cyclimaticComplexity));
-        FeatureMap srcFeatureMap             = new LazyFeatureMap(srcFeatureExtractor);
+        FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
         FeatureExtractor dstFeatureExtractor = new FeatureListVectorExtractor(
             createFeatureList(dstCFGMap, dstInstrCountMap, cyclimaticComplexity));
         FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
@@ -197,11 +200,9 @@ public class DragonFangProgramCorrelatorFactory
 
         FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
 
-        List<Matcher> matcherList = createMatchersList(srcFeatureMap,
-                                                       dstFeatureMap,
-                                                       srcPrimeProductMap,
-                                                       dstPrimeProductMap,
-                                                       similarityMetric);
+        List<Matcher> matcherList =
+            createMatchersList(srcFeatureMap, dstFeatureMap, srcPrimeProductMap,
+                               dstPrimeProductMap, similarityMetric);
 
         MatchTagAssigner matchTagAssigner = new ThresholdMatchTagAssigner();
 
@@ -215,30 +216,25 @@ public class DragonFangProgramCorrelatorFactory
         List<Propagator> propagatorList =
             createProgatorList(srcCallGraphWrapper, dstCallGraphWrapper);
 
-        DragonFangData dragonFangData = new DragonFangData(matcherList,
-                                                           propagatorList,
-                                                           matchTagAssigner,
-                                                           srcCallGraphWrapper,
-                                                           dstCallGraphWrapper);
+        DragonFangData dragonFangData =
+            new DragonFangData(matcherList, propagatorList, matchTagAssigner,
+                               srcCallGraphWrapper, dstCallGraphWrapper);
 
-        return new DragonFangProgramCorrelator(serviceProvider,
-                                               sourceProgram,
-                                               sourceAddressSet,
-                                               destinationProgram,
-                                               destinationAddressSet,
-                                               options,
-                                               NAME,
-                                               dragonFangData);
+        return new DragonFangProgramCorrelator(
+            serviceProvider, sourceProgram, sourceAddressSet, destinationProgram,
+            destinationAddressSet, options, NAME, dragonFangData);
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
 
         return NAME;
     }
 
     @Override
-    public VTOptions createDefaultOptions() {
+    public VTOptions createDefaultOptions()
+    {
 
         VTOptions options = new VTOptions(NAME);
         options.setBoolean(PROPAGATION_STEP_OPT, PROPAGATION_STEP_DEFAULT);
@@ -246,7 +242,8 @@ public class DragonFangProgramCorrelatorFactory
     }
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
 
         return DESC;
     }

@@ -14,13 +14,16 @@
 
 package dragonfang.graphs;
 
-public class ControlFlowGraph extends ExtendedDirectGraph {
+public class ControlFlowGraph extends ExtendedDirectGraph
+{
 
-    public ControlFlowGraph(int vertexCapacity, int edgeCapacity) {
+    public ControlFlowGraph(int vertexCapacity, int edgeCapacity)
+    {
         super(ExtDirectGraphType.CONTROL_FLOW_GRAPH, vertexCapacity, edgeCapacity);
     }
 
-    public ControlFlowGraph() {
+    public ControlFlowGraph()
+    {
         super(ExtDirectGraphType.CONTROL_FLOW_GRAPH);
     }
 }

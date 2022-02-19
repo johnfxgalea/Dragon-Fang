@@ -23,22 +23,24 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class PropertyBasedPropagator implements Propagator {
+public class PropertyBasedPropagator implements Propagator
+{
 
     private PropagationProperty srcProperty;
     private PropagationProperty dstProperty;
 
     public PropertyBasedPropagator(PropagationProperty srcProperty,
-                                   PropagationProperty dstProperty) {
+                                   PropagationProperty dstProperty)
+    {
         this.srcProperty = srcProperty;
         this.dstProperty = dstProperty;
     }
 
-    public Set<Match> propagate(Matcher matcher,
-                                Match match,
+    public Set<Match> propagate(Matcher matcher, Match match,
                                 Set<Function> unmatchedSrcFuncSet,
-                                Set<Function> unmatchedDstFuncSet,
-                                TaskMonitor monitor) throws CancelledException {
+                                Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+        throws CancelledException
+    {
 
         Function srcMatchedFunction = match.getSourceFunction();
         Function dstMatchedFunction = match.getDestinationFunction();
@@ -48,8 +50,8 @@ public class PropertyBasedPropagator implements Propagator {
         Set<Function> limitedUnmatchedDstFuncSet =
             dstProperty.getPropagatedFuncs(dstMatchedFunction, unmatchedDstFuncSet);
 
-        Set<Match> matches = matcher.doMatch(
-            limitedUnmatchedSrcFuncSet, limitedUnmatchedDstFuncSet, monitor);
+        Set<Match> matches = matcher.doMatch(limitedUnmatchedSrcFuncSet,
+                                             limitedUnmatchedDstFuncSet, monitor);
 
         for (Match propMatch : matches)
             propMatch.setPropagatorName(srcProperty.getName());

@@ -25,17 +25,20 @@ import ghidra.util.task.TaskMonitor;
 /**
  * Construct feature vector from a list of features.
  */
-public class FeatureListVectorExtractor implements FeatureExtractor {
+public class FeatureListVectorExtractor implements FeatureExtractor
+{
 
     private List<Feature> featureList;
 
-    public FeatureListVectorExtractor(List<Feature> featureList) {
+    public FeatureListVectorExtractor(List<Feature> featureList)
+    {
 
         this.featureList = featureList;
     }
 
     public FeatureVector extract(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         // Iterate through the feature list, calculating each feature value and storing
         // in the vector.

@@ -14,13 +14,16 @@
 
 package dragonfang.graphs;
 
-public class CallGraph extends ExtendedDirectGraph {
+public class CallGraph extends ExtendedDirectGraph
+{
 
-    public CallGraph(int vertexCapacity, int edgeCapacity) {
+    public CallGraph(int vertexCapacity, int edgeCapacity)
+    {
         super(ExtDirectGraphType.CALL_GRAPH, vertexCapacity, edgeCapacity);
     }
 
-    public CallGraph() {
+    public CallGraph()
+    {
         super(ExtDirectGraphType.CALL_GRAPH);
     }
 }

@@ -24,13 +24,15 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public abstract class AbstractPrimeProductMatcher implements Matcher {
+public abstract class AbstractPrimeProductMatcher implements Matcher
+{
 
     protected PrimeProductMap srcPrimeProductMap;
     protected PrimeProductMap dstPrimeProductMap;
 
     public AbstractPrimeProductMatcher(PrimeProductMap srcPrimeProductMap,
-                                       PrimeProductMap dstPrimeProductMap) {
+                                       PrimeProductMap dstPrimeProductMap)
+    {
 
         this.srcPrimeProductMap = srcPrimeProductMap;
         this.dstPrimeProductMap = dstPrimeProductMap;
@@ -39,7 +41,8 @@ public abstract class AbstractPrimeProductMatcher implements Matcher {
     protected HashMap<Long, List<Function>> deriveMatchMap(Set<Function> unmatchedFuncSet,
                                                            PrimeProductMap countMap,
                                                            TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         HashMap<Long, List<Function>> matchMap = new HashMap<Long, List<Function>>();
 

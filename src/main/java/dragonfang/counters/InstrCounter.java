@@ -16,4 +16,6 @@ package dragonfang.counters;
 
 import ghidra.program.model.listing.Function;
 
-public interface InstrCounter { public InstrCounts count(Function function); }
+public interface InstrCounter {
+    public InstrCounts count(Function function);
+}
