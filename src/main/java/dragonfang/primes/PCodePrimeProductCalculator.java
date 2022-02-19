@@ -17,10 +17,12 @@ package dragonfang.primes;
 import dragonfang.counters.InstrCounts;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class PCodePrimeProductCalculator implements InstrPrimeProductCalculator {
+public class PCodePrimeProductCalculator implements InstrPrimeProductCalculator
+{
 
     @Override
-    public long calculatePrimeProduct(InstrCounts instructionCounts) {
+    public long calculatePrimeProduct(InstrCounts instructionCounts)
+    {
 
         if (PcodeOp.PCODE_MAX > Prime.array.length)
             throw new RuntimeException(

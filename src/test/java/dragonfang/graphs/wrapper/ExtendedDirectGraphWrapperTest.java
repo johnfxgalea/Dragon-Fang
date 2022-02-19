@@ -12,10 +12,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class ExtendedDirectGraphWrapperTest extends AbstractDragonFangTest {
+public class ExtendedDirectGraphWrapperTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testExtendedDirectGraphWrapper() throws CancelledException {
+    public void testExtendedDirectGraphWrapper() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -27,8 +29,8 @@ public class ExtendedDirectGraphWrapperTest extends AbstractDragonFangTest {
         ExtendedDirectGraph callGraph = wrapper.getGraph();
 
         ExtDirectGraphType type = callGraph.getType();
-        assertEquals(
-            "Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH, type);
+        assertEquals("Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH,
+                     type);
 
         assertEquals("Number of edges should be zero", 0, callGraph.numEdges());
         assertEquals("Number of vertices should be 1", 1, callGraph.numVertices());

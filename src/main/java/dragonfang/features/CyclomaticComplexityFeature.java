@@ -19,18 +19,21 @@ import ghidra.program.util.CyclomaticComplexity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class CyclomaticComplexityFeature implements Feature {
+public class CyclomaticComplexityFeature implements Feature
+{
 
     private CyclomaticComplexity cyclimaticComplexity;
 
-    public CyclomaticComplexityFeature(CyclomaticComplexity cyclimaticComplexity) {
+    public CyclomaticComplexityFeature(CyclomaticComplexity cyclimaticComplexity)
+    {
 
         this.cyclimaticComplexity = cyclimaticComplexity;
     }
 
     @Override
     public double calculateFeatureValue(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         double complexity =
             cyclimaticComplexity.calculateCyclomaticComplexity(function, monitor);

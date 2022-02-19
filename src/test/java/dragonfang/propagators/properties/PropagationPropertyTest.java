@@ -17,10 +17,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class PropagationPropertyTest extends AbstractDragonFangTest {
+public class PropagationPropertyTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testChildCallGraphPropagationProperty() throws CancelledException {
+    public void testChildCallGraphPropagationProperty() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -31,7 +33,7 @@ public class PropagationPropertyTest extends AbstractDragonFangTest {
         ChildCallGraphPropagationProperty childProperty =
             new ChildCallGraphPropagationProperty(callGraphWarapper);
 
-        Function simpleFunction    = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Set<Function> candidateSet = new HashSet<Function>();
         candidateSet.add(simpleFunction);
 
@@ -41,7 +43,8 @@ public class PropagationPropertyTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testParentCallGraphPropagationProperty() throws CancelledException {
+    public void testParentCallGraphPropagationProperty() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -52,7 +55,7 @@ public class PropagationPropertyTest extends AbstractDragonFangTest {
         ParentCallGraphPropagationProperty parentProperty =
             new ParentCallGraphPropagationProperty(callGraphWarapper);
 
-        Function simpleFunction    = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Set<Function> candidateSet = new HashSet<Function>();
         candidateSet.add(simpleFunction);
 
@@ -62,12 +65,13 @@ public class PropagationPropertyTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testBeforeAddressPropagationProperty() {
+    public void testBeforeAddressPropagationProperty()
+    {
 
         BeforeAddressPropagationProperty beforeAdressProp =
             new BeforeAddressPropagationProperty();
 
-        Function simpleFunction    = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Set<Function> candidateSet = new HashSet<Function>();
         candidateSet.add(simpleFunction);
 
@@ -77,12 +81,13 @@ public class PropagationPropertyTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testAfterAddressPropagationProperty() {
+    public void testAfterAddressPropagationProperty()
+    {
 
         AfterAddressPropagationProperty afterAdressProp =
             new AfterAddressPropagationProperty();
 
-        Function simpleFunction    = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Set<Function> candidateSet = new HashSet<Function>();
         candidateSet.add(simpleFunction);
 

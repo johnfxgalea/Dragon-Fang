@@ -22,24 +22,26 @@ import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
 import ghidra.program.model.listing.Function;
 import ghidra.util.graph.Vertex;
 
-public class ChildCallGraphPropagationProperty extends AbstractPropagationProperty {
+public class ChildCallGraphPropagationProperty extends AbstractPropagationProperty
+{
 
     private ExtendedDirectGraphWrapper callGraphWarapper;
 
-    public ChildCallGraphPropagationProperty(
-        ExtendedDirectGraphWrapper callGraphWarapper) {
+    public ChildCallGraphPropagationProperty(ExtendedDirectGraphWrapper callGraphWarapper)
+    {
         this.callGraphWarapper = callGraphWarapper;
     }
 
     @Override
     public Set<Function> getPropagatedFuncs(Function function,
-                                            Set<Function> allCandidateSet) {
+                                            Set<Function> allCandidateSet)
+    {
 
         Set<Function> propFuncSet = new HashSet<Function>();
 
         CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
-        Vertex matchedVertex  = callGraph.getVertex(function);
+        Vertex matchedVertex = callGraph.getVertex(function);
         Set<Vertex> vertexSet = callGraph.getChildren(matchedVertex);
 
         for (Vertex vertex : vertexSet)
@@ -49,7 +51,8 @@ public class ChildCallGraphPropagationProperty extends AbstractPropagationProper
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "Child Call Graph Propagation Property";
     }
 }

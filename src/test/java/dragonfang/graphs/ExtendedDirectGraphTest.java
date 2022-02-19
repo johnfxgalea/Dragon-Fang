@@ -20,23 +20,26 @@ import org.junit.Test;
 import dragonfang.AbstractDragonFangTest;
 import dragonfang.graphs.ExtendedDirectGraph.ExtDirectGraphType;
 
-public class ExtendedDirectGraphTest extends AbstractDragonFangTest {
+public class ExtendedDirectGraphTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testControlFlowGraph() {
+    public void testControlFlowGraph()
+    {
 
-        ControlFlowGraph cfg    = new ControlFlowGraph();
+        ControlFlowGraph cfg = new ControlFlowGraph();
         ExtDirectGraphType type = cfg.getType();
-        assertEquals(
-            "Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
+        assertEquals("Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH,
+                     type);
     }
 
     @Test
-    public void testCallGraph() {
+    public void testCallGraph()
+    {
 
-        CallGraph cg            = new CallGraph();
+        CallGraph cg = new CallGraph();
         ExtDirectGraphType type = cg.getType();
-        assertEquals(
-            "Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH, type);
+        assertEquals("Graph should be type Call Graph", ExtDirectGraphType.CALL_GRAPH,
+                     type);
     }
 }

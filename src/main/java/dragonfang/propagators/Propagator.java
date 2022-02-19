@@ -23,9 +23,8 @@ import ghidra.util.task.TaskMonitor;
 
 public interface Propagator {
 
-    public Set<Match> propagate(Matcher matcher,
-                                Match match,
+    public Set<Match> propagate(Matcher matcher, Match match,
                                 Set<Function> unmatchedSrcFuncSet,
-                                Set<Function> unmatchedDstFuncSet,
-                                TaskMonitor monitor) throws CancelledException;
+                                Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+        throws CancelledException;
 }

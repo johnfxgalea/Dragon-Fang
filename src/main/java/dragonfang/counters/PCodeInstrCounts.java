@@ -16,15 +16,18 @@ package dragonfang.counters;
 
 import ghidra.program.model.pcode.PcodeOp;
 
-public class PCodeInstrCounts implements InstrCounts {
+public class PCodeInstrCounts implements InstrCounts
+{
 
     int count[];
 
-    public PCodeInstrCounts() {
+    public PCodeInstrCounts()
+    {
         count = new int[PcodeOp.PCODE_MAX];
     }
 
-    public void incrementCount(int pcodeOpcode) {
+    public void incrementCount(int pcodeOpcode)
+    {
         if (pcodeOpcode < 0 || pcodeOpcode > PcodeOp.PCODE_MAX)
             throw new IllegalArgumentException(
                 "Invalid Pcode Opcode index passed as param.");
@@ -32,7 +35,8 @@ public class PCodeInstrCounts implements InstrCounts {
         count[pcodeOpcode]++;
     }
 
-    public void decrementCount(int pcodeOpcode) {
+    public void decrementCount(int pcodeOpcode)
+    {
         if (pcodeOpcode < 0 || pcodeOpcode > PcodeOp.PCODE_MAX)
             throw new IllegalArgumentException(
                 "Invalid Pcode Opcode index passed as param.");
@@ -40,7 +44,8 @@ public class PCodeInstrCounts implements InstrCounts {
         count[pcodeOpcode]--;
     }
 
-    public int getCount(int pcodeOpcode) {
+    public int getCount(int pcodeOpcode)
+    {
         if (pcodeOpcode < 0 || pcodeOpcode > PcodeOp.PCODE_MAX)
             throw new IllegalArgumentException(
                 "Invalid Pcode Opcode index passed as param.");

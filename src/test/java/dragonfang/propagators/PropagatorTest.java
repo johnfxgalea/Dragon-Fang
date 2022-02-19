@@ -32,13 +32,15 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class PropagatorTest extends AbstractDragonFangTest {
+public class PropagatorTest extends AbstractDragonFangTest
+{
 
     protected ProgramBuilder secBuilder;
     protected Program secProgram;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         super.setUp();
 
         secBuilder = getProgramBuilderCopy();
@@ -46,24 +48,26 @@ public class PropagatorTest extends AbstractDragonFangTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         secBuilder.dispose();
     }
 
     @Test
-    public void testPropagator() throws CancelledException {
+    public void testPropagator() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
 
-        InstrCountMap countMap   = new LazyInstrCountMap(new PCodeInstrCounter());
+        InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
         PrimeProductMap primeMap = new PrimeProductMap(primeProduct, countMap);
 
-        InstrCountMap countMap2   = new LazyInstrCountMap(new PCodeInstrCounter());
+        InstrCountMap countMap2 = new LazyInstrCountMap(new PCodeInstrCounter());
         PrimeProductMap primeMap2 = new PrimeProductMap(primeProduct, countMap2);
 
-        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
@@ -74,8 +78,8 @@ public class PropagatorTest extends AbstractDragonFangTest {
 
         PrimeProductMatcher primeProductMatcher =
             new PrimeProductMatcher(primeMap, primeMap2);
-        Set<Match> matches = primeProductMatcher.doMatch(
-            unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+        Set<Match> matches = primeProductMatcher.doMatch(unmatchedSrcFuncSet,
+                                                         unmatchedDstFuncSet, monitor);
 
         assertEquals("Matches should be there!", matches.size(), 1);
 
@@ -97,11 +101,9 @@ public class PropagatorTest extends AbstractDragonFangTest {
 
         PropertyBasedPropagator propagator =
             new PropertyBasedPropagator(srcChildProperty, dstChildProperty);
-        Set<Match> propMatches = propagator.propagate(primeProductMatcher,
-                                                      match,
-                                                      new HashSet<Function>(),
-                                                      new HashSet<Function>(),
-                                                      monitor);
+        Set<Match> propMatches =
+            propagator.propagate(primeProductMatcher, match, new HashSet<Function>(),
+                                 new HashSet<Function>(), monitor);
 
         assertTrue("No new matches", propMatches.isEmpty());
     }

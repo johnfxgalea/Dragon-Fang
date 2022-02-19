@@ -38,13 +38,15 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class MatcherTest extends AbstractDragonFangTest {
+public class MatcherTest extends AbstractDragonFangTest
+{
 
     protected ProgramBuilder secBuilder;
     protected Program secProgram;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         super.setUp();
 
         secBuilder = getProgramBuilderCopy();
@@ -52,21 +54,20 @@ public class MatcherTest extends AbstractDragonFangTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         secBuilder.dispose();
     }
 
-    private void
-    checkCorrectMatch(Set<Match> matches, Function srcFunc, Function dstFunc) {
+    private void checkCorrectMatch(Set<Match> matches, Function srcFunc, Function dstFunc)
+    {
 
         assertEquals("Matches should be there!", matches.size(), 1);
 
         Match match = matches.iterator().next();
-        assertSame("Matched source function should be correct.",
-                   srcFunc,
+        assertSame("Matched source function should be correct.", srcFunc,
                    match.getSourceFunction());
-        assertSame("Matched source function should be correct.",
-                   dstFunc,
+        assertSame("Matched source function should be correct.", dstFunc,
                    match.getDestinationFunction());
 
         assertTrue("Must have high confidence", match.getConfidenceScore() > 0);
@@ -74,19 +75,20 @@ public class MatcherTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testPrimeProductMatcher() throws CancelledException {
+    public void testPrimeProductMatcher() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
 
-        InstrCountMap countMap   = new LazyInstrCountMap(new PCodeInstrCounter());
+        InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
         PrimeProductMap primeMap = new PrimeProductMap(primeProduct, countMap);
 
-        InstrCountMap countMap2   = new LazyInstrCountMap(new PCodeInstrCounter());
+        InstrCountMap countMap2 = new LazyInstrCountMap(new PCodeInstrCounter());
         PrimeProductMap primeMap2 = new PrimeProductMap(primeProduct, countMap2);
 
-        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
@@ -97,30 +99,31 @@ public class MatcherTest extends AbstractDragonFangTest {
 
         PrimeProductMatcher primeProductMatcher =
             new PrimeProductMatcher(primeMap, primeMap2);
-        Set<Match> matches = primeProductMatcher.doMatch(
-            unmatchedSrcFuncSet, unmatchedDstFuncSet, monitor);
+        Set<Match> matches = primeProductMatcher.doMatch(unmatchedSrcFuncSet,
+                                                         unmatchedDstFuncSet, monitor);
 
         checkCorrectMatch(matches, simpleFunction, simpleFunction2);
     }
 
     @Test
-    public void testUniqueFeatureMatcher() throws CancelledException {
+    public void testUniqueFeatureMatcher() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
-        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
         ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
-        List<Feature> srcFeatureList  = new ArrayList<Feature>();
+        List<Feature> srcFeatureList = new ArrayList<Feature>();
         srcFeatureList.add(new BBCountFeature(srcCFGMap));
         FeatureExtractor srcFeatureExtractor =
             new FeatureListVectorExtractor(srcFeatureList);
         FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
 
         ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
-        List<Feature> dstFeatureList  = new ArrayList<Feature>();
+        List<Feature> dstFeatureList = new ArrayList<Feature>();
         dstFeatureList.add(new BBCountFeature(dstCFGMap));
         FeatureExtractor dstFeatureExtractor =
             new FeatureListVectorExtractor(dstFeatureList);
@@ -140,23 +143,24 @@ public class MatcherTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testSimilarityFeatureMatcher() throws CancelledException {
+    public void testSimilarityFeatureMatcher() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
-        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
         ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
-        List<Feature> srcFeatureList  = new ArrayList<Feature>();
+        List<Feature> srcFeatureList = new ArrayList<Feature>();
         srcFeatureList.add(new BBCountFeature(srcCFGMap));
         FeatureExtractor srcFeatureExtractor =
             new FeatureListVectorExtractor(srcFeatureList);
         FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
 
         ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
-        List<Feature> dstFeatureList  = new ArrayList<Feature>();
+        List<Feature> dstFeatureList = new ArrayList<Feature>();
         dstFeatureList.add(new BBCountFeature(dstCFGMap));
         FeatureExtractor dstFeatureExtractor =
             new FeatureListVectorExtractor(dstFeatureList);

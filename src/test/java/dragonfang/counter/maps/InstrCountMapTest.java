@@ -27,31 +27,34 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class InstrCountMapTest extends AbstractDragonFangTest {
+public class InstrCountMapTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testPCodeInstrCounterXOR() throws CancelledException {
+    public void testPCodeInstrCounterXOR() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCountMap instrCountMap    = new LazyInstrCountMap(instrCounter);
+        InstrCountMap instrCountMap = new LazyInstrCountMap(instrCounter);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
-        InstrCounts counts  = instrCountMap.getInstructionCounts(simpleFunction, monitor);
+        InstrCounts counts = instrCountMap.getInstructionCounts(simpleFunction, monitor);
         assertEquals("Count should be 0.", 0, counts.getCount(PcodeOp.BOOL_XOR));
     }
 
     @Test
-    public void testPCodeInstrCounterCALLIND() throws CancelledException {
+    public void testPCodeInstrCounterCALLIND() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCountMap instrCountMap    = new LazyInstrCountMap(instrCounter);
+        InstrCountMap instrCountMap = new LazyInstrCountMap(instrCounter);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
-        InstrCounts counts  = instrCountMap.getInstructionCounts(simpleFunction, monitor);
+        InstrCounts counts = instrCountMap.getInstructionCounts(simpleFunction, monitor);
         assertEquals("Count should be 2.", 2, counts.getCount(PcodeOp.CALLIND));
     }
 }

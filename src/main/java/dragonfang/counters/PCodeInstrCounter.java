@@ -21,9 +21,11 @@ import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class PCodeInstrCounter implements InstrCounter {
+public class PCodeInstrCounter implements InstrCounter
+{
 
-    public InstrCounts count(Function function) {
+    public InstrCounts count(Function function)
+    {
 
         InstrCounts instrCounts = new PCodeInstrCounts();
 
@@ -35,7 +37,7 @@ public class PCodeInstrCounter implements InstrCounter {
             listing.getInstructions(function.getBody(), true);
         while (instrIterator.hasNext()) {
             Instruction instruction = instrIterator.next();
-            PcodeOp[] ops           = instruction.getPcode();
+            PcodeOp[] ops = instruction.getPcode();
             for (int i = 0; i < ops.length; i++)
                 instrCounts.incrementCount(ops[i].getOpcode());
         }

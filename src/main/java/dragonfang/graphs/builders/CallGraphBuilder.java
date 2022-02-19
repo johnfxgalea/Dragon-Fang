@@ -28,32 +28,35 @@ import ghidra.util.graph.Edge;
 import ghidra.util.graph.Vertex;
 import ghidra.util.task.TaskMonitor;
 
-public class CallGraphBuilder implements GraphBuilder {
+public class CallGraphBuilder implements GraphBuilder
+{
 
     protected Program prog;
 
-    public CallGraphBuilder(Program prog) {
+    public CallGraphBuilder(Program prog)
+    {
         this.prog = prog;
     }
 
     @Override
-    public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException {
+    public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException
+    {
 
         FunctionManager funcManager = prog.getFunctionManager();
-        CallGraph callGraph         = new CallGraph();
-        FunctionIterator funcIt     = funcManager.getFunctions(true);
+        CallGraph callGraph = new CallGraph();
+        FunctionIterator funcIt = funcManager.getFunctions(true);
 
         // Step 1: Iterate over functions to set up vertices.
         while (funcIt.hasNext()) {
             Function function = funcIt.next();
-            Vertex vertex     = new Vertex(function);
+            Vertex vertex = new Vertex(function);
             callGraph.add(vertex);
         }
 
         // Step 2: Set edges based on functions' call sets!
         for (Map.Entry<Object, Vertex> entry : callGraph.getVertexEntrySet()) {
-            Function function     = (Function) entry.getKey();
-            Vertex funcVertex     = entry.getValue();
+            Function function = (Function) entry.getKey();
+            Vertex funcVertex = entry.getValue();
             Set<Function> callSet = function.getCalledFunctions(monitor);
 
             for (Function calledFunction : callSet) {

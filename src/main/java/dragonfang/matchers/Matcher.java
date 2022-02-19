@@ -36,6 +36,6 @@ public interface Matcher {
      * @throws CancelledException
      */
     public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet,
-                              TaskMonitor monitor) throws CancelledException;
+                              Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+        throws CancelledException;
 }

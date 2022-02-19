@@ -19,28 +19,34 @@ import ghidra.feature.vt.api.main.VTMatchTag;
 /**
  * Tag to associate with unreliable match results.
  */
-public class UnreliableMatchTag extends DragonFangMatchTag {
+public class UnreliableMatchTag extends DragonFangMatchTag
+{
 
-    public UnreliableMatchTag() {
+    public UnreliableMatchTag()
+    {
         super("No reason", DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
     }
 
-    public UnreliableMatchTag(String reason) {
+    public UnreliableMatchTag(String reason)
+    {
         super(reason, DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
     }
 
     @Override
-    public int compareTo(VTMatchTag o) {
+    public int compareTo(VTMatchTag o)
+    {
         return getName().compareTo(o.getName());
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return this.toString();
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Unreliable Match - " + getReason();
     }
 }

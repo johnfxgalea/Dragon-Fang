@@ -23,20 +23,23 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class LazyFeatureMap implements FeatureMap {
+public class LazyFeatureMap implements FeatureMap
+{
 
     private FeatureExtractor featureExtractor;
     private Map<Function, FeatureVector> featureMap;
 
-    public LazyFeatureMap(FeatureExtractor featureExtractor) {
+    public LazyFeatureMap(FeatureExtractor featureExtractor)
+    {
 
         this.featureExtractor = featureExtractor;
-        this.featureMap       = new HashMap<Function, FeatureVector>();
+        this.featureMap = new HashMap<Function, FeatureVector>();
     }
 
     @Override
     public FeatureVector getFeature(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!featureMap.containsKey(function)) {
             FeatureVector featureVector = featureExtractor.extract(function, monitor);

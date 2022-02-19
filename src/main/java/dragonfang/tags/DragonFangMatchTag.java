@@ -2,7 +2,8 @@ package dragonfang.tags;
 
 import ghidra.feature.vt.api.main.VTMatchTag;
 
-public abstract class DragonFangMatchTag implements VTMatchTag {
+public abstract class DragonFangMatchTag implements VTMatchTag
+{
 
     public enum DragonFangMatchTagType {
         BEST_TAG_TYPE,
@@ -13,32 +14,38 @@ public abstract class DragonFangMatchTag implements VTMatchTag {
     private DragonFangMatchTagType type;
     private String reason;
 
-    public DragonFangMatchTag(String reason, DragonFangMatchTagType type) {
+    public DragonFangMatchTag(String reason, DragonFangMatchTagType type)
+    {
         this.reason = reason;
-        this.type   = type;
+        this.type = type;
     }
 
-    public String getReason() {
+    public String getReason()
+    {
         return reason;
     }
 
-    public DragonFangMatchTagType getDragonFangMatchTagType() {
+    public DragonFangMatchTagType getDragonFangMatchTagType()
+    {
         return type;
     }
 
     @Override
-    public int compareTo(VTMatchTag o) {
+    public int compareTo(VTMatchTag o)
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return reason;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Best Match";
     }
 }

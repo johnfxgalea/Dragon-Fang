@@ -24,17 +24,20 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class PrimeProductMatcher extends AbstractPrimeProductMatcher {
+public class PrimeProductMatcher extends AbstractPrimeProductMatcher
+{
 
     public PrimeProductMatcher(PrimeProductMap srcPrimeProductMap,
-                               PrimeProductMap dstPrimeProductMap) {
+                               PrimeProductMap dstPrimeProductMap)
+    {
         super(srcPrimeProductMap, dstPrimeProductMap);
     }
 
     @Override
     public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet,
-                              TaskMonitor monitor) throws CancelledException {
+                              Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+        throws CancelledException
+    {
 
         Set<Match> matches = new HashSet<Match>();
 
@@ -54,11 +57,9 @@ public class PrimeProductMatcher extends AbstractPrimeProductMatcher {
                 if (dstFuncList != null && dstFuncList.size() == 1) {
                     double similarity = 1.0;
                     double confidence = 1.0;
-                    Match match       = new Match(unmatchedSrcFunction,
-                                            dstFuncList.get(0),
-                                            similarity,
-                                            confidence,
-                                            "Prime Product Matcher");
+                    Match match =
+                        new Match(unmatchedSrcFunction, dstFuncList.get(0), similarity,
+                                  confidence, "Prime Product Matcher");
                     matches.add(match);
                 }
             }

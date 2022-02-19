@@ -20,10 +20,12 @@ import org.junit.Test;
 import dragonfang.features.vectors.ArrayFeatureVector;
 import dragonfang.features.vectors.FeatureVector;
 
-public class FeatureSimilarityMetricTest {
+public class FeatureSimilarityMetricTest
+{
 
     @Test
-    public void CosineSimilarityTest() {
+    public void CosineSimilarityTest()
+    {
         FeatureSimilarityMetric metric = new CosineSimilarityMetric();
 
         FeatureVector vector1 = new ArrayFeatureVector(10);
@@ -55,7 +57,8 @@ public class FeatureSimilarityMetricTest {
     }
 
     @Test
-    public void CosineSimilarityTest2() {
+    public void CosineSimilarityTest2()
+    {
         FeatureSimilarityMetric metric = new CosineSimilarityMetric();
 
         FeatureVector vector1 = new ArrayFeatureVector(10);
@@ -66,7 +69,8 @@ public class FeatureSimilarityMetricTest {
     }
 
     @Test
-    public void CosineSimilarityTest3() {
+    public void CosineSimilarityTest3()
+    {
         FeatureSimilarityMetric metric = new CosineSimilarityMetric();
 
         FeatureVector vector1 = new ArrayFeatureVector(10);

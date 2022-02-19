@@ -20,28 +20,34 @@ import ghidra.feature.vt.api.main.VTMatchTag;
 /**
  * Tag to associate with best match results.
  */
-public class BestMatchTag extends DragonFangMatchTag {
+public class BestMatchTag extends DragonFangMatchTag
+{
 
-    public BestMatchTag() {
+    public BestMatchTag()
+    {
         super("No reason", DragonFangMatchTagType.BEST_TAG_TYPE);
     }
 
-    public BestMatchTag(String reason) {
+    public BestMatchTag(String reason)
+    {
         super(reason, DragonFangMatchTagType.BEST_TAG_TYPE);
     }
 
     @Override
-    public int compareTo(VTMatchTag o) {
+    public int compareTo(VTMatchTag o)
+    {
         return getName().compareTo(o.getName());
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return this.toString();
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Best Match - " + getReason();
     }
 }

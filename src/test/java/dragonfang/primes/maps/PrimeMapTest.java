@@ -17,9 +17,11 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class PrimeMapTest extends AbstractDragonFangTest {
+public class PrimeMapTest extends AbstractDragonFangTest
+{
 
-    private long calculateActualProd() {
+    private long calculateActualProd()
+    {
 
         long val = 1;
 
@@ -40,7 +42,8 @@ public class PrimeMapTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testPrimeMap() throws CancelledException {
+    public void testPrimeMap() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
@@ -50,8 +53,8 @@ public class PrimeMapTest extends AbstractDragonFangTest {
         InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
 
         PrimeMap primeMap = new PrimeProductMap(primeProduct, countMap);
-        Long val          = primeMap.getPrimeProduct(simpleFunction, monitor);
-        assertEquals(
-            "Prime Product should be correct", calculateActualProd(), val.longValue());
+        Long val = primeMap.getPrimeProduct(simpleFunction, monitor);
+        assertEquals("Prime Product should be correct", calculateActualProd(),
+                     val.longValue());
     }
 }

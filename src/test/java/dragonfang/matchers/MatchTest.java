@@ -13,13 +13,15 @@ import ghidra.program.database.ProgramBuilder;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Program;
 
-public class MatchTest extends AbstractDragonFangTest {
+public class MatchTest extends AbstractDragonFangTest
+{
 
     protected ProgramBuilder secBuilder;
     protected Program secProgram;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         super.setUp();
 
         secBuilder = getProgramBuilderCopy();
@@ -27,14 +29,16 @@ public class MatchTest extends AbstractDragonFangTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         secBuilder.dispose();
     }
 
     @Test
-    public void testMatch() {
+    public void testMatch()
+    {
 
-        Function simpleFunction  = getSimpleFunction(builder);
+        Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
@@ -46,17 +50,15 @@ public class MatchTest extends AbstractDragonFangTest {
         Match match =
             new Match(simpleFunction, simpleFunction2, similarity, confidence, reason);
 
-        assertSame("Source function should be correct.",
-                   simpleFunction,
+        assertSame("Source function should be correct.", simpleFunction,
                    match.getSourceFunction());
-        assertSame("Destination function should be correct.",
-                   simpleFunction2,
+        assertSame("Destination function should be correct.", simpleFunction2,
                    match.getDestinationFunction());
 
-        assertEquals(
-            "Similarity should be correct.", similarity, match.getSimilarityScore(), 0.0);
-        assertEquals(
-            "Confidence should be correct.", confidence, match.getConfidenceScore(), 0.0);
+        assertEquals("Similarity should be correct.", similarity,
+                     match.getSimilarityScore(), 0.0);
+        assertEquals("Confidence should be correct.", confidence,
+                     match.getConfidenceScore(), 0.0);
 
         assertEquals("Reason should be correct", reason, match.getReason());
     }
