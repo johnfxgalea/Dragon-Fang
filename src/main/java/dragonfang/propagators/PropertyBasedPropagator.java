@@ -23,32 +23,39 @@ import dragonfang.propagators.properties.PropagationProperty;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class PropertyBasedPropagator implements Propagator {
+public class PropertyBasedPropagator implements Propagator
+{
 
-	private PropagationProperty srcProperty;
-	private PropagationProperty dstProperty;
+    private PropagationProperty srcProperty;
+    private PropagationProperty dstProperty;
 
-	public PropertyBasedPropagator(PropagationProperty srcProperty, PropagationProperty dstProperty) {
-		this.srcProperty = srcProperty;
-		this.dstProperty = dstProperty;
-	}
+    public PropertyBasedPropagator(PropagationProperty srcProperty,
+                                   PropagationProperty dstProperty)
+    {
+        this.srcProperty = srcProperty;
+        this.dstProperty = dstProperty;
+    }
 
-	public Set<Match> propagate(Matcher matcher, Match match, Set<Entity> unmatchedSrcEntitySet,
-			Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor) throws CancelledException {
+    public Set<Match> propagate(Matcher matcher, Match match,
+                                Set<Entity> unmatchedSrcEntitySet,
+                                Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		Entity srcMatchedEntity = match.getSourceEntity();
-		Entity dstMatchedFunction = match.getDestinationEntity();
+        Entity srcMatchedEntity = match.getSourceEntity();
+        Entity dstMatchedFunction = match.getDestinationEntity();
 
-		Set<Entity> limitedUnmatchedSrcEntitySet = srcProperty.getPropagatedEntities(srcMatchedEntity,
-				unmatchedSrcEntitySet, monitor);
-		Set<Entity> limitedUnmatchedDstFuncSet = dstProperty.getPropagatedEntities(dstMatchedFunction,
-				unmatchedDstEntitySet, monitor);
+        Set<Entity> limitedUnmatchedSrcEntitySet = srcProperty.getPropagatedEntities(
+            srcMatchedEntity, unmatchedSrcEntitySet, monitor);
+        Set<Entity> limitedUnmatchedDstFuncSet = dstProperty.getPropagatedEntities(
+            dstMatchedFunction, unmatchedDstEntitySet, monitor);
 
-		Set<Match> matches = matcher.doMatch(limitedUnmatchedSrcEntitySet, limitedUnmatchedDstFuncSet, monitor);
+        Set<Match> matches = matcher.doMatch(limitedUnmatchedSrcEntitySet,
+                                             limitedUnmatchedDstFuncSet, monitor);
 
-		for (Match propMatch : matches)
-			propMatch.setPropagatorName(srcProperty.getName());
+        for (Match propMatch : matches)
+            propMatch.setPropagatorName(srcProperty.getName());
 
-		return matches;
-	}
+        return matches;
+    }
 }

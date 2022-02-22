@@ -11,36 +11,42 @@ import ghidra.program.model.listing.Listing;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class AfterAddressPropagationProperty extends AbstractPropagationProperty {
+public class AfterAddressPropagationProperty extends AbstractPropagationProperty
+{
 
-	private EntityFetcher entityFetcher;
+    private EntityFetcher entityFetcher;
 
-	public AfterAddressPropagationProperty(EntityFetcher entityFetcher) {
-		this.entityFetcher = entityFetcher;
-	}
+    public AfterAddressPropagationProperty(EntityFetcher entityFetcher)
+    {
+        this.entityFetcher = entityFetcher;
+    }
 
-	@Override
-	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor)
-			throws CancelledException {
+    @Override
+    public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet,
+                                             TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		Set<Entity> propEntitySet = new HashSet<Entity>();
+        Set<Entity> propEntitySet = new HashSet<Entity>();
 
-		Listing listing = entity.getProgram().getListing();
-		CodeUnit codeUnit = listing.getCodeUnitAfter(entity.getAddresses().getMaxAddress());
-		if (codeUnit == null)
-			return null;
+        Listing listing = entity.getProgram().getListing();
+        CodeUnit codeUnit =
+            listing.getCodeUnitAfter(entity.getAddresses().getMaxAddress());
+        if (codeUnit == null)
+            return null;
 
-		Address address = codeUnit.getAddress();
-		Entity afterEntity = entityFetcher.getEntityAt(address, monitor);
-		if (afterEntity == null)
-			return propEntitySet;
+        Address address = codeUnit.getAddress();
+        Entity afterEntity = entityFetcher.getEntityAt(address, monitor);
+        if (afterEntity == null)
+            return propEntitySet;
 
-		propEntitySet.add(afterEntity);
-		return processCandidates(propEntitySet, allCandidateSet);
-	}
+        propEntitySet.add(afterEntity);
+        return processCandidates(propEntitySet, allCandidateSet);
+    }
 
-	@Override
-	public String getName() {
-		return "After Address Propagation Property";
-	}
+    @Override
+    public String getName()
+    {
+        return "After Address Propagation Property";
+    }
 }

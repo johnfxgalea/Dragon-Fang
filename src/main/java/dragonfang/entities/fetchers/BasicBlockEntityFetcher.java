@@ -9,20 +9,24 @@ import ghidra.program.model.listing.Program;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class BasicBlockEntityFetcher implements EntityFetcher {
+public class BasicBlockEntityFetcher implements EntityFetcher
+{
 
-	private Program program;
-	private BasicBlockModel basicBlockModel;
+    private Program program;
+    private BasicBlockModel basicBlockModel;
 
-	public BasicBlockEntityFetcher(Program program) {
-		this.program = program;
-		this.basicBlockModel = new BasicBlockModel(program);
-	}
+    public BasicBlockEntityFetcher(Program program)
+    {
+        this.program = program;
+        this.basicBlockModel = new BasicBlockModel(program);
+    }
 
-	@Override
-	public Entity getEntityAt(Address address, TaskMonitor monitor) throws CancelledException{
-		
-		CodeBlock codeBlock = basicBlockModel.getCodeBlockAt(address, monitor);
-		return new BasicBlockEntity(codeBlock, program);
-	}
+    @Override
+    public Entity getEntityAt(Address address, TaskMonitor monitor)
+        throws CancelledException
+    {
+
+        CodeBlock codeBlock = basicBlockModel.getCodeBlockAt(address, monitor);
+        return new BasicBlockEntity(codeBlock, program);
+    }
 }

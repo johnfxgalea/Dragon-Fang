@@ -21,7 +21,8 @@ import java.util.Set;
 import ghidra.util.graph.DirectedGraph;
 import ghidra.util.graph.Vertex;
 
-public abstract class ExtendedDirectGraph extends DirectedGraph {
+public abstract class ExtendedDirectGraph extends DirectedGraph
+{
 
     protected Map<Object, Vertex> vertexMap;
 
@@ -29,21 +30,23 @@ public abstract class ExtendedDirectGraph extends DirectedGraph {
 
     private ExtDirectGraphType type;
 
-    public ExtendedDirectGraph(ExtDirectGraphType type,
-                               int vertexCapacity,
-                               int edgeCapacity) {
+    public ExtendedDirectGraph(ExtDirectGraphType type, int vertexCapacity,
+                               int edgeCapacity)
+    {
         super(vertexCapacity, edgeCapacity);
-        this.type      = type;
+        this.type = type;
         this.vertexMap = new HashMap<Object, Vertex>();
     }
 
-    public ExtendedDirectGraph(ExtDirectGraphType type) {
+    public ExtendedDirectGraph(ExtDirectGraphType type)
+    {
         super();
-        this.type      = type;
+        this.type = type;
         this.vertexMap = new HashMap<Object, Vertex>();
     }
 
-    public ExtDirectGraphType getType() {
+    public ExtDirectGraphType getType()
+    {
         return type;
     }
 
@@ -53,7 +56,8 @@ public abstract class ExtendedDirectGraph extends DirectedGraph {
      * @param obj The referent object of the vertex.
      * @return The corresponding vertex.
      */
-    public Vertex getVertex(Object obj) {
+    public Vertex getVertex(Object obj)
+    {
 
         return vertexMap.get(obj);
     }
@@ -64,20 +68,23 @@ public abstract class ExtendedDirectGraph extends DirectedGraph {
      * @param obj The referent object of the vertex.
      * @return The corresponding vertex.
      */
-    public Set<Map.Entry<Object, Vertex>> getVertexEntrySet() {
+    public Set<Map.Entry<Object, Vertex>> getVertexEntrySet()
+    {
 
         return vertexMap.entrySet();
     }
 
     @Override
-    public boolean add(Vertex v) {
+    public boolean add(Vertex v)
+    {
 
         vertexMap.put(v.referent(), v);
         return super.add(v);
     }
 
     @Override
-    public boolean remove(Vertex v) {
+    public boolean remove(Vertex v)
+    {
 
         vertexMap.remove(v.referent());
         return super.remove(v);

@@ -9,21 +9,25 @@ import ghidra.program.model.listing.Program;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class FunctionEntityFetcher implements EntityFetcher {
+public class FunctionEntityFetcher implements EntityFetcher
+{
 
-	private Listing listing;
+    private Listing listing;
 
-	public FunctionEntityFetcher(Program program) {
-		this.listing = program.getListing();
-	}
+    public FunctionEntityFetcher(Program program)
+    {
+        this.listing = program.getListing();
+    }
 
-	@Override
-	public Entity getEntityAt(Address address, TaskMonitor monitor) throws CancelledException {
+    @Override
+    public Entity getEntityAt(Address address, TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		Function function = listing.getFunctionContaining(address);
-		if (function == null)
-			return null;
+        Function function = listing.getFunctionContaining(address);
+        if (function == null)
+            return null;
 
-		return new FunctionEntity(function);
-	}
+        return new FunctionEntity(function);
+    }
 }

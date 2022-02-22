@@ -20,7 +20,8 @@ import dragonfang.entities.Entity;
  * Represents a one-to-one match result, mapping a source function and a
  * destination function.
  */
-public class Match {
+public class Match
+{
 
     private Entity srcEntity;
     private Entity dstEntity;
@@ -29,17 +30,15 @@ public class Match {
     private String matcherName;
     private String propagatorName;
 
-    public Match(Entity srcEntity,
-                 Entity dstEntity,
-                 double similarity,
-                 double confidence,
-                 String matcherName) {
+    public Match(Entity srcEntity, Entity dstEntity, double similarity, double confidence,
+                 String matcherName)
+    {
 
-        this.srcEntity    = srcEntity;
-        this.dstEntity    = dstEntity;
-        this.similarity     = similarity;
-        this.confidence     = confidence;
-        this.matcherName    = matcherName;
+        this.srcEntity = srcEntity;
+        this.dstEntity = dstEntity;
+        this.similarity = similarity;
+        this.confidence = confidence;
+        this.matcherName = matcherName;
         this.propagatorName = "";
     }
 
@@ -47,7 +46,8 @@ public class Match {
      *
      * @return The source entity of the match.
      */
-    public Entity getSourceEntity() {
+    public Entity getSourceEntity()
+    {
         return srcEntity;
     }
 
@@ -55,7 +55,8 @@ public class Match {
      *
      * @return The destination entity of the match.
      */
-    public Entity getDestinationEntity() {
+    public Entity getDestinationEntity()
+    {
         return dstEntity;
     }
 
@@ -63,7 +64,8 @@ public class Match {
      *
      * @return The similarity of the match.
      */
-    public double getSimilarityScore() {
+    public double getSimilarityScore()
+    {
         return similarity;
     }
 
@@ -71,11 +73,13 @@ public class Match {
      *
      * @return The confidence of the match.
      */
-    public double getConfidenceScore() {
+    public double getConfidenceScore()
+    {
         return confidence;
     }
 
-    public void setPropagatorName(String propagatorName) {
+    public void setPropagatorName(String propagatorName)
+    {
         this.propagatorName = propagatorName;
     }
 
@@ -83,7 +87,8 @@ public class Match {
      *
      * @return The reason of the match.
      */
-    public String getReason() {
+    public String getReason()
+    {
         if (propagatorName.equals(""))
             return matcherName;
 

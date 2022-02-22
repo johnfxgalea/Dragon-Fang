@@ -19,28 +19,34 @@ import ghidra.feature.vt.api.main.VTMatchTag;
 /**
  * Tag to associate with partial match results.
  */
-public class PartialMatchTag extends DragonFangMatchTag {
+public class PartialMatchTag extends DragonFangMatchTag
+{
 
-    public PartialMatchTag() {
+    public PartialMatchTag()
+    {
         super("No reason", DragonFangMatchTagType.PARTIAL_TAG_TYPE);
     }
 
-    public PartialMatchTag(String reason) {
+    public PartialMatchTag(String reason)
+    {
         super(reason, DragonFangMatchTagType.PARTIAL_TAG_TYPE);
     }
 
     @Override
-    public int compareTo(VTMatchTag o) {
+    public int compareTo(VTMatchTag o)
+    {
         return getName().compareTo(o.getName());
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return this.toString();
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Partial Match - " + getReason();
     }
 }

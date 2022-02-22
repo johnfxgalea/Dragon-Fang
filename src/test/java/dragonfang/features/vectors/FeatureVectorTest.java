@@ -17,28 +17,32 @@ package dragonfang.features.vectors;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class FeatureVectorTest {
+public class FeatureVectorTest
+{
 
     @Test
-    public void testFeatureVectorSize() {
+    public void testFeatureVectorSize()
+    {
 
         FeatureVector vector = new ArrayFeatureVector(10);
         assertEquals("Size should be consistent.", 10, vector.numFeatures());
     }
 
     @Test
-    public void testFeatureVectorInit() {
+    public void testFeatureVectorInit()
+    {
 
         FeatureVector vector = new ArrayFeatureVector(10);
 
         for (int i = 0; i < 10; i++) {
-            assertEquals(
-                "Feature value should be initialised to 0.", 0, vector.getFeature(i), 0);
+            assertEquals("Feature value should be initialised to 0.", 0,
+                         vector.getFeature(i), 0);
         }
     }
 
     @Test
-    public void testFeatureVectorSet() {
+    public void testFeatureVectorSet()
+    {
 
         FeatureVector vector = new ArrayFeatureVector(10);
 

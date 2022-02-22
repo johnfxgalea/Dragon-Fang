@@ -22,7 +22,7 @@ import ghidra.util.task.TaskMonitor;
 
 public interface PropagationProperty {
 
-	/**
+    /**
 	 * Returns next set of unmatched functions to consider.
 	 *
 	 * @param entity          The matched entity that acts as the starting point for
@@ -31,11 +31,13 @@ public interface PropagationProperty {
 	 * @param allCandidateSet The set of unmatched candidate entities.
 	 * @return
 	 */
-	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor) throws CancelledException;
+    public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet,
+                                             TaskMonitor monitor)
+        throws CancelledException;
 
-	/**
+    /**
 	 *
 	 * @return The name of the propagator.
 	 */
-	public String getName();
+    public String getName();
 }

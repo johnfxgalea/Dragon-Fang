@@ -16,16 +16,19 @@ package dragonfang.features.metrics;
 
 import dragonfang.features.vectors.FeatureVector;
 
-public class CosineSimilarityMetric extends FeatureSimilarityMetric {
+public class CosineSimilarityMetric extends FeatureSimilarityMetric
+{
 
     static final String NAME = "Cosine Similarity Metric";
 
-    public CosineSimilarityMetric() {
+    public CosineSimilarityMetric()
+    {
         super(NAME);
     }
 
     @Override
-    public double calculateSimilarity(FeatureVector vectorA, FeatureVector vectorB) {
+    public double calculateSimilarity(FeatureVector vectorA, FeatureVector vectorB)
+    {
 
         if (vectorA.numFeatures() == 0 || vectorB.numFeatures() == 0
             || (vectorA.numFeatures() != vectorB.numFeatures()))
@@ -33,8 +36,8 @@ public class CosineSimilarityMetric extends FeatureSimilarityMetric {
                 "Invalid feature vector size passed as param.");
 
         double dotProd = 0.0;
-        double dA      = 0.0;
-        double dB      = 0.0;
+        double dA = 0.0;
+        double dB = 0.0;
         for (int i = 0; i < vectorA.numFeatures(); i++) {
 
             double featureA = vectorA.getFeature(i);

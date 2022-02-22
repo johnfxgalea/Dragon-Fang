@@ -22,35 +22,39 @@ import dragonfang.AbstractDragonFangTest;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class CounterTest extends AbstractDragonFangTest {
+public class CounterTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testPCodeInstrCounterXOR() {
+    public void testPCodeInstrCounterXOR()
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts             = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(simpleFunction);
         assertEquals("Count should be 0.", 0, counts.getCount(PcodeOp.BOOL_XOR));
     }
 
     @Test
-    public void testPCodeInstrCounterCALLIND() {
+    public void testPCodeInstrCounterCALLIND()
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts             = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(simpleFunction);
         assertEquals("Count should be 2.", 2, counts.getCount(PcodeOp.CALLIND));
     }
 
     @Test
-    public void testPCodeInstrCounterCopy() {
+    public void testPCodeInstrCounterCopy()
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts             = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(simpleFunction);
         assertEquals("Count should be 18.", 18, counts.getCount(PcodeOp.COPY));
     }
 }

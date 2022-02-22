@@ -27,25 +27,27 @@ import dragonfang.features.vectors.FeatureVector;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
+public class SimilarityFeatureMatcher extends AbstractFeatureMatcher
+{
 
     private FeatureSimilarityMetric similarityMetric;
     private double thresholdLimit;
 
-    public SimilarityFeatureMatcher(FeatureMap srcFeatureMap,
-                                    FeatureMap dstFeatureMap,
+    public SimilarityFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap,
                                     FeatureSimilarityMetric similarityMetric,
-                                    double thresholdLimit) {
+                                    double thresholdLimit)
+    {
         super(srcFeatureMap, dstFeatureMap);
 
         this.similarityMetric = similarityMetric;
-        this.thresholdLimit   = thresholdLimit;
+        this.thresholdLimit = thresholdLimit;
     }
 
     @Override
     public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
-                              Set<Entity> unmatchedDstEntitySet,
-                              TaskMonitor monitor) throws CancelledException {
+                              Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
+        throws CancelledException
+    {
 
         Set<Match> matches = new HashSet<Match>();
 
@@ -56,33 +58,31 @@ public class SimilarityFeatureMatcher extends AbstractFeatureMatcher {
 
         for (Map.Entry<FeatureVector, List<Entity>> srcEntry : srcMatchMap.entrySet()) {
             FeatureVector srcFeatureVector = srcEntry.getKey();
-            List<Entity> srcEntityList     = srcEntry.getValue();
+            List<Entity> srcEntityList = srcEntry.getValue();
 
             if (srcEntityList.size() == 1) {
-                double bestSimilarity          = 0;
+                double bestSimilarity = 0;
                 List<Entity> bestDstEntityList = srcEntry.getValue();
 
                 for (Map.Entry<FeatureVector, List<Entity>> dstEntry :
                      dstMatchMap.entrySet()) {
                     FeatureVector dstFeatureVector = dstEntry.getKey();
-                    List<Entity> dstEntityList     = dstEntry.getValue();
+                    List<Entity> dstEntityList = dstEntry.getValue();
 
                     double similarity = similarityMetric.calculateSimilarity(
                         srcFeatureVector, dstFeatureVector);
                     if (similarity > bestSimilarity) {
                         bestDstEntityList = dstEntityList;
-                        bestSimilarity  = similarity;
+                        bestSimilarity = similarity;
                     }
                 }
 
                 if (bestDstEntityList != null && bestDstEntityList.size() == 1) {
                     if (thresholdLimit <= bestSimilarity) {
                         double confidence = 1.0;
-                        Match match       = new Match(srcEntityList.get(0),
-                                                bestDstEntityList.get(0),
-                                                bestSimilarity,
-                                                confidence,
-                                                "Similarity Feature Matcher");
+                        Match match = new Match(srcEntityList.get(0),
+                                                bestDstEntityList.get(0), bestSimilarity,
+                                                confidence, "Similarity Feature Matcher");
                         matches.add(match);
                     }
                 }

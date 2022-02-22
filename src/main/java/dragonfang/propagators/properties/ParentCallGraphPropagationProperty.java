@@ -24,32 +24,38 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.graph.Vertex;
 import ghidra.util.task.TaskMonitor;
 
-public class ParentCallGraphPropagationProperty extends AbstractPropagationProperty {
+public class ParentCallGraphPropagationProperty extends AbstractPropagationProperty
+{
 
-	ExtendedDirectGraphWrapper callGraphWarapper;
+    ExtendedDirectGraphWrapper callGraphWarapper;
 
-	public ParentCallGraphPropagationProperty(ExtendedDirectGraphWrapper callGraphWarapper) {
-		this.callGraphWarapper = callGraphWarapper;
-	}
+    public ParentCallGraphPropagationProperty(
+        ExtendedDirectGraphWrapper callGraphWarapper)
+    {
+        this.callGraphWarapper = callGraphWarapper;
+    }
 
-	@Override
-	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor)
-			throws CancelledException {
+    @Override
+    public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet,
+                                             TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		Set<Entity> propEntitySet = new HashSet<Entity>();
+        Set<Entity> propEntitySet = new HashSet<Entity>();
 
-		CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
+        CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
-		Vertex matchedVertex = callGraph.getVertex(entity);
-		Set<Vertex> vertexSet = callGraph.getParents(matchedVertex);
+        Vertex matchedVertex = callGraph.getVertex(entity);
+        Set<Vertex> vertexSet = callGraph.getParents(matchedVertex);
 
-		for (Vertex vertex : vertexSet)
-			propEntitySet.add((Entity) vertex.referent());
-		return processCandidates(propEntitySet, allCandidateSet);
-	}
+        for (Vertex vertex : vertexSet)
+            propEntitySet.add((Entity) vertex.referent());
+        return processCandidates(propEntitySet, allCandidateSet);
+    }
 
-	@Override
-	public String getName() {
-		return "Parent Call Graph Propagation Property";
-	}
+    @Override
+    public String getName()
+    {
+        return "Parent Call Graph Propagation Property";
+    }
 }

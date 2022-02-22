@@ -22,11 +22,14 @@ import dragonfang.entities.Entity;
  *
  * Performs match propagation based on call graph properties.
  */
-public abstract class AbstractPropagationProperty implements PropagationProperty {
+public abstract class AbstractPropagationProperty implements PropagationProperty
+{
 
-	protected Set<Entity> processCandidates(Set<Entity> propEntitySet, Set<Entity> allCandidateSet) {
+    protected Set<Entity> processCandidates(Set<Entity> propEntitySet,
+                                            Set<Entity> allCandidateSet)
+    {
 
-		propEntitySet.retainAll(allCandidateSet);
-		return propEntitySet;
-	}
+        propEntitySet.retainAll(allCandidateSet);
+        return propEntitySet;
+    }
 }

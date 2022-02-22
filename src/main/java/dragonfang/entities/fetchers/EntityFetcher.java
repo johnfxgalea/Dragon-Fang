@@ -7,11 +7,12 @@ import ghidra.util.task.TaskMonitor;
 
 public interface EntityFetcher {
 
-	/**
+    /**
 	 * Fetches entity at address.
 	 * 
 	 * @param address Address related to Entity.
 	 * @return Entity at address. Null if unavailable.
 	 */
-	public Entity getEntityAt(Address address, TaskMonitor monitor) throws CancelledException;
+    public Entity getEntityAt(Address address, TaskMonitor monitor)
+        throws CancelledException;
 }

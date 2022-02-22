@@ -24,22 +24,25 @@ import dragonfang.primes.maps.PrimeProductMap;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public abstract class AbstractPrimeProductMatcher implements Matcher {
+public abstract class AbstractPrimeProductMatcher implements Matcher
+{
 
     protected PrimeProductMap srcPrimeProductMap;
     protected PrimeProductMap dstPrimeProductMap;
 
     public AbstractPrimeProductMatcher(PrimeProductMap srcPrimeProductMap,
-                                       PrimeProductMap dstPrimeProductMap) {
+                                       PrimeProductMap dstPrimeProductMap)
+    {
 
         this.srcPrimeProductMap = srcPrimeProductMap;
         this.dstPrimeProductMap = dstPrimeProductMap;
     }
 
     protected HashMap<Long, List<Entity>> deriveMatchMap(Set<Entity> unmatchedEntitySet,
-                                                           PrimeProductMap countMap,
-                                                           TaskMonitor monitor)
-        throws CancelledException {
+                                                         PrimeProductMap countMap,
+                                                         TaskMonitor monitor)
+        throws CancelledException
+    {
 
         HashMap<Long, List<Entity>> matchMap = new HashMap<Long, List<Entity>>();
 

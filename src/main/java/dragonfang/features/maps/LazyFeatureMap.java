@@ -23,20 +23,23 @@ import dragonfang.features.vectors.FeatureVector;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class LazyFeatureMap implements FeatureMap {
+public class LazyFeatureMap implements FeatureMap
+{
 
     private FeatureExtractor featureExtractor;
     private Map<Entity, FeatureVector> featureMap;
 
-    public LazyFeatureMap(FeatureExtractor featureExtractor) {
+    public LazyFeatureMap(FeatureExtractor featureExtractor)
+    {
 
         this.featureExtractor = featureExtractor;
-        this.featureMap       = new HashMap<Entity, FeatureVector>();
+        this.featureMap = new HashMap<Entity, FeatureVector>();
     }
 
     @Override
     public FeatureVector getFeature(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!featureMap.containsKey(entity)) {
             FeatureVector featureVector = featureExtractor.extract(entity, monitor);

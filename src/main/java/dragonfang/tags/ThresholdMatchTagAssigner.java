@@ -14,13 +14,15 @@
 
 package dragonfang.tags;
 
-public class ThresholdMatchTagAssigner implements MatchTagAssigner {
+public class ThresholdMatchTagAssigner implements MatchTagAssigner
+{
 
-    private final double BEST_MATCH_THRESHOLD    = 1.0;
+    private final double BEST_MATCH_THRESHOLD = 1.0;
     private final double PARTIAL_MATCH_THRESHOLD = 0.5;
 
     @Override
-    public DragonFangMatchTag assignTag(double similarity) {
+    public DragonFangMatchTag assignTag(double similarity)
+    {
 
         if (similarity >= BEST_MATCH_THRESHOLD)
             return new BestMatchTag();
@@ -31,7 +33,8 @@ public class ThresholdMatchTagAssigner implements MatchTagAssigner {
     }
 
     @Override
-    public DragonFangMatchTag assignTag(double similarity, String reason) {
+    public DragonFangMatchTag assignTag(double similarity, String reason)
+    {
 
         if (similarity >= BEST_MATCH_THRESHOLD)
             return new BestMatchTag(reason);

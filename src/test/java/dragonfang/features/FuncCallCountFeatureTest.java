@@ -29,17 +29,19 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class FuncCallCountFeatureTest extends AbstractDragonFangTest {
+public class FuncCallCountFeatureTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testFuncCallCountFeature() throws CancelledException {
+    public void testFuncCallCountFeature() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
-        InstrCounter counter         = new PCodeInstrCounter();
-        InstrCountMap countMap       = new LazyInstrCountMap(counter);
+        InstrCounter counter = new PCodeInstrCounter();
+        InstrCountMap countMap = new LazyInstrCountMap(counter);
         FuncCallCountFeature feature = new FuncCallCountFeature(countMap);
 
         double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);

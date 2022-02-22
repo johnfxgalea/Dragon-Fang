@@ -36,6 +36,6 @@ public interface Matcher {
      * @throws CancelledException
      */
     public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
-                              Set<Entity> unmatchedDstEntitySet,
-                              TaskMonitor monitor) throws CancelledException;
+                              Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
+        throws CancelledException;
 }

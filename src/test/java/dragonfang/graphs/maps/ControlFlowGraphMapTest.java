@@ -12,10 +12,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class ControlFlowGraphMapTest extends AbstractDragonFangTest {
+public class ControlFlowGraphMapTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testControlFlowGraphMap() throws CancelledException {
+    public void testControlFlowGraphMap() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -25,8 +27,8 @@ public class ControlFlowGraphMapTest extends AbstractDragonFangTest {
         ExtendedDirectGraph cfg = map.getControlFlowGraph(simpleFunction, monitor);
 
         ExtDirectGraphType type = cfg.getType();
-        assertEquals(
-            "Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH, type);
+        assertEquals("Graph should be type CFG", ExtDirectGraphType.CONTROL_FLOW_GRAPH,
+                     type);
 
         assertEquals("Number of edges should be zero", 0, cfg.numEdges());
         assertEquals("Number of vertices should be 1", 1, cfg.numVertices());

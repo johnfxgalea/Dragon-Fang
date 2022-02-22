@@ -9,23 +9,24 @@ import ghidra.program.model.listing.Program;
  * process.
  *
  */
-public abstract class Entity {
+public abstract class Entity
+{
 
-	public enum GranularityType {
-		BASIC_BLOCK, FUNCTION
-	}
+    public enum GranularityType { BASIC_BLOCK, FUNCTION }
 
-	private GranularityType granularityType;
+    private GranularityType granularityType;
 
-	public Entity(GranularityType granularityType) {
-		this.granularityType = granularityType;
-	}
+    public Entity(GranularityType granularityType)
+    {
+        this.granularityType = granularityType;
+    }
 
-	public GranularityType getGranularity() {
-		return granularityType;
-	}
-	
-	public abstract Program getProgram();
-	
-	public abstract AddressSetView getAddresses();
+    public GranularityType getGranularity()
+    {
+        return granularityType;
+    }
+
+    public abstract Program getProgram();
+
+    public abstract AddressSetView getAddresses();
 }

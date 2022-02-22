@@ -21,24 +21,29 @@ import ghidra.program.util.CyclomaticComplexity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class CyclomaticComplexityFeature extends FunctionFeature {
+public class CyclomaticComplexityFeature extends FunctionFeature
+{
 
-	private CyclomaticComplexity cyclimaticComplexity;
+    private CyclomaticComplexity cyclimaticComplexity;
 
-	public CyclomaticComplexityFeature(CyclomaticComplexity cyclimaticComplexity) {
+    public CyclomaticComplexityFeature(CyclomaticComplexity cyclimaticComplexity)
+    {
 
-		this.cyclimaticComplexity = cyclimaticComplexity;
-	}
+        this.cyclimaticComplexity = cyclimaticComplexity;
+    }
 
-	@Override
-	public double calculateFeatureValue(Entity entity, TaskMonitor monitor) throws CancelledException {
+    @Override
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		if (!isEntityValid(entity))
-			throw new IllegalArgumentException("Invalid entity.");
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
 
-		FunctionEntity functionEntity = (FunctionEntity) entity;
+        FunctionEntity functionEntity = (FunctionEntity) entity;
 
-		double complexity = cyclimaticComplexity.calculateCyclomaticComplexity(functionEntity.getFunction(), monitor);
-		return complexity;
-	}
+        double complexity = cyclimaticComplexity.calculateCyclomaticComplexity(
+            functionEntity.getFunction(), monitor);
+        return complexity;
+    }
 }

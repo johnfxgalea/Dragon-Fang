@@ -23,17 +23,20 @@ import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class LazyControlFlowGraphMap implements ControlFlowGraphMap {
+public class LazyControlFlowGraphMap implements ControlFlowGraphMap
+{
 
     private Map<Function, ControlFlowGraph> cfgMap;
 
-    public LazyControlFlowGraphMap() {
+    public LazyControlFlowGraphMap()
+    {
         this.cfgMap = new HashMap<Function, ControlFlowGraph>();
     }
 
     @Override
     public ControlFlowGraph getControlFlowGraph(Function function, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!cfgMap.containsKey(function)) {
             ControlFlowGraphBuilder builder = new ControlFlowGraphBuilder(function);

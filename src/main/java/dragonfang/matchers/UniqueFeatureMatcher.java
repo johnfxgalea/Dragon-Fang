@@ -25,16 +25,19 @@ import dragonfang.features.vectors.FeatureVector;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class UniqueFeatureMatcher extends AbstractFeatureMatcher {
+public class UniqueFeatureMatcher extends AbstractFeatureMatcher
+{
 
-    public UniqueFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap) {
+    public UniqueFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap)
+    {
         super(srcFeatureMap, dstFeatureMap);
     }
 
     @Override
     public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
-                              Set<Entity> unmatchedDstEntitySet,
-                              TaskMonitor monitor) throws CancelledException {
+                              Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
+        throws CancelledException
+    {
 
         Set<Match> matches = new HashSet<Match>();
 
@@ -54,11 +57,9 @@ public class UniqueFeatureMatcher extends AbstractFeatureMatcher {
                 if (dstEntityList != null && dstEntityList.size() == 1) {
                     double similarity = 1.0;
                     double confidence = 1.0;
-                    Match match       = new Match(unmatchedSrcEntity,
-                                            dstEntityList.get(0),
-                                            similarity,
-                                            confidence,
-                                            "Unique Feature Matcher");
+                    Match match =
+                        new Match(unmatchedSrcEntity, dstEntityList.get(0), similarity,
+                                  confidence, "Unique Feature Matcher");
                     matches.add(match);
                 }
             }

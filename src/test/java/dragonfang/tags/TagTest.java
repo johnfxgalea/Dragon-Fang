@@ -19,44 +19,50 @@ import org.junit.Test;
 
 import dragonfang.tags.DragonFangMatchTag.DragonFangMatchTagType;
 
-public class TagTest {
+public class TagTest
+{
 
     @Test
-    public void testBestMatchTagAssigment() {
+    public void testBestMatchTagAssigment()
+    {
         ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-        DragonFangMatchTag tag             = assigner.assignTag(1);
+        DragonFangMatchTag tag = assigner.assignTag(1);
         assertEquals(tag.getDragonFangMatchTagType(),
                      DragonFangMatchTagType.BEST_TAG_TYPE);
     }
 
     @Test
-    public void testPartialMatchTagAssigment() {
+    public void testPartialMatchTagAssigment()
+    {
         ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-        DragonFangMatchTag tag             = assigner.assignTag(0.9);
+        DragonFangMatchTag tag = assigner.assignTag(0.9);
         assertEquals(tag.getDragonFangMatchTagType(),
                      DragonFangMatchTagType.PARTIAL_TAG_TYPE);
     }
 
     @Test
-    public void testPartialMatchTagAssigment2() {
+    public void testPartialMatchTagAssigment2()
+    {
         ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-        DragonFangMatchTag tag             = assigner.assignTag(0.5);
+        DragonFangMatchTag tag = assigner.assignTag(0.5);
         assertSame(tag.getDragonFangMatchTagType(),
                    DragonFangMatchTagType.PARTIAL_TAG_TYPE);
     }
 
     @Test
-    public void testUnreliableMatchTagAssigment() {
+    public void testUnreliableMatchTagAssigment()
+    {
         ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-        DragonFangMatchTag tag             = assigner.assignTag(0.4);
+        DragonFangMatchTag tag = assigner.assignTag(0.4);
         assertSame(tag.getDragonFangMatchTagType(),
                    DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
     }
 
     @Test
-    public void testUnreliableMatchTagAssigment2() {
+    public void testUnreliableMatchTagAssigment2()
+    {
         ThresholdMatchTagAssigner assigner = new ThresholdMatchTagAssigner();
-        DragonFangMatchTag tag             = assigner.assignTag(0);
+        DragonFangMatchTag tag = assigner.assignTag(0);
         assertSame(tag.getDragonFangMatchTagType(),
                    DragonFangMatchTagType.UNRELIABLE_TAG_TYPE);
     }

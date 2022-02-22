@@ -31,21 +31,23 @@ import ghidra.util.graph.Edge;
 import ghidra.util.graph.Vertex;
 import ghidra.util.task.TaskMonitor;
 
-public class ControlFlowGraphBuilder implements GraphBuilder {
+public class ControlFlowGraphBuilder implements GraphBuilder
+{
 
     protected Function function;
 
-    public ControlFlowGraphBuilder(Function function) {
+    public ControlFlowGraphBuilder(Function function)
+    {
         this.function = function;
     }
 
     @Override
-    public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException {
+    public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException
+    {
 
-        ExtendedDirectGraph cfg         = new ControlFlowGraph();
+        ExtendedDirectGraph cfg = new ControlFlowGraph();
         BasicBlockModel basicBlockModel = new BasicBlockModel(function.getProgram());
-        
-        
+
         CodeBlockIterator codeBlockIterator =
             basicBlockModel.getCodeBlocksContaining(function.getBody(), monitor);
 
@@ -53,7 +55,7 @@ public class ControlFlowGraphBuilder implements GraphBuilder {
         HashMap<CodeBlock, Vertex> bbVertexMap = new HashMap<CodeBlock, Vertex>();
         while (codeBlockIterator.hasNext()) {
             CodeBlock codeBlock = codeBlockIterator.next();
-            Vertex vertex       = new Vertex(codeBlock);
+            Vertex vertex = new Vertex(codeBlock);
             cfg.add(vertex);
             bbVertexMap.put(codeBlock, vertex);
         }
@@ -62,18 +64,18 @@ public class ControlFlowGraphBuilder implements GraphBuilder {
         // jumps, excluding calls and indirect jumps.
         for (Map.Entry<CodeBlock, Vertex> entry : bbVertexMap.entrySet()) {
             CodeBlock codeBlock = entry.getKey();
-            Vertex bbVertex     = entry.getValue();
+            Vertex bbVertex = entry.getValue();
 
             CodeBlockReferenceIterator destinations = codeBlock.getDestinations(monitor);
             while (destinations.hasNext()) {
                 CodeBlockReference reference = destinations.next();
-                FlowType flowType            = reference.getFlowType();
+                FlowType flowType = reference.getFlowType();
                 if (flowType.isIndirect() || flowType.isCall()) {
                     continue; // Exclude these types of flows for simplicity.
                 }
 
                 Vertex bbDstVertex = bbVertexMap.get(reference.getDestinationBlock());
-                Edge edge          = new Edge(bbVertex, bbDstVertex);
+                Edge edge = new Edge(bbVertex, bbDstVertex);
                 cfg.add(edge);
             }
         }

@@ -21,7 +21,7 @@ import ghidra.util.task.TaskMonitor;
 
 public interface InstrCountMap {
 
-	/**
+    /**
 	 * Returns instruction counts for the passed entity.
 	 * 
 	 * @param entity The entity to consider as the key.

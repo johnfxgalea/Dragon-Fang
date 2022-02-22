@@ -24,22 +24,25 @@ import dragonfang.primes.InstrPrimeProductCalculator;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class PrimeProductMap implements PrimeMap {
+public class PrimeProductMap implements PrimeMap
+{
 
     private InstrPrimeProductCalculator primeProductCalculator;
     private Map<Entity, Long> primeMap;
     private InstrCountMap countMap;
 
     public PrimeProductMap(InstrPrimeProductCalculator primeProduct,
-                           InstrCountMap countMap) {
+                           InstrCountMap countMap)
+    {
 
         this.primeProductCalculator = primeProduct;
-        this.countMap               = countMap;
-        this.primeMap               = new HashMap<Entity, Long>();
+        this.countMap = countMap;
+        this.primeMap = new HashMap<Entity, Long>();
     }
 
     public Long getPrimeProduct(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!primeMap.containsKey(entity)) {
             InstrCounts instrCounts = countMap.getInstructionCounts(entity, monitor);

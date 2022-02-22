@@ -27,10 +27,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class EdgeCountFeatureTest extends AbstractDragonFangTest {
+public class EdgeCountFeatureTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testEdgeCountFeature() throws CancelledException {
+    public void testEdgeCountFeature() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
@@ -39,7 +41,7 @@ public class EdgeCountFeatureTest extends AbstractDragonFangTest {
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
 
         EdgeCountFeature feature = new EdgeCountFeature(cfgMap);
-        double featureVal        = feature.calculateFeatureValue(simpleFunction, monitor);
+        double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
         // Function only includes calls in terms of instructions that change control
         // flow.
         assertEquals("Edge count should be 0.", 0, featureVal, 0.1);

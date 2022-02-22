@@ -27,10 +27,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class BBCountFeatureTest extends AbstractDragonFangTest {
+public class BBCountFeatureTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testBBCountFeature() throws CancelledException {
+    public void testBBCountFeature() throws CancelledException
+    {
 
         Function simpleFunction = getSimpleFunction(builder);
 
@@ -39,7 +41,7 @@ public class BBCountFeatureTest extends AbstractDragonFangTest {
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
 
         BBCountFeature feature = new BBCountFeature(cfgMap);
-        double featureVal      = feature.calculateFeatureValue(simpleFunction, monitor);
+        double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
         // Function only includes calls in terms of instructions that change control flow.
         assertEquals("BB count should be 1.", 1, featureVal, 0.1);
     }

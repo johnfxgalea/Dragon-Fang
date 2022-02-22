@@ -25,28 +25,29 @@ import dragonfang.features.vectors.FeatureVector;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public abstract class AbstractFeatureMatcher implements Matcher {
+public abstract class AbstractFeatureMatcher implements Matcher
+{
 
     protected FeatureMap srcFeatureMap;
     protected FeatureMap dstFeatureMap;
 
-    public AbstractFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap) {
+    public AbstractFeatureMatcher(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap)
+    {
 
         this.srcFeatureMap = srcFeatureMap;
         this.dstFeatureMap = dstFeatureMap;
     }
 
     protected HashMap<FeatureVector, List<Entity>>
-    deriveMatchMap(Set<Entity> unmatchedFuncSet,
-                   FeatureMap featureMap,
-                   TaskMonitor monitor) throws CancelledException {
+    deriveMatchMap(Set<Entity> unmatchedFuncSet, FeatureMap featureMap,
+                   TaskMonitor monitor) throws CancelledException
+    {
 
         HashMap<FeatureVector, List<Entity>> matchMap =
             new HashMap<FeatureVector, List<Entity>>();
 
         for (Entity unmatchedEntity : unmatchedFuncSet) {
-            FeatureVector featureVector =
-                featureMap.getFeature(unmatchedEntity, monitor);
+            FeatureVector featureVector = featureMap.getFeature(unmatchedEntity, monitor);
 
             List<Entity> entitySet = matchMap.get(featureVector);
             if (entitySet == null) {

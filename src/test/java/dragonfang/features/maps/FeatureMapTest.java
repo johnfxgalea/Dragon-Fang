@@ -34,10 +34,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class FeatureMapTest extends AbstractDragonFangTest {
+public class FeatureMapTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testBBFeatureExtractor() throws CancelledException {
+    public void testBBFeatureExtractor() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -46,12 +48,12 @@ public class FeatureMapTest extends AbstractDragonFangTest {
         List<Feature> featureList = new ArrayList<Feature>();
 
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
-        BBCountFeature feature     = new BBCountFeature(cfgMap);
+        BBCountFeature feature = new BBCountFeature(cfgMap);
         featureList.add(feature);
 
         FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
 
-        FeatureMap map              = new LazyFeatureMap(extractor);
+        FeatureMap map = new LazyFeatureMap(extractor);
         FeatureVector featureVector = map.getFeature(simpleFunction, monitor);
 
         assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());

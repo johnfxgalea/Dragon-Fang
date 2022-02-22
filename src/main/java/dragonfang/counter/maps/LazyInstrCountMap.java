@@ -23,19 +23,22 @@ import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class LazyInstrCountMap implements InstrCountMap {
+public class LazyInstrCountMap implements InstrCountMap
+{
 
     private Map<Entity, InstrCounts> instrCountMap;
     private InstrCounter counter;
 
-    public LazyInstrCountMap(InstrCounter counter) {
+    public LazyInstrCountMap(InstrCounter counter)
+    {
         instrCountMap = new HashMap<Entity, InstrCounts>();
-        this.counter  = counter;
+        this.counter = counter;
     }
 
     @Override
     public InstrCounts getInstructionCounts(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
         if (!instrCountMap.containsKey(entity)) {
             InstrCounts counts = counter.count(entity);

@@ -22,24 +22,29 @@ import dragonfang.graphs.maps.ControlFlowGraphMap;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class BBCountFeature extends FunctionFeature {
+public class BBCountFeature extends FunctionFeature
+{
 
-	private ControlFlowGraphMap cfgMap;
+    private ControlFlowGraphMap cfgMap;
 
-	public BBCountFeature(ControlFlowGraphMap cfgMap) {
+    public BBCountFeature(ControlFlowGraphMap cfgMap)
+    {
 
-		this.cfgMap = cfgMap;
-	}
+        this.cfgMap = cfgMap;
+    }
 
-	@Override
-	public double calculateFeatureValue(Entity entity, TaskMonitor monitor) throws CancelledException {
+    @Override
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
+        throws CancelledException
+    {
 
-		if (!isEntityValid(entity))
-			throw new IllegalArgumentException("Invalid entity.");
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
 
-		FunctionEntity functionEntity = (FunctionEntity) entity;
+        FunctionEntity functionEntity = (FunctionEntity) entity;
 
-		ControlFlowGraph cfg = cfgMap.getControlFlowGraph(functionEntity.getFunction(), monitor);
-		return cfg.numVertices();
-	}
+        ControlFlowGraph cfg =
+            cfgMap.getControlFlowGraph(functionEntity.getFunction(), monitor);
+        return cfg.numVertices();
+    }
 }

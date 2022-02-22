@@ -22,23 +22,26 @@ import ghidra.program.model.pcode.PcodeOp;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class IndJmpCountFeature extends FunctionFeature {
+public class IndJmpCountFeature extends FunctionFeature
+{
 
     private InstrCountMap instrCountMap;
 
-    public IndJmpCountFeature(InstrCountMap instrCountMap) {
+    public IndJmpCountFeature(InstrCountMap instrCountMap)
+    {
         this.instrCountMap = instrCountMap;
     }
 
     @Override
     public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
-    	if (!isEntityValid(entity))
-			throw new IllegalArgumentException("Invalid entity.");
-    			
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
+
         InstrCounts instrCounts = instrCountMap.getInstructionCounts(entity, monitor);
-        double numCalls         = instrCounts.getCount(PcodeOp.BRANCHIND);
+        double numCalls = instrCounts.getCount(PcodeOp.BRANCHIND);
 
         return numCalls;
     }

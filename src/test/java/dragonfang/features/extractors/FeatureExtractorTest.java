@@ -33,10 +33,12 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
 import ghidra.util.task.TaskMonitor;
 
-public class FeatureExtractorTest extends AbstractDragonFangTest {
+public class FeatureExtractorTest extends AbstractDragonFangTest
+{
 
     @Test
-    public void testBBFeatureExtractor() throws CancelledException {
+    public void testBBFeatureExtractor() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -45,10 +47,10 @@ public class FeatureExtractorTest extends AbstractDragonFangTest {
         List<Feature> featureList = new ArrayList<Feature>();
 
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
-        BBCountFeature feature     = new BBCountFeature(cfgMap);
+        BBCountFeature feature = new BBCountFeature(cfgMap);
         featureList.add(feature);
 
-        FeatureExtractor extractor  = new FeatureListVectorExtractor(featureList);
+        FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
         FeatureVector featureVector = extractor.extract(simpleFunction, monitor);
 
         assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());
@@ -56,7 +58,8 @@ public class FeatureExtractorTest extends AbstractDragonFangTest {
     }
 
     @Test
-    public void testFeatureExtractor() throws CancelledException {
+    public void testFeatureExtractor() throws CancelledException
+    {
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -65,13 +68,13 @@ public class FeatureExtractorTest extends AbstractDragonFangTest {
         List<Feature> featureList = new ArrayList<Feature>();
 
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
-        BBCountFeature feature     = new BBCountFeature(cfgMap);
+        BBCountFeature feature = new BBCountFeature(cfgMap);
         featureList.add(feature);
 
         EdgeCountFeature feature2 = new EdgeCountFeature(cfgMap);
         featureList.add(feature2);
 
-        FeatureExtractor extractor  = new FeatureListVectorExtractor(featureList);
+        FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
         FeatureVector featureVector = extractor.extract(simpleFunction, monitor);
 
         assertEquals("Number of Features should be 2.", 2, featureVector.numFeatures());

@@ -22,24 +22,26 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 import ghidra.program.model.pcode.PcodeOp;
 
-public class FuncCallCountFeature extends FunctionFeature {
+public class FuncCallCountFeature extends FunctionFeature
+{
 
     private InstrCountMap instrCountMap;
 
-    public FuncCallCountFeature(InstrCountMap instrCountMap) {
+    public FuncCallCountFeature(InstrCountMap instrCountMap)
+    {
         this.instrCountMap = instrCountMap;
     }
 
     @Override
     public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
-        throws CancelledException {
+        throws CancelledException
+    {
 
-		if (!isEntityValid(entity))
-			throw new IllegalArgumentException("Invalid entity.");
-    	
-	
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
+
         InstrCounts instrCounts = instrCountMap.getInstructionCounts(entity, monitor);
-        double numCalls         = instrCounts.getCount(PcodeOp.CALL)
+        double numCalls = instrCounts.getCount(PcodeOp.CALL)
                           + instrCounts.getCount(PcodeOp.CALLIND)
                           + instrCounts.getCount(PcodeOp.CALLOTHER);
 
