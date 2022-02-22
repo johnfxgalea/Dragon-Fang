@@ -18,7 +18,6 @@ import ghidra.program.model.pcode.PcodeOp;
 
 public class PCodeInstrCounts implements InstrCounts
 {
-
     int count[];
 
     public PCodeInstrCounts()

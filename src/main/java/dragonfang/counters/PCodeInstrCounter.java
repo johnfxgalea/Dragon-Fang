@@ -23,7 +23,6 @@ import ghidra.program.model.pcode.PcodeOp;
 
 public class PCodeInstrCounter implements InstrCounter
 {
-
     public InstrCounts count(Entity entity)
     {
 

@@ -13,7 +13,6 @@ import ghidra.util.task.TaskMonitor;
 
 public class AfterAddressPropagationProperty extends AbstractPropagationProperty
 {
-
     private EntityFetcher entityFetcher;
 
     public AfterAddressPropagationProperty(EntityFetcher entityFetcher)

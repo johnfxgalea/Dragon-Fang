@@ -22,7 +22,6 @@ import dragonfang.entities.Entity;
  */
 public class Match
 {
-
     private Entity srcEntity;
     private Entity dstEntity;
     private double similarity;

@@ -51,9 +51,15 @@ public class MatchTest extends AbstractDragonFangTest
             new Match(simpleFunction, simpleFunction2, similarity, confidence, reason);
 
         assertSame("Source function should be correct.", simpleFunction,
+<<<<<<< HEAD
                    match.getSourceEntity());
         assertSame("Destination function should be correct.", simpleFunction2,
                    match.getDestinationEntity());
+=======
+                   match.getSourceFunction());
+        assertSame("Destination function should be correct.", simpleFunction2,
+                   match.getDestinationFunction());
+>>>>>>> main
 
         assertEquals("Similarity should be correct.", similarity,
                      match.getSimilarityScore(), 0.0);

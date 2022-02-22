@@ -24,12 +24,10 @@ import ghidra.util.task.TaskMonitor;
 
 public class EdgeCountFeature extends FunctionFeature
 {
-
     private ControlFlowGraphMap cfgMap;
 
     public EdgeCountFeature(ControlFlowGraphMap cfgMap)
     {
-
         this.cfgMap = cfgMap;
     }
 
@@ -37,7 +35,6 @@ public class EdgeCountFeature extends FunctionFeature
     public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException
     {
-
         if (!isEntityValid(entity))
             throw new IllegalArgumentException("Invalid entity.");
 

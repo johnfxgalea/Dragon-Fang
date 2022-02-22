@@ -26,7 +26,6 @@ import ghidra.util.task.TaskMonitor;
 
 public class PrimeProductMap implements PrimeMap
 {
-
     private InstrPrimeProductCalculator primeProductCalculator;
     private Map<Entity, Long> primeMap;
     private InstrCountMap countMap;
@@ -34,7 +33,6 @@ public class PrimeProductMap implements PrimeMap
     public PrimeProductMap(InstrPrimeProductCalculator primeProduct,
                            InstrCountMap countMap)
     {
-
         this.primeProductCalculator = primeProduct;
         this.countMap = countMap;
         this.primeMap = new HashMap<Entity, Long>();
