@@ -44,6 +44,8 @@ public class ControlFlowGraphBuilder implements GraphBuilder {
 
         ExtendedDirectGraph cfg         = new ControlFlowGraph();
         BasicBlockModel basicBlockModel = new BasicBlockModel(function.getProgram());
+        
+        
         CodeBlockIterator codeBlockIterator =
             basicBlockModel.getCodeBlocksContaining(function.getBody(), monitor);
 

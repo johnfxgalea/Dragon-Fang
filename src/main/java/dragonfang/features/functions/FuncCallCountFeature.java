@@ -17,7 +17,6 @@ package dragonfang.features.functions;
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
 import dragonfang.entities.Entity;
-import dragonfang.entities.FunctionEntity;
 import dragonfang.features.FunctionFeature;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
@@ -38,9 +37,8 @@ public class FuncCallCountFeature extends FunctionFeature {
 		if (!isEntityValid(entity))
 			throw new IllegalArgumentException("Invalid entity.");
     	
-		FunctionEntity functionEntity = (FunctionEntity) entity;
-		
-        InstrCounts instrCounts = instrCountMap.getInstructionCounts(functionEntity.getFunction(), monitor);
+	
+        InstrCounts instrCounts = instrCountMap.getInstructionCounts(entity, monitor);
         double numCalls         = instrCounts.getCount(PcodeOp.CALL)
                           + instrCounts.getCount(PcodeOp.CALLIND)
                           + instrCounts.getCount(PcodeOp.CALLOTHER);

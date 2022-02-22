@@ -19,7 +19,6 @@ import java.util.Set;
 import dragonfang.entities.Entity;
 import dragonfang.matchers.Match;
 import dragonfang.matchers.Matcher;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 

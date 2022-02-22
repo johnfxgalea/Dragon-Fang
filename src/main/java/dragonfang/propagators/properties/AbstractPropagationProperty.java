@@ -24,9 +24,9 @@ import dragonfang.entities.Entity;
  */
 public abstract class AbstractPropagationProperty implements PropagationProperty {
 
-	protected Set<Entity> processCandidates(Set<Entity> propFuncSet, Set<Entity> allCandidateSet) {
+	protected Set<Entity> processCandidates(Set<Entity> propEntitySet, Set<Entity> allCandidateSet) {
 
-		propFuncSet.retainAll(allCandidateSet);
-		return propFuncSet;
+		propEntitySet.retainAll(allCandidateSet);
+		return propEntitySet;
 	}
 }

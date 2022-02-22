@@ -21,6 +21,8 @@ import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.InstrCounter;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.entities.fetchers.EntityFetcher;
+import dragonfang.entities.fetchers.FunctionEntityFetcher;
 import dragonfang.features.Feature;
 import dragonfang.features.extractors.FeatureExtractor;
 import dragonfang.features.extractors.FeatureListVectorExtractor;
@@ -61,193 +63,167 @@ import ghidra.program.model.address.AddressSetView;
 import ghidra.program.model.listing.Program;
 import ghidra.program.util.CyclomaticComplexity;
 
-public class DragonFangProgramCorrelatorFactory
-    extends VTAbstractProgramCorrelatorFactory {
+public class DragonFangProgramCorrelatorFactory extends VTAbstractProgramCorrelatorFactory {
 
-    static final String NAME = "Dragon Fang";
-    static final String DESC = "A function similarity analyser for the Ghidra dragon.";
+	static final String NAME = "Dragon Fang";
+	static final String DESC = "A function similarity analyser for the Ghidra dragon.";
 
-    public static final String PROPAGATION_STEP_OPT      = "Do Propagation Step";
-    public static final boolean PROPAGATION_STEP_DEFAULT = true;
+	public static final String PROPAGATION_STEP_OPT = "Do Propagation Step";
+	public static final boolean PROPAGATION_STEP_DEFAULT = true;
 
-    static final double similarityThreshold = 0.6;
+	static final double similarityThreshold = 0.6;
 
-    @Override
-    public int getPriority() {
-        return 80;
-    }
+	@Override
+	public int getPriority() {
+		return 80;
+	}
 
-    private List<Propagator>
-    createProgatorList(ExtendedDirectGraphWrapper srcCallGraphWrapper,
-                       ExtendedDirectGraphWrapper dstCallGraphWrapper) {
+	private List<Propagator> createProgatorList(EntityFetcher srcEntityFetcher, EntityFetcher dstEntityFetcher,
+			ExtendedDirectGraphWrapper srcCallGraphWrapper, ExtendedDirectGraphWrapper dstCallGraphWrapper) {
 
-        List<Propagator> propagators = new ArrayList<Propagator>();
+		List<Propagator> propagators = new ArrayList<Propagator>();
 
-        ChildCallGraphPropagationProperty srcChildProperty =
-            new ChildCallGraphPropagationProperty(srcCallGraphWrapper);
-        ChildCallGraphPropagationProperty dstChildProperty =
-            new ChildCallGraphPropagationProperty(dstCallGraphWrapper);
-        PropertyBasedPropagator childPropagator =
-            new PropertyBasedPropagator(srcChildProperty, dstChildProperty);
-        propagators.add(childPropagator);
+		ChildCallGraphPropagationProperty srcChildProperty = new ChildCallGraphPropagationProperty(srcCallGraphWrapper);
+		ChildCallGraphPropagationProperty dstChildProperty = new ChildCallGraphPropagationProperty(dstCallGraphWrapper);
+		PropertyBasedPropagator childPropagator = new PropertyBasedPropagator(srcChildProperty, dstChildProperty);
+		propagators.add(childPropagator);
 
-        ParentCallGraphPropagationProperty srcParentProperty =
-            new ParentCallGraphPropagationProperty(srcCallGraphWrapper);
-        ParentCallGraphPropagationProperty dstParentProperty =
-            new ParentCallGraphPropagationProperty(dstCallGraphWrapper);
-        PropertyBasedPropagator parentPropagator =
-            new PropertyBasedPropagator(srcParentProperty, dstParentProperty);
-        propagators.add(parentPropagator);
+		ParentCallGraphPropagationProperty srcParentProperty = new ParentCallGraphPropagationProperty(
+				srcCallGraphWrapper);
+		ParentCallGraphPropagationProperty dstParentProperty = new ParentCallGraphPropagationProperty(
+				dstCallGraphWrapper);
+		PropertyBasedPropagator parentPropagator = new PropertyBasedPropagator(srcParentProperty, dstParentProperty);
+		propagators.add(parentPropagator);
 
-        AfterAddressPropagationProperty afterPropagationProperty =
-            new AfterAddressPropagationProperty();
-        PropertyBasedPropagator afterPropagator = new PropertyBasedPropagator(
-            afterPropagationProperty, afterPropagationProperty);
-        propagators.add(afterPropagator);
+		AfterAddressPropagationProperty srcAfterPropagationProperty = new AfterAddressPropagationProperty(
+				srcEntityFetcher);
+		AfterAddressPropagationProperty dstAfterPropagationProperty = new AfterAddressPropagationProperty(
+				dstEntityFetcher);
+		PropertyBasedPropagator afterPropagator = new PropertyBasedPropagator(srcAfterPropagationProperty,
+				dstAfterPropagationProperty);
+		propagators.add(afterPropagator);
 
-        BeforeAddressPropagationProperty beforePropagationProperty =
-            new BeforeAddressPropagationProperty();
-        PropertyBasedPropagator beforePropagator = new PropertyBasedPropagator(
-            beforePropagationProperty, beforePropagationProperty);
-        propagators.add(beforePropagator);
+		BeforeAddressPropagationProperty srcBeforePropagationProperty = new BeforeAddressPropagationProperty(
+				srcEntityFetcher);
+		BeforeAddressPropagationProperty dstBeforePropagationProperty = new BeforeAddressPropagationProperty(
+				dstEntityFetcher);
+		PropertyBasedPropagator beforePropagator = new PropertyBasedPropagator(srcBeforePropagationProperty,
+				dstBeforePropagationProperty);
+		propagators.add(beforePropagator);
 
-        return propagators;
-    }
+		return propagators;
+	}
 
-    private List<Feature> createFeatureList(ControlFlowGraphMap cfgMap,
-                                            InstrCountMap instrCountMap,
-                                            CyclomaticComplexity cyclimaticComplexity) {
+	private List<Feature> createFeatureList(ControlFlowGraphMap cfgMap, InstrCountMap instrCountMap,
+			CyclomaticComplexity cyclimaticComplexity) {
 
-        List<Feature> features = new ArrayList<Feature>();
+		List<Feature> features = new ArrayList<Feature>();
 
-        BBCountFeature bbCountFeature = new BBCountFeature(cfgMap);
-        features.add(bbCountFeature);
+		BBCountFeature bbCountFeature = new BBCountFeature(cfgMap);
+		features.add(bbCountFeature);
 
-        EdgeCountFeature edgeCountFeature = new EdgeCountFeature(cfgMap);
-        features.add(edgeCountFeature);
+		EdgeCountFeature edgeCountFeature = new EdgeCountFeature(cfgMap);
+		features.add(edgeCountFeature);
 
-        CyclomaticComplexityFeature cyclomaticComplexityFeature =
-            new CyclomaticComplexityFeature(cyclimaticComplexity);
-        features.add(cyclomaticComplexityFeature);
+		CyclomaticComplexityFeature cyclomaticComplexityFeature = new CyclomaticComplexityFeature(cyclimaticComplexity);
+		features.add(cyclomaticComplexityFeature);
 
-        FuncCallCountFeature funcCallCountFeature =
-            new FuncCallCountFeature(instrCountMap);
-        features.add(funcCallCountFeature);
+		FuncCallCountFeature funcCallCountFeature = new FuncCallCountFeature(instrCountMap);
+		features.add(funcCallCountFeature);
 
-        IndJmpCountFeature indJmpCountFeature = new IndJmpCountFeature(instrCountMap);
-        features.add(indJmpCountFeature);
+		IndJmpCountFeature indJmpCountFeature = new IndJmpCountFeature(instrCountMap);
+		features.add(indJmpCountFeature);
 
-        return features;
-    }
+		return features;
+	}
 
-    private List<Matcher> createMatchersList(FeatureMap srcFeatureMap,
-                                             FeatureMap dstFeatureMap,
-                                             PrimeProductMap srcPrimeProductMap,
-                                             PrimeProductMap dstPrimeProductMap,
-                                             FeatureSimilarityMetric similarityMetric) {
+	private List<Matcher> createMatchersList(FeatureMap srcFeatureMap, FeatureMap dstFeatureMap,
+			PrimeProductMap srcPrimeProductMap, PrimeProductMap dstPrimeProductMap,
+			FeatureSimilarityMetric similarityMetric) {
 
-        List<Matcher> matchers = new ArrayList<Matcher>();
+		List<Matcher> matchers = new ArrayList<Matcher>();
 
-        UniqueFeatureMatcher uniqueFeatureMatcher =
-            new UniqueFeatureMatcher(srcFeatureMap, dstFeatureMap);
-        matchers.add(uniqueFeatureMatcher);
+		UniqueFeatureMatcher uniqueFeatureMatcher = new UniqueFeatureMatcher(srcFeatureMap, dstFeatureMap);
+		matchers.add(uniqueFeatureMatcher);
 
-        PrimeProductMatcher primeProductMatcher =
-            new PrimeProductMatcher(srcPrimeProductMap, dstPrimeProductMap);
-        matchers.add(primeProductMatcher);
+		PrimeProductMatcher primeProductMatcher = new PrimeProductMatcher(srcPrimeProductMap, dstPrimeProductMap);
+		matchers.add(primeProductMatcher);
 
-        SimilarityFeatureMatcher similarityFeatureMatcher = new SimilarityFeatureMatcher(
-            srcFeatureMap, dstFeatureMap, similarityMetric, similarityThreshold);
-        matchers.add(similarityFeatureMatcher);
+		SimilarityFeatureMatcher similarityFeatureMatcher = new SimilarityFeatureMatcher(srcFeatureMap, dstFeatureMap,
+				similarityMetric, similarityThreshold);
+		matchers.add(similarityFeatureMatcher);
 
-        return matchers;
-    }
+		return matchers;
+	}
 
-    @Override
-    protected VTProgramCorrelator doCreateCorrelator(ServiceProvider serviceProvider,
-                                                     Program sourceProgram,
-                                                     AddressSetView sourceAddressSet,
-                                                     Program destinationProgram,
-                                                     AddressSetView destinationAddressSet,
-                                                     VTOptions options) {
+	@Override
+	protected VTProgramCorrelator doCreateCorrelator(ServiceProvider serviceProvider, Program sourceProgram,
+			AddressSetView sourceAddressSet, Program destinationProgram, AddressSetView destinationAddressSet,
+			VTOptions options) {
 
-        ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
-        ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
+		ControlFlowGraphMap srcCFGMap = new LazyControlFlowGraphMap();
+		ControlFlowGraphMap dstCFGMap = new LazyControlFlowGraphMap();
 
-        InstrCounter srcInstrCounter   = new PCodeInstrCounter();
-        InstrCountMap srcInstrCountMap = new LazyInstrCountMap(srcInstrCounter);
-        InstrCounter dstInstrCounter   = new PCodeInstrCounter();
-        InstrCountMap dstInstrCountMap = new LazyInstrCountMap(dstInstrCounter);
+		InstrCounter srcInstrCounter = new PCodeInstrCounter();
+		InstrCountMap srcInstrCountMap = new LazyInstrCountMap(srcInstrCounter);
+		InstrCounter dstInstrCounter = new PCodeInstrCounter();
+		InstrCountMap dstInstrCountMap = new LazyInstrCountMap(dstInstrCounter);
 
-        CyclomaticComplexity cyclimaticComplexity = new CyclomaticComplexity();
+		CyclomaticComplexity cyclimaticComplexity = new CyclomaticComplexity();
 
-        FeatureExtractor srcFeatureExtractor = new FeatureListVectorExtractor(
-            createFeatureList(srcCFGMap, srcInstrCountMap, cyclimaticComplexity));
-        FeatureMap srcFeatureMap             = new LazyFeatureMap(srcFeatureExtractor);
-        FeatureExtractor dstFeatureExtractor = new FeatureListVectorExtractor(
-            createFeatureList(dstCFGMap, dstInstrCountMap, cyclimaticComplexity));
-        FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
+		FeatureExtractor srcFeatureExtractor = new FeatureListVectorExtractor(
+				createFeatureList(srcCFGMap, srcInstrCountMap, cyclimaticComplexity));
+		FeatureMap srcFeatureMap = new LazyFeatureMap(srcFeatureExtractor);
+		FeatureExtractor dstFeatureExtractor = new FeatureListVectorExtractor(
+				createFeatureList(dstCFGMap, dstInstrCountMap, cyclimaticComplexity));
+		FeatureMap dstFeatureMap = new LazyFeatureMap(dstFeatureExtractor);
 
-        InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
+		InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
 
-        PrimeProductMap srcPrimeProductMap =
-            new PrimeProductMap(primeProduct, srcInstrCountMap);
-        PrimeProductMap dstPrimeProductMap =
-            new PrimeProductMap(primeProduct, dstInstrCountMap);
+		PrimeProductMap srcPrimeProductMap = new PrimeProductMap(primeProduct, srcInstrCountMap);
+		PrimeProductMap dstPrimeProductMap = new PrimeProductMap(primeProduct, dstInstrCountMap);
 
-        FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
+		FeatureSimilarityMetric similarityMetric = new CosineSimilarityMetric();
 
-        List<Matcher> matcherList = createMatchersList(srcFeatureMap,
-                                                       dstFeatureMap,
-                                                       srcPrimeProductMap,
-                                                       dstPrimeProductMap,
-                                                       similarityMetric);
+		List<Matcher> matcherList = createMatchersList(srcFeatureMap, dstFeatureMap, srcPrimeProductMap,
+				dstPrimeProductMap, similarityMetric);
 
-        MatchTagAssigner matchTagAssigner = new ThresholdMatchTagAssigner();
+		MatchTagAssigner matchTagAssigner = new ThresholdMatchTagAssigner();
 
-        GraphBuilder srcCallbuilder = new CallGraphBuilder(sourceProgram);
-        ExtendedDirectGraphWrapper srcCallGraphWrapper =
-            new ExtendedDirectGraphWrapper(srcCallbuilder);
-        GraphBuilder dstCallbuilder = new CallGraphBuilder(destinationProgram);
-        ExtendedDirectGraphWrapper dstCallGraphWrapper =
-            new ExtendedDirectGraphWrapper(dstCallbuilder);
+		GraphBuilder srcCallbuilder = new CallGraphBuilder(sourceProgram);
+		ExtendedDirectGraphWrapper srcCallGraphWrapper = new ExtendedDirectGraphWrapper(srcCallbuilder);
+		GraphBuilder dstCallbuilder = new CallGraphBuilder(destinationProgram);
+		ExtendedDirectGraphWrapper dstCallGraphWrapper = new ExtendedDirectGraphWrapper(dstCallbuilder);
 
-        List<Propagator> propagatorList =
-            createProgatorList(srcCallGraphWrapper, dstCallGraphWrapper);
+		EntityFetcher srcEntityFetcher = new FunctionEntityFetcher(sourceProgram);
+		EntityFetcher dstEntityFetcher = new FunctionEntityFetcher(destinationProgram);
+		List<Propagator> propagatorList = createProgatorList(srcEntityFetcher, dstEntityFetcher, srcCallGraphWrapper,
+				dstCallGraphWrapper);
 
-        DragonFangData dragonFangData = new DragonFangData(matcherList,
-                                                           propagatorList,
-                                                           matchTagAssigner,
-                                                           srcCallGraphWrapper,
-                                                           dstCallGraphWrapper);
+		DragonFangData dragonFangData = new DragonFangData(matcherList, propagatorList, matchTagAssigner,
+				srcCallGraphWrapper, dstCallGraphWrapper);
 
-        return new DragonFangProgramCorrelator(serviceProvider,
-                                               sourceProgram,
-                                               sourceAddressSet,
-                                               destinationProgram,
-                                               destinationAddressSet,
-                                               options,
-                                               NAME,
-                                               dragonFangData);
-    }
+		return new DragonFangProgramCorrelator(serviceProvider, sourceProgram, sourceAddressSet, destinationProgram,
+				destinationAddressSet, options, NAME, dragonFangData);
+	}
 
-    @Override
-    public String getName() {
+	@Override
+	public String getName() {
 
-        return NAME;
-    }
+		return NAME;
+	}
 
-    @Override
-    public VTOptions createDefaultOptions() {
+	@Override
+	public VTOptions createDefaultOptions() {
 
-        VTOptions options = new VTOptions(NAME);
-        options.setBoolean(PROPAGATION_STEP_OPT, PROPAGATION_STEP_DEFAULT);
-        return options;
-    }
+		VTOptions options = new VTOptions(NAME);
+		options.setBoolean(PROPAGATION_STEP_OPT, PROPAGATION_STEP_DEFAULT);
+		return options;
+	}
 
-    @Override
-    public String getDescription() {
+	@Override
+	public String getDescription() {
 
-        return DESC;
-    }
+		return DESC;
+	}
 }

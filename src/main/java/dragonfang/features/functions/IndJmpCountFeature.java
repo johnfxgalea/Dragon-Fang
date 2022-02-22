@@ -17,10 +17,7 @@ package dragonfang.features.functions;
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
 import dragonfang.entities.Entity;
-import dragonfang.entities.FunctionEntity;
-import dragonfang.features.Feature;
 import dragonfang.features.FunctionFeature;
-import ghidra.program.model.listing.Function;
 import ghidra.program.model.pcode.PcodeOp;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
@@ -39,10 +36,8 @@ public class IndJmpCountFeature extends FunctionFeature {
 
     	if (!isEntityValid(entity))
 			throw new IllegalArgumentException("Invalid entity.");
-    	
-		FunctionEntity functionEntity = (FunctionEntity) entity;
-		
-        InstrCounts instrCounts = instrCountMap.getInstructionCounts(functionEntity.getFunction(), monitor);
+    			
+        InstrCounts instrCounts = instrCountMap.getInstructionCounts(entity, monitor);
         double numCalls         = instrCounts.getCount(PcodeOp.BRANCHIND);
 
         return numCalls;

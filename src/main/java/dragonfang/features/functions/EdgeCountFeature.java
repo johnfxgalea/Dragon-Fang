@@ -16,11 +16,9 @@ package dragonfang.features.functions;
 
 import dragonfang.entities.Entity;
 import dragonfang.entities.FunctionEntity;
-import dragonfang.features.Feature;
 import dragonfang.features.FunctionFeature;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 

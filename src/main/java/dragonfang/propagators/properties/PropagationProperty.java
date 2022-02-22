@@ -17,6 +17,8 @@ package dragonfang.propagators.properties;
 import java.util.Set;
 
 import dragonfang.entities.Entity;
+import ghidra.util.exception.CancelledException;
+import ghidra.util.task.TaskMonitor;
 
 public interface PropagationProperty {
 
@@ -29,7 +31,7 @@ public interface PropagationProperty {
 	 * @param allCandidateSet The set of unmatched candidate entities.
 	 * @return
 	 */
-	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet);
+	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor) throws CancelledException;
 
 	/**
 	 *

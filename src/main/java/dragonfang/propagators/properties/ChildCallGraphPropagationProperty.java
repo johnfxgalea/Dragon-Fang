@@ -20,37 +20,37 @@ import java.util.Set;
 import dragonfang.entities.Entity;
 import dragonfang.graphs.CallGraph;
 import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
-import ghidra.program.model.listing.Function;
+import ghidra.util.exception.CancelledException;
 import ghidra.util.graph.Vertex;
+import ghidra.util.task.TaskMonitor;
 
 public class ChildCallGraphPropagationProperty extends AbstractPropagationProperty {
 
-    private ExtendedDirectGraphWrapper callGraphWarapper;
+	private ExtendedDirectGraphWrapper callGraphWarapper;
 
-    public ChildCallGraphPropagationProperty(
-        ExtendedDirectGraphWrapper callGraphWarapper) {
-        this.callGraphWarapper = callGraphWarapper;
-    }
+	public ChildCallGraphPropagationProperty(ExtendedDirectGraphWrapper callGraphWarapper) {
+		this.callGraphWarapper = callGraphWarapper;
+	}
 
-    @Override
-    public Set<Entity> getPropagatedEntities(Entity entity,
-                                            Set<Entity> allCandidateSet) {
+	@Override
+	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor)
+			throws CancelledException {
 
-        Set<Entity> propFuncSet = new HashSet<Entity>();
+		Set<Entity> propEntitySet = new HashSet<Entity>();
 
-        CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
+		CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
-        Vertex matchedVertex  = callGraph.getVertex(entity);
-        Set<Vertex> vertexSet = callGraph.getChildren(matchedVertex);
+		Vertex matchedVertex = callGraph.getVertex(entity);
+		Set<Vertex> vertexSet = callGraph.getChildren(matchedVertex);
 
-        for (Vertex vertex : vertexSet)
-            propFuncSet.add((Entity) vertex.referent());
+		for (Vertex vertex : vertexSet)
+			propEntitySet.add((Entity) vertex.referent());
 
-        return processCandidates(propFuncSet, allCandidateSet);
-    }
+		return processCandidates(propEntitySet, allCandidateSet);
+	}
 
-    @Override
-    public String getName() {
-        return "Child Call Graph Propagation Property";
-    }
+	@Override
+	public String getName() {
+		return "Child Call Graph Propagation Property";
+	}
 }

@@ -20,7 +20,6 @@ import dragonfang.entities.Entity;
 import dragonfang.features.Feature;
 import dragonfang.features.vectors.ArrayFeatureVector;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 

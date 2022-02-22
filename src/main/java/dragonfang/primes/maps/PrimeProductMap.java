@@ -21,7 +21,6 @@ import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
 import dragonfang.entities.Entity;
 import dragonfang.primes.InstrPrimeProductCalculator;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 

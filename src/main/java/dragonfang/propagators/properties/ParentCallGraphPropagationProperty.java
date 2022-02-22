@@ -20,7 +20,9 @@ import java.util.Set;
 import dragonfang.entities.Entity;
 import dragonfang.graphs.CallGraph;
 import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
+import ghidra.util.exception.CancelledException;
 import ghidra.util.graph.Vertex;
+import ghidra.util.task.TaskMonitor;
 
 public class ParentCallGraphPropagationProperty extends AbstractPropagationProperty {
 
@@ -31,9 +33,10 @@ public class ParentCallGraphPropagationProperty extends AbstractPropagationPrope
 	}
 
 	@Override
-	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet) {
+	public Set<Entity> getPropagatedEntities(Entity entity, Set<Entity> allCandidateSet, TaskMonitor monitor)
+			throws CancelledException {
 
-		Set<Entity> propFuncSet = new HashSet<Entity>();
+		Set<Entity> propEntitySet = new HashSet<Entity>();
 
 		CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();
 
@@ -41,8 +44,8 @@ public class ParentCallGraphPropagationProperty extends AbstractPropagationPrope
 		Set<Vertex> vertexSet = callGraph.getParents(matchedVertex);
 
 		for (Vertex vertex : vertexSet)
-			propFuncSet.add((Entity) vertex.referent());
-		return processCandidates(propFuncSet, allCandidateSet);
+			propEntitySet.add((Entity) vertex.referent());
+		return processCandidates(propEntitySet, allCandidateSet);
 	}
 
 	@Override
