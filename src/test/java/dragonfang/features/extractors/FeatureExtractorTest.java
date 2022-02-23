@@ -22,6 +22,8 @@ import java.util.List;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.features.Feature;
 import dragonfang.features.functions.BBCountFeature;
 import dragonfang.features.functions.EdgeCountFeature;
@@ -39,10 +41,10 @@ public class FeatureExtractorTest extends AbstractDragonFangTest
     @Test
     public void testBBFeatureExtractor() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         List<Feature> featureList = new ArrayList<Feature>();
 
@@ -51,7 +53,7 @@ public class FeatureExtractorTest extends AbstractDragonFangTest
         featureList.add(feature);
 
         FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
-        FeatureVector featureVector = extractor.extract(simpleFunction, monitor);
+        FeatureVector featureVector = extractor.extract(entity, monitor);
 
         assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());
         assertEquals("BB count should be 1.", 1, featureVector.getFeature(0), 0.1);
@@ -60,10 +62,10 @@ public class FeatureExtractorTest extends AbstractDragonFangTest
     @Test
     public void testFeatureExtractor() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         List<Feature> featureList = new ArrayList<Feature>();
 
@@ -75,7 +77,7 @@ public class FeatureExtractorTest extends AbstractDragonFangTest
         featureList.add(feature2);
 
         FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
-        FeatureVector featureVector = extractor.extract(simpleFunction, monitor);
+        FeatureVector featureVector = extractor.extract(entity, monitor);
 
         assertEquals("Number of Features should be 2.", 2, featureVector.numFeatures());
         assertEquals("BB count should be 1.", 1, featureVector.getFeature(0), 0.1);

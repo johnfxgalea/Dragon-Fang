@@ -8,6 +8,8 @@ import dragonfang.AbstractDragonFangTest;
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.primes.InstrPrimeProductCalculator;
 import dragonfang.primes.PCodePrimeProductCalculator;
 import dragonfang.primes.Prime;
@@ -22,7 +24,6 @@ public class PrimeMapTest extends AbstractDragonFangTest
 
     private long calculateActualProd()
     {
-
         long val = 1;
 
         val *= Prime.array[PcodeOp.COPY];
@@ -44,16 +45,16 @@ public class PrimeMapTest extends AbstractDragonFangTest
     @Test
     public void testPrimeMap() throws CancelledException
     {
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
-
-        TaskMonitor monitor = new ConsoleTaskMonitor();
+        Entity entity = new FunctionEntity(simpleFunction);
 
         InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
         InstrCountMap countMap = new LazyInstrCountMap(new PCodeInstrCounter());
 
         PrimeMap primeMap = new PrimeProductMap(primeProduct, countMap);
-        Long val = primeMap.getPrimeProduct(simpleFunction, monitor);
+        Long val = primeMap.getPrimeProduct(entity, monitor);
         assertEquals("Prime Product should be correct", calculateActualProd(),
                      val.longValue());
     }

@@ -25,7 +25,6 @@ public class CountTest
     @Test
     public void testInit()
     {
-
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
             int countVal = count.getCount(i);
@@ -36,7 +35,6 @@ public class CountTest
     @Test
     public void testIncrement()
     {
-
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
             count.incrementCount(i);
@@ -51,7 +49,6 @@ public class CountTest
     @Test
     public void testIncrement2()
     {
-
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
             count.incrementCount(i);
@@ -67,7 +64,6 @@ public class CountTest
     @Test
     public void testDecrement()
     {
-
         InstrCounts count = new PCodeInstrCounts();
         for (int i = 0; i < PcodeOp.PCODE_MAX; i++) {
             count.incrementCount(i);

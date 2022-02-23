@@ -46,7 +46,6 @@ public class ArrayFeatureVector implements FeatureVector
     @Override
     public boolean equals(Object obj)
     {
-
         if (!(obj instanceof ArrayFeatureVector))
             return false;
 
@@ -63,7 +62,6 @@ public class ArrayFeatureVector implements FeatureVector
     @Override
     public int hashCode()
     {
-
         // Convert to string then get hashcode.
         // TODO: Maybe hashing can be a bit more efficient but it will do for now.
         return Arrays.toString(featureVector).hashCode();
@@ -72,7 +70,6 @@ public class ArrayFeatureVector implements FeatureVector
     @Override
     public double getFeature(int index)
     {
-
         if (index < 0 || index >= featureVector.length)
             throw new IllegalArgumentException(
                 "Invalid feature vector size passed as param.");
@@ -84,7 +81,6 @@ public class ArrayFeatureVector implements FeatureVector
     @Override
     public int numFeatures()
     {
-
         return featureVector.length;
     }
 

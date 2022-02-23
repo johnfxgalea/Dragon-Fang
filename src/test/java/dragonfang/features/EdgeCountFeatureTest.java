@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.features.functions.EdgeCountFeature;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import dragonfang.graphs.maps.LazyControlFlowGraphMap;
@@ -33,15 +35,15 @@ public class EdgeCountFeatureTest extends AbstractDragonFangTest
     @Test
     public void testEdgeCountFeature() throws CancelledException
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
 
         EdgeCountFeature feature = new EdgeCountFeature(cfgMap);
-        double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
+        double featureVal = feature.calculateFeatureValue(entity, monitor);
         // Function only includes calls in terms of instructions that change control
         // flow.
         assertEquals("Edge count should be 0.", 0, featureVal, 0.1);

@@ -31,4 +31,20 @@ public class FunctionEntity extends Entity
     {
         return function.getBody();
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof FunctionEntity))
+            return false;
+
+        FunctionEntity cmpFuncEntity = (FunctionEntity) obj;
+        return function.equals(cmpFuncEntity.function);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return function.hashCode();
+    }
 }

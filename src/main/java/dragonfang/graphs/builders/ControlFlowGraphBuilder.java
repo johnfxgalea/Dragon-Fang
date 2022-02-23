@@ -14,9 +14,10 @@
 
 package dragonfang.graphs.builders;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import dragonfang.entities.BasicBlockEntity;
+import dragonfang.entities.Entity;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.ExtendedDirectGraph;
 import ghidra.program.model.block.BasicBlockModel;
@@ -44,7 +45,6 @@ public class ControlFlowGraphBuilder implements GraphBuilder
     @Override
     public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException
     {
-
         ExtendedDirectGraph cfg = new ControlFlowGraph();
         BasicBlockModel basicBlockModel = new BasicBlockModel(function.getProgram());
 
@@ -52,21 +52,22 @@ public class ControlFlowGraphBuilder implements GraphBuilder
             basicBlockModel.getCodeBlocksContaining(function.getBody(), monitor);
 
         // Step 1: Set vertices by iterating over basic blocks.
-        HashMap<CodeBlock, Vertex> bbVertexMap = new HashMap<CodeBlock, Vertex>();
         while (codeBlockIterator.hasNext()) {
             CodeBlock codeBlock = codeBlockIterator.next();
-            Vertex vertex = new Vertex(codeBlock);
+            BasicBlockEntity entity =
+                new BasicBlockEntity(codeBlock, function.getProgram());
+            Vertex vertex = new Vertex(entity);
             cfg.add(vertex);
-            bbVertexMap.put(codeBlock, vertex);
         }
 
         // Step 2: Set edges. To keep things simple, we only consider edges via direct
         // jumps, excluding calls and indirect jumps.
-        for (Map.Entry<CodeBlock, Vertex> entry : bbVertexMap.entrySet()) {
-            CodeBlock codeBlock = entry.getKey();
+        for (Map.Entry<Object, Vertex> entry : cfg.getVertexEntrySet()) {
+            BasicBlockEntity codeBlockEntity = (BasicBlockEntity) entry.getKey();
             Vertex bbVertex = entry.getValue();
 
-            CodeBlockReferenceIterator destinations = codeBlock.getDestinations(monitor);
+            CodeBlockReferenceIterator destinations =
+                codeBlockEntity.getCodeBlock().getDestinations(monitor);
             while (destinations.hasNext()) {
                 CodeBlockReference reference = destinations.next();
                 FlowType flowType = reference.getFlowType();
@@ -74,7 +75,12 @@ public class ControlFlowGraphBuilder implements GraphBuilder
                     continue; // Exclude these types of flows for simplicity.
                 }
 
-                Vertex bbDstVertex = bbVertexMap.get(reference.getDestinationBlock());
+                Entity bbDsEntity = new BasicBlockEntity(reference.getDestinationBlock(),
+                                                         function.getProgram());
+                Vertex bbDstVertex = cfg.getVertex(bbDsEntity);
+                if (bbDstVertex == null)
+                    throw new RuntimeException("Failed to get correspodning vertex.");
+
                 Edge edge = new Edge(bbVertex, bbDstVertex);
                 cfg.add(edge);
             }

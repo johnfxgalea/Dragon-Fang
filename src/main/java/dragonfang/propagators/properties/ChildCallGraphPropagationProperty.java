@@ -39,7 +39,6 @@ public class ChildCallGraphPropagationProperty extends AbstractPropagationProper
                                              TaskMonitor monitor)
         throws CancelledException
     {
-
         Set<Entity> propEntitySet = new HashSet<Entity>();
 
         CallGraph callGraph = (CallGraph) callGraphWarapper.getGraph();

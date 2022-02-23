@@ -9,6 +9,10 @@ import java.util.Set;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.entities.fetchers.EntityFetcher;
+import dragonfang.entities.fetchers.FunctionEntityFetcher;
 import dragonfang.graphs.builders.CallGraphBuilder;
 import dragonfang.graphs.builders.GraphBuilder;
 import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
@@ -23,7 +27,6 @@ public class PropagationPropertyTest extends AbstractDragonFangTest
     @Test
     public void testChildCallGraphPropagationProperty() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         GraphBuilder graphBuilder = new CallGraphBuilder(program);
@@ -34,18 +37,19 @@ public class PropagationPropertyTest extends AbstractDragonFangTest
             new ChildCallGraphPropagationProperty(callGraphWarapper);
 
         Function simpleFunction = getSimpleFunction(builder);
-        Set<Function> candidateSet = new HashSet<Function>();
-        candidateSet.add(simpleFunction);
+        Entity entity = new FunctionEntity(simpleFunction);
 
-        Set<Function> resultSet =
-            childProperty.getPropagatedFuncs(simpleFunction, candidateSet);
+        Set<Entity> candidateSet = new HashSet<Entity>();
+        candidateSet.add(entity);
+
+        Set<Entity> resultSet =
+            childProperty.getPropagatedEntities(entity, candidateSet, monitor);
         assertTrue("Result set should be empty.", resultSet.isEmpty());
     }
 
     @Test
     public void testParentCallGraphPropagationProperty() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         GraphBuilder graphBuilder = new CallGraphBuilder(program);
@@ -56,43 +60,53 @@ public class PropagationPropertyTest extends AbstractDragonFangTest
             new ParentCallGraphPropagationProperty(callGraphWarapper);
 
         Function simpleFunction = getSimpleFunction(builder);
-        Set<Function> candidateSet = new HashSet<Function>();
-        candidateSet.add(simpleFunction);
+        Entity entity = new FunctionEntity(simpleFunction);
 
-        Set<Function> resultSet =
-            parentProperty.getPropagatedFuncs(simpleFunction, candidateSet);
+        Set<Entity> candidateSet = new HashSet<Entity>();
+        candidateSet.add(entity);
+
+        Set<Entity> resultSet =
+            parentProperty.getPropagatedEntities(entity, candidateSet, monitor);
         assertTrue("Result set should be empty.", resultSet.isEmpty());
     }
 
     @Test
-    public void testBeforeAddressPropagationProperty()
+    public void testBeforeAddressPropagationProperty() throws CancelledException
     {
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
+        EntityFetcher entityFetcher = new FunctionEntityFetcher(program);
         BeforeAddressPropagationProperty beforeAdressProp =
-            new BeforeAddressPropagationProperty();
+            new BeforeAddressPropagationProperty(entityFetcher);
 
         Function simpleFunction = getSimpleFunction(builder);
-        Set<Function> candidateSet = new HashSet<Function>();
-        candidateSet.add(simpleFunction);
+        Entity entity = new FunctionEntity(simpleFunction);
 
-        Set<Function> resultSet =
-            beforeAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
+        Set<Entity> candidateSet = new HashSet<Entity>();
+        candidateSet.add(entity);
+
+        Set<Entity> resultSet =
+            beforeAdressProp.getPropagatedEntities(entity, candidateSet, monitor);
         assertTrue("Result set should be empty.", resultSet.isEmpty());
     }
 
     @Test
-    public void testAfterAddressPropagationProperty()
+    public void testAfterAddressPropagationProperty() throws CancelledException
     {
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
+        EntityFetcher entityFetcher = new FunctionEntityFetcher(program);
         AfterAddressPropagationProperty afterAdressProp =
-            new AfterAddressPropagationProperty();
+            new AfterAddressPropagationProperty(entityFetcher);
 
         Function simpleFunction = getSimpleFunction(builder);
-        Set<Function> candidateSet = new HashSet<Function>();
-        candidateSet.add(simpleFunction);
+        Entity entity = new FunctionEntity(simpleFunction);
 
-        Set<Function> resultSet =
-            afterAdressProp.getPropagatedFuncs(simpleFunction, candidateSet);
+        Set<Entity> candidateSet = new HashSet<Entity>();
+        candidateSet.add(entity);
+
+        Set<Entity> resultSet =
+            afterAdressProp.getPropagatedEntities(entity, candidateSet, monitor);
         assertTrue("Result set should be empty.", resultSet.isEmpty());
     }
 }

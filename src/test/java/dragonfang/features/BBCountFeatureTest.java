@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.features.functions.BBCountFeature;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import dragonfang.graphs.maps.LazyControlFlowGraphMap;
@@ -33,15 +35,15 @@ public class BBCountFeatureTest extends AbstractDragonFangTest
     @Test
     public void testBBCountFeature() throws CancelledException
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         ControlFlowGraphMap cfgMap = new LazyControlFlowGraphMap();
 
         BBCountFeature feature = new BBCountFeature(cfgMap);
-        double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
+        double featureVal = feature.calculateFeatureValue(entity, monitor);
         // Function only includes calls in terms of instructions that change control flow.
         assertEquals("BB count should be 1.", 1, featureVal, 0.1);
     }

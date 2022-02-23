@@ -26,12 +26,27 @@ public class BasicBlockEntity extends Entity
     @Override
     public AddressSetView getAddresses()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return codeBlock;
     }
 
     public CodeBlock getCodeBlock()
     {
         return codeBlock;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof BasicBlockEntity))
+            return false;
+
+        BasicBlockEntity cmpBBEntity = (BasicBlockEntity) obj;
+        return codeBlock.equals(cmpBBEntity.codeBlock);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return codeBlock.hashCode();
     }
 }
