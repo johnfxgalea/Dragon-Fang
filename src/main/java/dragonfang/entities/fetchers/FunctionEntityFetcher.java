@@ -23,7 +23,6 @@ public class FunctionEntityFetcher implements EntityFetcher
     public Entity getEntityAt(Address address, TaskMonitor monitor)
         throws CancelledException
     {
-
         Function function = listing.getFunctionContaining(address);
         if (function == null)
             return null;

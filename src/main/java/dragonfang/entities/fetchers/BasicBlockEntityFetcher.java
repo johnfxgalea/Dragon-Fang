@@ -25,7 +25,6 @@ public class BasicBlockEntityFetcher implements EntityFetcher
     public Entity getEntityAt(Address address, TaskMonitor monitor)
         throws CancelledException
     {
-
         CodeBlock codeBlock = basicBlockModel.getCodeBlockAt(address, monitor);
         return new BasicBlockEntity(codeBlock, program);
     }
