@@ -12,31 +12,36 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.features.FunctionFeature;
 import dragonfang.graphs.ControlFlowGraph;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class EdgeCountFeature implements Feature
+public class EdgeCountFeature extends FunctionFeature
 {
-
     private ControlFlowGraphMap cfgMap;
 
     public EdgeCountFeature(ControlFlowGraphMap cfgMap)
     {
-
         this.cfgMap = cfgMap;
     }
 
     @Override
-    public double calculateFeatureValue(Function function, TaskMonitor monitor)
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException
     {
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
 
-        ControlFlowGraph cfg = cfgMap.getControlFlowGraph(function, monitor);
+        FunctionEntity functionEntity = (FunctionEntity) entity;
+
+        ControlFlowGraph cfg =
+            cfgMap.getControlFlowGraph(functionEntity.getFunction(), monitor);
         return cfg.numEdges();
     }
 }

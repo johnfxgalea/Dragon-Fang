@@ -17,6 +17,8 @@ package dragonfang.graphs.builders;
 import java.util.Map;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.graphs.CallGraph;
 import dragonfang.graphs.ExtendedDirectGraph;
 import ghidra.program.model.listing.Function;
@@ -41,7 +43,6 @@ public class CallGraphBuilder implements GraphBuilder
     @Override
     public ExtendedDirectGraph buildGraph(TaskMonitor monitor) throws CancelledException
     {
-
         FunctionManager funcManager = prog.getFunctionManager();
         CallGraph callGraph = new CallGraph();
         FunctionIterator funcIt = funcManager.getFunctions(true);
@@ -49,18 +50,21 @@ public class CallGraphBuilder implements GraphBuilder
         // Step 1: Iterate over functions to set up vertices.
         while (funcIt.hasNext()) {
             Function function = funcIt.next();
-            Vertex vertex = new Vertex(function);
+            FunctionEntity entity = new FunctionEntity(function);
+            Vertex vertex = new Vertex(entity);
             callGraph.add(vertex);
         }
 
         // Step 2: Set edges based on functions' call sets!
         for (Map.Entry<Object, Vertex> entry : callGraph.getVertexEntrySet()) {
-            Function function = (Function) entry.getKey();
+            FunctionEntity functionEntity = (FunctionEntity) entry.getKey();
             Vertex funcVertex = entry.getValue();
-            Set<Function> callSet = function.getCalledFunctions(monitor);
+            Set<Function> callSet =
+                functionEntity.getFunction().getCalledFunctions(monitor);
 
             for (Function calledFunction : callSet) {
-                Vertex callFuncVertex = callGraph.getVertex(calledFunction);
+                Entity callFuncEntity = new FunctionEntity(calledFunction);
+                Vertex callFuncVertex = callGraph.getVertex(callFuncEntity);
                 if (callFuncVertex == null)
                     throw new RuntimeException("Failed to get correspodning vertex.");
 

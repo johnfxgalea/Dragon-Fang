@@ -12,14 +12,16 @@
  * limitations under the License.
  */
 
-package dragonfang.features;
+package dragonfang.features.functions;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.features.FunctionFeature;
 import ghidra.program.util.CyclomaticComplexity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
-public class CyclomaticComplexityFeature implements Feature
+public class CyclomaticComplexityFeature extends FunctionFeature
 {
 
     private CyclomaticComplexity cyclimaticComplexity;
@@ -31,12 +33,17 @@ public class CyclomaticComplexityFeature implements Feature
     }
 
     @Override
-    public double calculateFeatureValue(Function function, TaskMonitor monitor)
+    public double calculateFeatureValue(Entity entity, TaskMonitor monitor)
         throws CancelledException
     {
 
-        double complexity =
-            cyclimaticComplexity.calculateCyclomaticComplexity(function, monitor);
+        if (!isEntityValid(entity))
+            throw new IllegalArgumentException("Invalid entity.");
+
+        FunctionEntity functionEntity = (FunctionEntity) entity;
+
+        double complexity = cyclimaticComplexity.calculateCyclomaticComplexity(
+            functionEntity.getFunction(), monitor);
         return complexity;
     }
 }

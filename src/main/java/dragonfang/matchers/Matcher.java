@@ -16,7 +16,7 @@ package dragonfang.matchers;
 
 import java.util.Set;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -29,13 +29,13 @@ public interface Matcher {
     /**
      * Performs function matching.
      *
-     * @param unmatchedSrcFuncSet Set of unmatched functions of the source program.
-     * @param unmatchedDstFuncSet Set of unmatched functions of the destination program.
+     * @param unmatchedSrcEntitySet Set of unmatched entities of the source program.
+     * @param unmatchedDstEntitySet Set of unmatched entities of the destination program.
      * @param monitor
      * @return Set of found matches.
      * @throws CancelledException
      */
-    public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+    public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
+                              Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
         throws CancelledException;
 }

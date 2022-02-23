@@ -15,10 +15,11 @@
 package dragonfang.features.extractors;
 
 import java.util.List;
+
+import dragonfang.entities.Entity;
 import dragonfang.features.Feature;
 import dragonfang.features.vectors.ArrayFeatureVector;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -36,7 +37,7 @@ public class FeatureListVectorExtractor implements FeatureExtractor
         this.featureList = featureList;
     }
 
-    public FeatureVector extract(Function function, TaskMonitor monitor)
+    public FeatureVector extract(Entity entity, TaskMonitor monitor)
         throws CancelledException
     {
 
@@ -47,7 +48,7 @@ public class FeatureListVectorExtractor implements FeatureExtractor
         for (int i = 0; i < featureList.size(); i++) {
             Feature feature = featureList.get(i);
             // Get value and set.
-            double featureValue = feature.calculateFeatureValue(function, monitor);
+            double featureValue = feature.calculateFeatureValue(entity, monitor);
             featureVector.setFeature(featureValue, i);
         }
 

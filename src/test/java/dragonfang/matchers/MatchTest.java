@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import ghidra.program.database.ProgramBuilder;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Program;
@@ -37,7 +39,6 @@ public class MatchTest extends AbstractDragonFangTest
     @Test
     public void testMatch()
     {
-
         Function simpleFunction = getSimpleFunction(builder);
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
@@ -47,13 +48,14 @@ public class MatchTest extends AbstractDragonFangTest
 
         String reason = "This is the reason";
 
-        Match match =
-            new Match(simpleFunction, simpleFunction2, similarity, confidence, reason);
+        Entity srcEntity = new FunctionEntity(simpleFunction);
+        Entity dstEntity = new FunctionEntity(simpleFunction2);
+        Match match = new Match(srcEntity, dstEntity, similarity, confidence, reason);
 
-        assertSame("Source function should be correct.", simpleFunction,
-                   match.getSourceFunction());
-        assertSame("Destination function should be correct.", simpleFunction2,
-                   match.getDestinationFunction());
+        assertSame("Source function should be correct.", srcEntity,
+                   match.getSourceEntity());
+        assertSame("Destination function should be correct.", dstEntity,
+                   match.getDestinationEntity());
 
         assertEquals("Similarity should be correct.", similarity,
                      match.getSimilarityScore(), 0.0);

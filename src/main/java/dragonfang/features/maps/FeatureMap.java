@@ -14,13 +14,13 @@
 
 package dragonfang.features.maps;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public interface FeatureMap {
 
-    public FeatureVector getFeature(Function function, TaskMonitor monitor)
+    public FeatureVector getFeature(Entity entity, TaskMonitor monitor)
         throws CancelledException;
 }

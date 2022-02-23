@@ -51,14 +51,13 @@ public abstract class ExtendedDirectGraph extends DirectedGraph
     }
 
     /**
-     * Returns the vertex associated with the passed object.
+     * Returns the vertex associated with the passed Entity.
      *
      * @param obj The referent object of the vertex.
-     * @return The corresponding vertex.
+     * @return The corresponding vertex. Null if unavailable.
      */
     public Vertex getVertex(Object obj)
     {
-
         return vertexMap.get(obj);
     }
 
@@ -70,14 +69,12 @@ public abstract class ExtendedDirectGraph extends DirectedGraph
      */
     public Set<Map.Entry<Object, Vertex>> getVertexEntrySet()
     {
-
         return vertexMap.entrySet();
     }
 
     @Override
     public boolean add(Vertex v)
     {
-
         vertexMap.put(v.referent(), v);
         return super.add(v);
     }
@@ -85,7 +82,6 @@ public abstract class ExtendedDirectGraph extends DirectedGraph
     @Override
     public boolean remove(Vertex v)
     {
-
         vertexMap.remove(v.referent());
         return super.remove(v);
     }

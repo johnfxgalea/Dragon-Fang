@@ -37,7 +37,6 @@ public abstract class AbstractDragonFangTest extends AbstractGhidraHeadlessInteg
     @Before
     public void setUp() throws Exception
     {
-
         builder = initProgBuilder();
         program = builder.getProgram();
     }
@@ -65,13 +64,11 @@ public abstract class AbstractDragonFangTest extends AbstractGhidraHeadlessInteg
 
     protected ProgramBuilder getProgramBuilderCopy() throws Exception
     {
-
         return initProgBuilder();
     }
 
     private ProgramBuilder initProgBuilder() throws Exception
     {
-
         ProgramBuilder progBuilder =
             new ProgramBuilder("sample", ProgramBuilder._X86, null);
         progBuilder.createMemory(".text", "0x01001000", 0x6600);
@@ -83,7 +80,6 @@ public abstract class AbstractDragonFangTest extends AbstractGhidraHeadlessInteg
 
     private void buildSimpleFunction(ProgramBuilder progBuilder) throws Exception
     {
-
         // Instructions inside functions:
         // PUSH EBP
         // COPY

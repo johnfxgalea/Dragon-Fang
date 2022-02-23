@@ -29,23 +29,4 @@ public abstract class DragonFangMatchTag implements VTMatchTag
     {
         return type;
     }
-
-    @Override
-    public int compareTo(VTMatchTag o)
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public String getName()
-    {
-        return reason;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Best Match";
-    }
 }

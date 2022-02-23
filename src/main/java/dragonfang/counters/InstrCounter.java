@@ -14,8 +14,15 @@
 
 package dragonfang.counters;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 
 public interface InstrCounter {
-    public InstrCounts count(Function function);
+
+    /**
+	 * Counts the instruction within the passed entity.
+	 * 
+	 * @param entity The entity to consider for counting instructions.
+	 * @return The instruction counts.
+	 */
+    public InstrCounts count(Entity entity);
 }

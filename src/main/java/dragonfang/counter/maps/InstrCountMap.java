@@ -15,12 +15,20 @@
 package dragonfang.counter.maps;
 
 import dragonfang.counters.InstrCounts;
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public interface InstrCountMap {
 
-    public InstrCounts getInstructionCounts(Function function, TaskMonitor monitor)
+    /**
+	 * Returns instruction counts for the passed entity.
+	 * 
+	 * @param entity The entity to consider as the key.
+	 * @param monitor The task monitor.
+	 * @return The corresponding instruction counts.
+	 * @throws CancelledException
+	 */
+    public InstrCounts getInstructionCounts(Entity entity, TaskMonitor monitor)
         throws CancelledException;
 }

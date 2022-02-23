@@ -14,6 +14,10 @@
 
 package dragonfang.graphs;
 
+import dragonfang.entities.Entity;
+import dragonfang.entities.Entity.GranularityType;
+import ghidra.util.graph.Vertex;
+
 public class CallGraph extends ExtendedDirectGraph
 {
 
@@ -25,5 +29,16 @@ public class CallGraph extends ExtendedDirectGraph
     public CallGraph()
     {
         super(ExtDirectGraphType.CALL_GRAPH);
+    }
+
+    @Override
+    public Vertex getVertex(Object obj)
+    {
+        Entity entity = (Entity) obj;
+        if (entity.getGranularity() != GranularityType.FUNCTION) {
+            throw new IllegalArgumentException(
+                "Invalid feature vector size passed as param.");
+        }
+        return vertexMap.get(obj);
     }
 }

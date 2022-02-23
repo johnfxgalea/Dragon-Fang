@@ -19,37 +19,35 @@ import java.util.Map;
 
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counters.InstrCounts;
+import dragonfang.entities.Entity;
 import dragonfang.primes.InstrPrimeProductCalculator;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public class PrimeProductMap implements PrimeMap
 {
-
     private InstrPrimeProductCalculator primeProductCalculator;
-    private Map<Function, Long> primeMap;
+    private Map<Entity, Long> primeMap;
     private InstrCountMap countMap;
 
     public PrimeProductMap(InstrPrimeProductCalculator primeProduct,
                            InstrCountMap countMap)
     {
-
         this.primeProductCalculator = primeProduct;
         this.countMap = countMap;
-        this.primeMap = new HashMap<Function, Long>();
+        this.primeMap = new HashMap<Entity, Long>();
     }
 
-    public Long getPrimeProduct(Function function, TaskMonitor monitor)
+    public Long getPrimeProduct(Entity entity, TaskMonitor monitor)
         throws CancelledException
     {
 
-        if (!primeMap.containsKey(function)) {
-            InstrCounts instrCounts = countMap.getInstructionCounts(function, monitor);
+        if (!primeMap.containsKey(entity)) {
+            InstrCounts instrCounts = countMap.getInstructionCounts(entity, monitor);
             Long primeProduct = primeProductCalculator.calculatePrimeProduct(instrCounts);
-            primeMap.put(function, primeProduct);
+            primeMap.put(entity, primeProduct);
         }
 
-        return primeMap.get(function);
+        return primeMap.get(entity);
     }
 }

@@ -14,7 +14,7 @@
 
 package dragonfang.matchers;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 
 /**
  * Represents a one-to-one match result, mapping a source function and a
@@ -22,20 +22,19 @@ import ghidra.program.model.listing.Function;
  */
 public class Match
 {
-
-    private Function srcFunction;
-    private Function dstFunction;
+    private Entity srcEntity;
+    private Entity dstEntity;
     private double similarity;
     private double confidence;
     private String matcherName;
     private String propagatorName;
 
-    public Match(Function srcFunction, Function dstFunction, double similarity,
-                 double confidence, String matcherName)
+    public Match(Entity srcEntity, Entity dstEntity, double similarity, double confidence,
+                 String matcherName)
     {
 
-        this.srcFunction = srcFunction;
-        this.dstFunction = dstFunction;
+        this.srcEntity = srcEntity;
+        this.dstEntity = dstEntity;
         this.similarity = similarity;
         this.confidence = confidence;
         this.matcherName = matcherName;
@@ -44,20 +43,20 @@ public class Match
 
     /**
      *
-     * @return The source function of the match.
+     * @return The source entity of the match.
      */
-    public Function getSourceFunction()
+    public Entity getSourceEntity()
     {
-        return srcFunction;
+        return srcEntity;
     }
 
     /**
      *
-     * @return The destination function of the match.
+     * @return The destination entity of the match.
      */
-    public Function getDestinationFunction()
+    public Entity getDestinationEntity()
     {
-        return dstFunction;
+        return dstEntity;
     }
 
     /**

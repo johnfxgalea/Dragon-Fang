@@ -14,7 +14,7 @@
 
 package dragonfang.counters;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.InstructionIterator;
 import ghidra.program.model.listing.Listing;
@@ -23,18 +23,16 @@ import ghidra.program.model.pcode.PcodeOp;
 
 public class PCodeInstrCounter implements InstrCounter
 {
-
-    public InstrCounts count(Function function)
+    public InstrCounts count(Entity entity)
     {
 
         InstrCounts instrCounts = new PCodeInstrCounts();
 
-        Program program = function.getProgram();
-
+        Program program = entity.getProgram();
         Listing listing = program.getListing();
 
         InstructionIterator instrIterator =
-            listing.getInstructions(function.getBody(), true);
+            listing.getInstructions(entity.getAddresses(), true);
         while (instrIterator.hasNext()) {
             Instruction instruction = instrIterator.next();
             PcodeOp[] ops = instruction.getPcode();

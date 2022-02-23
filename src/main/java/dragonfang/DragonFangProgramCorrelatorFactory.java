@@ -21,14 +21,16 @@ import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.InstrCounter;
 import dragonfang.counters.PCodeInstrCounter;
-import dragonfang.features.BBCountFeature;
-import dragonfang.features.CyclomaticComplexityFeature;
-import dragonfang.features.EdgeCountFeature;
+import dragonfang.entities.fetchers.EntityFetcher;
+import dragonfang.entities.fetchers.FunctionEntityFetcher;
 import dragonfang.features.Feature;
-import dragonfang.features.FuncCallCountFeature;
-import dragonfang.features.IndJmpCountFeature;
 import dragonfang.features.extractors.FeatureExtractor;
 import dragonfang.features.extractors.FeatureListVectorExtractor;
+import dragonfang.features.functions.BBCountFeature;
+import dragonfang.features.functions.CyclomaticComplexityFeature;
+import dragonfang.features.functions.EdgeCountFeature;
+import dragonfang.features.functions.FuncCallCountFeature;
+import dragonfang.features.functions.IndJmpCountFeature;
 import dragonfang.features.maps.FeatureMap;
 import dragonfang.features.maps.LazyFeatureMap;
 import dragonfang.features.metrics.CosineSimilarityMetric;
@@ -79,7 +81,8 @@ public class DragonFangProgramCorrelatorFactory extends VTAbstractProgramCorrela
     }
 
     private List<Propagator>
-    createProgatorList(ExtendedDirectGraphWrapper srcCallGraphWrapper,
+    createProgatorList(EntityFetcher srcEntityFetcher, EntityFetcher dstEntityFetcher,
+                       ExtendedDirectGraphWrapper srcCallGraphWrapper,
                        ExtendedDirectGraphWrapper dstCallGraphWrapper)
     {
 
@@ -101,16 +104,20 @@ public class DragonFangProgramCorrelatorFactory extends VTAbstractProgramCorrela
             new PropertyBasedPropagator(srcParentProperty, dstParentProperty);
         propagators.add(parentPropagator);
 
-        AfterAddressPropagationProperty afterPropagationProperty =
-            new AfterAddressPropagationProperty();
+        AfterAddressPropagationProperty srcAfterPropagationProperty =
+            new AfterAddressPropagationProperty(srcEntityFetcher);
+        AfterAddressPropagationProperty dstAfterPropagationProperty =
+            new AfterAddressPropagationProperty(dstEntityFetcher);
         PropertyBasedPropagator afterPropagator = new PropertyBasedPropagator(
-            afterPropagationProperty, afterPropagationProperty);
+            srcAfterPropagationProperty, dstAfterPropagationProperty);
         propagators.add(afterPropagator);
 
-        BeforeAddressPropagationProperty beforePropagationProperty =
-            new BeforeAddressPropagationProperty();
+        BeforeAddressPropagationProperty srcBeforePropagationProperty =
+            new BeforeAddressPropagationProperty(srcEntityFetcher);
+        BeforeAddressPropagationProperty dstBeforePropagationProperty =
+            new BeforeAddressPropagationProperty(dstEntityFetcher);
         PropertyBasedPropagator beforePropagator = new PropertyBasedPropagator(
-            beforePropagationProperty, beforePropagationProperty);
+            srcBeforePropagationProperty, dstBeforePropagationProperty);
         propagators.add(beforePropagator);
 
         return propagators;
@@ -213,8 +220,10 @@ public class DragonFangProgramCorrelatorFactory extends VTAbstractProgramCorrela
         ExtendedDirectGraphWrapper dstCallGraphWrapper =
             new ExtendedDirectGraphWrapper(dstCallbuilder);
 
-        List<Propagator> propagatorList =
-            createProgatorList(srcCallGraphWrapper, dstCallGraphWrapper);
+        EntityFetcher srcEntityFetcher = new FunctionEntityFetcher(sourceProgram);
+        EntityFetcher dstEntityFetcher = new FunctionEntityFetcher(destinationProgram);
+        List<Propagator> propagatorList = createProgatorList(
+            srcEntityFetcher, dstEntityFetcher, srcCallGraphWrapper, dstCallGraphWrapper);
 
         DragonFangData dragonFangData =
             new DragonFangData(matcherList, propagatorList, matchTagAssigner,

@@ -16,7 +16,7 @@ package dragonfang.propagators.properties;
 
 import java.util.Set;
 
-import ghidra.program.model.listing.Function;
+import dragonfang.entities.Entity;
 
 /**
  *
@@ -25,11 +25,11 @@ import ghidra.program.model.listing.Function;
 public abstract class AbstractPropagationProperty implements PropagationProperty
 {
 
-    protected Set<Function> processCandidateFunctions(Set<Function> propFuncSet,
-                                                      Set<Function> allCandidateSet)
+    protected Set<Entity> processCandidates(Set<Entity> propEntitySet,
+                                            Set<Entity> allCandidateSet)
     {
 
-        propFuncSet.retainAll(allCandidateSet);
-        return propFuncSet;
+        propEntitySet.retainAll(allCandidateSet);
+        return propEntitySet;
     }
 }

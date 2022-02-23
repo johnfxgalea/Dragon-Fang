@@ -15,16 +15,17 @@
 package dragonfang.propagators;
 
 import java.util.Set;
+
+import dragonfang.entities.Entity;
 import dragonfang.matchers.Match;
 import dragonfang.matchers.Matcher;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
 public interface Propagator {
 
     public Set<Match> propagate(Matcher matcher, Match match,
-                                Set<Function> unmatchedSrcFuncSet,
-                                Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+                                Set<Entity> unmatchedSrcEntitySet,
+                                Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
         throws CancelledException;
 }

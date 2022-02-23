@@ -20,6 +20,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.BasicBlockEntity;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.graphs.ExtendedDirectGraph;
 import dragonfang.graphs.ExtendedDirectGraph.ExtDirectGraphType;
 import ghidra.program.model.block.BasicBlockModel;
@@ -51,8 +54,10 @@ public class GraphBuilderTest extends AbstractDragonFangTest
         assertEquals("Number of vertices should be 1", 1, callGraph.numVertices());
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
+
         Vertex vertex = callGraph.getVertexArray()[0];
-        Vertex obtainedVertex = callGraph.getVertex(simpleFunction);
+        Vertex obtainedVertex = callGraph.getVertex(entity);
         assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
     }
 
@@ -78,9 +83,10 @@ public class GraphBuilderTest extends AbstractDragonFangTest
         CodeBlockIterator codeBlockIterator =
             basicBlockModel.getCodeBlocksContaining(simpleFunction.getBody(), monitor);
         CodeBlock codeBlock = codeBlockIterator.next();
+        Entity entity = new BasicBlockEntity(codeBlock, program);
 
         Vertex vertex = cfg.getVertexArray()[0];
-        Vertex obtainedVertex = cfg.getVertex(codeBlock);
+        Vertex obtainedVertex = cfg.getVertex(entity);
         assertTrue("Vertexes should match", vertex.equals(obtainedVertex));
     }
 }

@@ -14,8 +14,8 @@
 
 package dragonfang.features.extractors;
 
+import dragonfang.entities.Entity;
 import dragonfang.features.vectors.FeatureVector;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -24,11 +24,11 @@ public interface FeatureExtractor {
     /**
      * Returns the feature vector of the function passed as parameter.
      *
-     * @param function The function to consider.
+     * @param entity The matching entity to consider.
      * @param monitor The used task monitor.
      * @return The feature vector of the function.
      * @throws CancelledException
      */
-    public FeatureVector extract(Function function, TaskMonitor monitor)
+    public FeatureVector extract(Entity entity, TaskMonitor monitor)
         throws CancelledException;
 }

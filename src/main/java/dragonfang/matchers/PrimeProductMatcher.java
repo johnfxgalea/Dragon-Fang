@@ -19,8 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.primes.maps.PrimeProductMap;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -34,31 +34,31 @@ public class PrimeProductMatcher extends AbstractPrimeProductMatcher
     }
 
     @Override
-    public Set<Match> doMatch(Set<Function> unmatchedSrcFuncSet,
-                              Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+    public Set<Match> doMatch(Set<Entity> unmatchedSrcEntitySet,
+                              Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
         throws CancelledException
     {
 
         Set<Match> matches = new HashSet<Match>();
 
-        HashMap<Long, List<Function>> srcMatchMap =
-            deriveMatchMap(unmatchedSrcFuncSet, srcPrimeProductMap, monitor);
-        HashMap<Long, List<Function>> dstMatchMap =
-            deriveMatchMap(unmatchedDstFuncSet, dstPrimeProductMap, monitor);
+        HashMap<Long, List<Entity>> srcMatchMap =
+            deriveMatchMap(unmatchedSrcEntitySet, srcPrimeProductMap, monitor);
+        HashMap<Long, List<Entity>> dstMatchMap =
+            deriveMatchMap(unmatchedDstEntitySet, dstPrimeProductMap, monitor);
 
-        for (Function unmatchedSrcFunction : unmatchedSrcFuncSet) {
+        for (Entity unmatchedSrcEntity : unmatchedSrcEntitySet) {
             Long primeProduct =
-                srcPrimeProductMap.getPrimeProduct(unmatchedSrcFunction, monitor);
-            List<Function> srcFuncList = srcMatchMap.get(primeProduct);
+                srcPrimeProductMap.getPrimeProduct(unmatchedSrcEntity, monitor);
+            List<Entity> srcEntityList = srcMatchMap.get(primeProduct);
 
-            if (srcFuncList.size() == 1) {
-                List<Function> dstFuncList = dstMatchMap.get(primeProduct);
+            if (srcEntityList.size() == 1) {
+                List<Entity> dstEntityList = dstMatchMap.get(primeProduct);
 
-                if (dstFuncList != null && dstFuncList.size() == 1) {
+                if (dstEntityList != null && dstEntityList.size() == 1) {
                     double similarity = 1.0;
                     double confidence = 1.0;
                     Match match =
-                        new Match(unmatchedSrcFunction, dstFuncList.get(0), similarity,
+                        new Match(unmatchedSrcEntity, dstEntityList.get(0), similarity,
                                   confidence, "Prime Product Matcher");
                     matches.add(match);
                 }

@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.pcode.PcodeOp;
 
@@ -28,33 +30,33 @@ public class CounterTest extends AbstractDragonFangTest
     @Test
     public void testPCodeInstrCounterXOR()
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(entity);
         assertEquals("Count should be 0.", 0, counts.getCount(PcodeOp.BOOL_XOR));
     }
 
     @Test
     public void testPCodeInstrCounterCALLIND()
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(entity);
         assertEquals("Count should be 2.", 2, counts.getCount(PcodeOp.CALLIND));
     }
 
     @Test
     public void testPCodeInstrCounterCopy()
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
-        InstrCounts counts = instrCounter.count(simpleFunction);
+        InstrCounts counts = instrCounter.count(entity);
         assertEquals("Count should be 18.", 18, counts.getCount(PcodeOp.COPY));
     }
 }

@@ -23,6 +23,9 @@ import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.InstrCounter;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
+import dragonfang.features.functions.FuncCallCountFeature;
 import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.ConsoleTaskMonitor;
@@ -34,8 +37,8 @@ public class FuncCallCountFeatureTest extends AbstractDragonFangTest
     @Test
     public void testFuncCallCountFeature() throws CancelledException
     {
-
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
@@ -43,7 +46,7 @@ public class FuncCallCountFeatureTest extends AbstractDragonFangTest
         InstrCountMap countMap = new LazyInstrCountMap(counter);
         FuncCallCountFeature feature = new FuncCallCountFeature(countMap);
 
-        double featureVal = feature.calculateFeatureValue(simpleFunction, monitor);
+        double featureVal = feature.calculateFeatureValue(entity, monitor);
         // Function only includes calls in terms of instructions that change control flow.
         assertEquals("Call count should be 2.", 2, featureVal, 0.1);
     }

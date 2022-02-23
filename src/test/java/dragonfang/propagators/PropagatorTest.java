@@ -16,6 +16,8 @@ import dragonfang.AbstractDragonFangTest;
 import dragonfang.counter.maps.InstrCountMap;
 import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.graphs.builders.CallGraphBuilder;
 import dragonfang.graphs.builders.GraphBuilder;
 import dragonfang.graphs.wrapper.ExtendedDirectGraphWrapper;
@@ -56,7 +58,6 @@ public class PropagatorTest extends AbstractDragonFangTest
     @Test
     public void testPropagator() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         InstrPrimeProductCalculator primeProduct = new PCodePrimeProductCalculator();
@@ -71,15 +72,18 @@ public class PropagatorTest extends AbstractDragonFangTest
         Function simpleFunction2 = getSimpleFunction(secBuilder);
         assertNotSame(simpleFunction, simpleFunction2);
 
-        Set<Function> unmatchedSrcFuncSet = new HashSet<Function>();
-        unmatchedSrcFuncSet.add(simpleFunction);
-        Set<Function> unmatchedDstFuncSet = new HashSet<Function>();
-        unmatchedDstFuncSet.add(simpleFunction2);
+        Entity srcEntity = new FunctionEntity(simpleFunction);
+        Entity dstEntity = new FunctionEntity(simpleFunction2);
+
+        Set<Entity> unmatchedSrcEntitySet = new HashSet<Entity>();
+        unmatchedSrcEntitySet.add(srcEntity);
+        Set<Entity> unmatchedDstEntitySet = new HashSet<Entity>();
+        unmatchedDstEntitySet.add(dstEntity);
 
         PrimeProductMatcher primeProductMatcher =
             new PrimeProductMatcher(primeMap, primeMap2);
-        Set<Match> matches = primeProductMatcher.doMatch(unmatchedSrcFuncSet,
-                                                         unmatchedDstFuncSet, monitor);
+        Set<Match> matches = primeProductMatcher.doMatch(unmatchedSrcEntitySet,
+                                                         unmatchedDstEntitySet, monitor);
 
         assertEquals("Matches should be there!", matches.size(), 1);
 
@@ -102,8 +106,8 @@ public class PropagatorTest extends AbstractDragonFangTest
         PropertyBasedPropagator propagator =
             new PropertyBasedPropagator(srcChildProperty, dstChildProperty);
         Set<Match> propMatches =
-            propagator.propagate(primeProductMatcher, match, new HashSet<Function>(),
-                                 new HashSet<Function>(), monitor);
+            propagator.propagate(primeProductMatcher, match, new HashSet<Entity>(),
+                                 new HashSet<Entity>(), monitor);
 
         assertTrue("No new matches", propMatches.isEmpty());
     }

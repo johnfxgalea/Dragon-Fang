@@ -12,15 +12,19 @@
  * limitations under the License.
  */
 
-package dragonfang.counter.maps;
+package dragonfang.counters.maps;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
+import dragonfang.counter.maps.InstrCountMap;
+import dragonfang.counter.maps.LazyInstrCountMap;
 import dragonfang.counters.InstrCounts;
 import dragonfang.counters.PCodeInstrCounter;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.pcode.PcodeOp;
 import ghidra.util.exception.CancelledException;
@@ -33,28 +37,30 @@ public class InstrCountMapTest extends AbstractDragonFangTest
     @Test
     public void testPCodeInstrCounterXOR() throws CancelledException
     {
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
         InstrCountMap instrCountMap = new LazyInstrCountMap(instrCounter);
 
-        TaskMonitor monitor = new ConsoleTaskMonitor();
-        InstrCounts counts = instrCountMap.getInstructionCounts(simpleFunction, monitor);
+        InstrCounts counts = instrCountMap.getInstructionCounts(entity, monitor);
         assertEquals("Count should be 0.", 0, counts.getCount(PcodeOp.BOOL_XOR));
     }
 
     @Test
     public void testPCodeInstrCounterCALLIND() throws CancelledException
     {
+        TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         PCodeInstrCounter instrCounter = new PCodeInstrCounter();
         InstrCountMap instrCountMap = new LazyInstrCountMap(instrCounter);
 
-        TaskMonitor monitor = new ConsoleTaskMonitor();
-        InstrCounts counts = instrCountMap.getInstructionCounts(simpleFunction, monitor);
+        InstrCounts counts = instrCountMap.getInstructionCounts(entity, monitor);
         assertEquals("Count should be 2.", 2, counts.getCount(PcodeOp.CALLIND));
     }
 }

@@ -16,10 +16,10 @@ package dragonfang.propagators;
 
 import java.util.Set;
 
+import dragonfang.entities.Entity;
 import dragonfang.matchers.Match;
 import dragonfang.matchers.Matcher;
 import dragonfang.propagators.properties.PropagationProperty;
-import ghidra.program.model.listing.Function;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -37,20 +37,20 @@ public class PropertyBasedPropagator implements Propagator
     }
 
     public Set<Match> propagate(Matcher matcher, Match match,
-                                Set<Function> unmatchedSrcFuncSet,
-                                Set<Function> unmatchedDstFuncSet, TaskMonitor monitor)
+                                Set<Entity> unmatchedSrcEntitySet,
+                                Set<Entity> unmatchedDstEntitySet, TaskMonitor monitor)
         throws CancelledException
     {
 
-        Function srcMatchedFunction = match.getSourceFunction();
-        Function dstMatchedFunction = match.getDestinationFunction();
+        Entity srcMatchedEntity = match.getSourceEntity();
+        Entity dstMatchedFunction = match.getDestinationEntity();
 
-        Set<Function> limitedUnmatchedSrcFuncSet =
-            srcProperty.getPropagatedFuncs(srcMatchedFunction, unmatchedSrcFuncSet);
-        Set<Function> limitedUnmatchedDstFuncSet =
-            dstProperty.getPropagatedFuncs(dstMatchedFunction, unmatchedDstFuncSet);
+        Set<Entity> limitedUnmatchedSrcEntitySet = srcProperty.getPropagatedEntities(
+            srcMatchedEntity, unmatchedSrcEntitySet, monitor);
+        Set<Entity> limitedUnmatchedDstFuncSet = dstProperty.getPropagatedEntities(
+            dstMatchedFunction, unmatchedDstEntitySet, monitor);
 
-        Set<Match> matches = matcher.doMatch(limitedUnmatchedSrcFuncSet,
+        Set<Match> matches = matcher.doMatch(limitedUnmatchedSrcEntitySet,
                                              limitedUnmatchedDstFuncSet, monitor);
 
         for (Match propMatch : matches)

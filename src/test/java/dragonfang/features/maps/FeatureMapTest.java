@@ -22,10 +22,12 @@ import java.util.List;
 import org.junit.Test;
 
 import dragonfang.AbstractDragonFangTest;
-import dragonfang.features.BBCountFeature;
+import dragonfang.entities.Entity;
+import dragonfang.entities.FunctionEntity;
 import dragonfang.features.Feature;
 import dragonfang.features.extractors.FeatureExtractor;
 import dragonfang.features.extractors.FeatureListVectorExtractor;
+import dragonfang.features.functions.BBCountFeature;
 import dragonfang.features.vectors.FeatureVector;
 import dragonfang.graphs.maps.ControlFlowGraphMap;
 import dragonfang.graphs.maps.LazyControlFlowGraphMap;
@@ -40,10 +42,10 @@ public class FeatureMapTest extends AbstractDragonFangTest
     @Test
     public void testBBFeatureExtractor() throws CancelledException
     {
-
         TaskMonitor monitor = new ConsoleTaskMonitor();
 
         Function simpleFunction = getSimpleFunction(builder);
+        Entity entity = new FunctionEntity(simpleFunction);
 
         List<Feature> featureList = new ArrayList<Feature>();
 
@@ -54,7 +56,7 @@ public class FeatureMapTest extends AbstractDragonFangTest
         FeatureExtractor extractor = new FeatureListVectorExtractor(featureList);
 
         FeatureMap map = new LazyFeatureMap(extractor);
-        FeatureVector featureVector = map.getFeature(simpleFunction, monitor);
+        FeatureVector featureVector = map.getFeature(entity, monitor);
 
         assertEquals("Number of Features should be 1.", 1, featureVector.numFeatures());
         assertEquals("BB count should be 1.", 1, featureVector.getFeature(0), 0.1);
