@@ -62,6 +62,6 @@ public class MatchTest extends AbstractDragonFangTest
         assertEquals("Confidence should be correct.", confidence,
                      match.getConfidenceScore(), 0.0);
 
-        assertEquals("Reason should be correct", reason, match.getReason());
+        assertEquals("Reason should be correct", reason + " - N/A", match.getReason());
     }
 }

@@ -38,7 +38,7 @@ public class Match
         this.similarity = similarity;
         this.confidence = confidence;
         this.matcherName = matcherName;
-        this.propagatorName = " N/A";
+        this.propagatorName = "N/A";
     }
 
     /**
