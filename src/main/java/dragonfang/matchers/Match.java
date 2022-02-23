@@ -38,7 +38,7 @@ public class Match
         this.similarity = similarity;
         this.confidence = confidence;
         this.matcherName = matcherName;
-        this.propagatorName = "";
+        this.propagatorName = "N/A";
     }
 
     /**
@@ -91,6 +91,6 @@ public class Match
         if (propagatorName.equals(""))
             return matcherName;
 
-        return matcherName + propagatorName;
+        return matcherName + " - " + propagatorName;
     }
 }
