@@ -91,6 +91,6 @@ public class Match
         if (propagatorName.equals(""))
             return matcherName;
 
-        return matcherName + " " + propagatorName;
+        return matcherName + " - " + propagatorName;
     }
 }
